@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScrapeController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OtpController;
 Route::get('/scrape', [ScrapeController::class, 'scrape']);
 
 
@@ -28,4 +30,14 @@ Route::get('/login', function () {
 Route::get('/registration', function () {
     return view('registration'); // This refers to registration.blade.php
 });
+Route::get('/admin', function () {
+    return view('admin'); // This refers to registration.blade.php
+});
+
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/verify', [AuthController::class, 'verify']);
+
+Route::post('/send-otp', [OtpController::class, 'sendOtp']);
+Route::post('/verify-otp', [OtpController::class, 'verifyOtp']);
 

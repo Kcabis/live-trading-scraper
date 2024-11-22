@@ -374,6 +374,9 @@ function displayPortfolio(shareholderName) {
     // document.getElementById('portfolioValue').textContent = totalMarketValue.toFixed(2);
     // document.getElementById('currentInvestment').textContent = totalPurchaseValue.toFixed(2);
 }
+
+
+
    
         // Handle closing the popup when "Cancel" is clicked
         document.getElementById('cancelsellStockBtn').addEventListener('click', function () {
@@ -386,6 +389,8 @@ function displayPortfolio(shareholderName) {
            sellStockPopup.style.display = 'none';
            sellStockForm.reset();
        });
+       
+       
    });
 
      
