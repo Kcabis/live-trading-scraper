@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScrapeController;
 //use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OtpController;
 use App\Http\Controllers\RegistrationController;
 
 Route::get('/register', function () {
@@ -15,24 +14,15 @@ Route::post('/register', [RegistrationController::class, 'store']);
 
 Route::get('/scrape', [ScrapeController::class, 'scrape']);
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 Route::get('/portfolio', function () {
     return view('portfolio');
 });
+
+
+Route::get('/', function () {
+    return redirect('/login');
+});
+
 Route::get('/login', function () {
     return view('login');
 });
@@ -46,15 +36,6 @@ Route::get('/home', function () {
     return view('home');
 });
 
-
-
-
-
-// Route::post('/register', [AuthController::class, 'register']);
-// Route::post('/verify', [AuthController::class, 'verify']);
-
-// Route::post('/send-otp', [OtpController::class, 'sendOtp']);
-// Route::post('/verify-otp', [OtpController::class, 'verifyOtp']);
 use App\Http\Controllers\AuthController;
 
 Route::get('/login', function () {
@@ -84,4 +65,5 @@ use App\Http\Controllers\PortfolioController;
 Route::post('/save-portfolio', [PortfolioController::class, 'store']);
 
 
-
+Route::post('otp-verification', [RegistrationController::class, 'verifyOtp']);
+Route::get('otp-verification/{email}', [RegistrationController::class, 'showOtpForm']);

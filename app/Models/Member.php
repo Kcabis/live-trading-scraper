@@ -16,4 +16,17 @@ class Member extends Authenticatable implements MustVerifyEmail // Add MustVerif
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+
+    public function otp()
+    {
+        return $this->hasOne(Otp::class);
+    }
+
+    
+
 }

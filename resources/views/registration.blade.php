@@ -272,7 +272,6 @@
             }
 
             // If form is valid
-            alert("Registration successful!");
             form.submit(); // Proceed with form submission after validation
         });
     </script>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('mobile');
             $table->string('password');
+            $table->string('is_verified')->default(0);
             $table->timestamps();
         });
     }
