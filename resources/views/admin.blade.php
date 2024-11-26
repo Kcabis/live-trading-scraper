@@ -4,59 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Portfolio Management</title>
-    <link rel="stylesheet" href="{{ url('css/admin.css') }}"> <!-- Link to the external CSS file -->
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="{{ url('css/admin.css') }}">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="dashboard">
+        <!-- Sidebar Section -->
         <div class="sidebar">
             <button id="sidebarToggle">☰</button> <br>
             <ul>
                 <li><a href="#" data-target="adminDashboardSection" class="menu-item">Admin Dashboard</a></li>
                 <li><a href="#" data-target="userManagementSection" class="menu-item">User Management</a></li>
                 <li><a href="#" data-target="stockManagementSection" class="menu-item">Stock Management</a></li>
-                <li><a href="#" data-target="listedsecurities" class="menu-item">Listed securities</a></li>
+                <li><a href="#" data-target="listedSecuritiesSection" class="menu-item">Listed Securities</a></li>
                 <li><a href="#" data-target="eventManagementSection" class="menu-item">Event Management</a></li>
                 <li><a href="#" data-target="analyticsSection" class="menu-item">Analytics</a></li>
                 <li><a href="#" data-target="systemSettingsSection" class="menu-item">System Settings</a></li>
+                <li><button id="back"><a href="{{url('home')}}">Logout</a></button></li>
             </ul>
         </div>
         
+        <!-- Main Content Section -->
         <div class="main-content">
             <header>
                 <div class="header-content">
+                    <!-- Search Bar -->
                     <div class="search-container">
                         <input type="text" placeholder="Search..." id="adminSearchBox">
                     </div>
+                    <!-- Profile Icon -->
                     <div class="profile-icon">
-                        <img src="/image/admin.png" alt="Admin Profile">
+                        <img src="{{ asset('images/admin.png') }}" alt="Admin Profile">
                     </div>
                 </div>
             </header>
+                      <!-- Admin Dashboard Section -->
+<div id="adminDashboardSection" class="content-section">
+    <h2>Admin Dashboard</h2>
+    <div class="overview">
+        <div class="card">
+            <h3>Total Users</h3>
+            <p id="totalUsers">0</p>
+        </div>
+        <div class="card">
+            <h3>Total Stocks Listed</h3>
+            <p id="totalStocks">0</p>
+        </div>
+        <div class="card">
+            <h3>System Health</h3>
+            <p id="systemHealth">Good</p>
+        </div>
+    </div>
+</div>
 
-            <!-- Admin Dashboard Section -->
-            <div id="adminDashboardSection" class="content-section">
-                <h2>Admin Dashboard</h2>
-                <div class="overview">
-                    <div class="card1">
-                        <h3>Total Users</h3>
-                        <p id="totalUsers">0</p>
-                    </div>
-                    <div class="card2">
-                        <h3>Total Stocks Listed</h3>
-                        <p id="totalStocks">0</p>
-                    </div>
-                    <div class="card3">
-                        <h3>System Health</h3>
-                        <p id="systemHealth">Good</p>
-                    </div>
-                </div>
-            </div>
 
             <!-- User Management Section -->
             <div id="userManagementSection" class="content-section" style="display: none;">
                 <h2>User Management</h2>
                 <button id="addUser">Add New User</button>
-                <button id="editUser">Edit User</button>
                 <table>
                     <thead>
                         <tr>
@@ -73,11 +79,10 @@
                 </table>
             </div>
 
-            <!-- Stock Management Section --> 
+            <!-- Stock Management Section -->
             <div id="stockManagementSection" class="content-section" style="display: none;">
                 <h2>Stock Management</h2>
                 <button id="addStock">Add New Stock</button>
-                <button id="editStock">Edit Stock</button>
                 <table>
                     <thead>
                         <tr>
@@ -94,167 +99,114 @@
                 </table>
             </div>
 
-
-            <!-- listed securities Section --> 
-            <div id="listedsecurities" class="content-section" style="display: none;">
-                <h2>Listed securities</h2>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="showEntries">Show 
-                                <select id="showEntries" class="form-select form-select-sm" style="width: auto; display: inline-block;">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select> entries
-                            </label>
-                        </div>
-                    </div>
-        
-                    <!-- CSV File Input -->
-                    <input type="file" id="csvFileInput" accept=".csv" class="form-control my-3" />
-                    <button id="uploadBtn" class="btn btn-primary">Upload CSV</button>
-                    
-                    <div class="table-container">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    
-                                    
-                                </tr>
-                            </thead>
-                            <tbody id="tableBody">
-                                <!-- Table data will be populated dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            <script>
-                // Function to parse CSV data
-                function parseCSV(csvText) {
-                    const rows = csvText.split('\n');
-                    return rows.map(row => row.split(','));
-                }
-        
-                // Function to populate table with CSV data
-                function populateTable(data) {
-                    const tableBody = document.getElementById('tableBody');
-                    tableBody.innerHTML = ''; // Clear existing table data
-        
-                    // Loop through the CSV rows and create table rows
-                    data.forEach((row, index) => {
-                        // Skip empty rows
-                        if (row.length === 1 && row[0] === "") return;
-        
-                        const tr = document.createElement('tr');
-                        row.forEach(col => {
-                            const td = document.createElement('td');
-                            td.textContent = col.trim();
-                            tr.appendChild(td);
-                        });
-                        tableBody.appendChild(tr);
-                    });
-                }
-        
-                // Add event listener to the Upload button
-                document.getElementById('uploadBtn').addEventListener('click', () => {
-                    const fileInput = document.getElementById('csvFileInput');
-                    const file = fileInput.files[0];
-        
-                    if (!file) {
-                        alert('Please select a CSV file.');
-                        return;
-                    }
-        
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const csvText = e.target.result;
-                        const parsedData = parseCSV(csvText);
-                        populateTable(parsedData);
-                    };
-        
-                    reader.readAsText(file);
-                });
-            </script>
-                
-            </div>
-            </div>
-
-
-             <!-- Event Management Section -->
-             <div id="eventManagementSection" class="content-section" style="display: none;">
-                <h2>Event  Management</h2>
-                <button id="addEvent">Add New Event</button>
-                <button id="editEvent">Edit Event</button>
+            <!-- Listed Securities Section -->
+            <div id="listedSecuritiesSection" class="content-section" style="display: none;">
+                <h2>Listed Securities</h2>
+                <input type="file" id="csvFileInput" accept=".csv">
+                <button id="uploadCsv">Upload CSV</button>
                 <table>
                     <thead>
                         <tr>
-                            <th>Event</th>
+                            <th>Stock ID</th>
                             <th>Stock Name</th>
-                            <th>Quanntity</th>
                             <th>Price</th>
-                            <th>Action</th>
+                            <th>Quantity</th>
                         </tr>
                     </thead>
-                    <tbody id="EventBody">
+                    <tbody id="listedSecuritiesBody">
                         <!-- Dynamic rows will be added here -->
                     </tbody>
                 </table>
             </div>
+
+            <!-- Event Management Section -->
+            <div id="eventManagementSection" class="content-section" style="display: none;">
+                <h2>Event Management</h2>
+                <button id="addEvent">Add New Event</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Stock</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eventBody">
+                        <!-- Dynamic rows will be added here -->
+                    </tbody>
+                </table>
+            </div>
+
             <!-- Analytics Section -->
             <div id="analyticsSection" class="content-section" style="display: none;">
                 <h2>System Analytics</h2>
-                <!-- Analytics content goes here -->
+                <!-- Add analytics components -->
             </div>
 
             <!-- System Settings Section -->
             <div id="systemSettingsSection" class="content-section" style="display: none;">
                 <h2>System Settings</h2>
-                <!-- Settings content goes here -->
+                <!-- Add system settings components -->
             </div>
         </div>
     </div>
 
-    <!-- Add User Pop-Up Form -->
-    <div id="addUserPopup" class="popup">
+    <!-- Popup Forms -->
+    <div id="addUserPopup" class="popup" style="display: none;">
         <div class="popup-content">
-            <span class="close">&times;</span>
             <h2>Add New User</h2>
             <form id="addUserForm">
                 <label for="userName">Name:</label>
-                <input type="text" id="userName" name="userName" required>
+                <input type="text" id="userName" required>
                 <label for="userEmail">Email:</label>
-                <input type="email" id="userEmail" name="userEmail" required>
+                <input type="email" id="userEmail" required>
                 <label for="userRole">Role:</label>
-                <select id="userRole" name="userRole">
+                <select id="userRole">
                     <option value="admin">Admin</option>
-                    <option value="trader">Trader</option>
+                    <option value="user">User</option>
                 </select>
-                <button type="button" id="addUserBtn">Add User</button>
-                <button type="button" id="cancelUserBtn">Cancel</button>
+                <button type="button" id="saveUser">Save</button>
+                <button type="button" id="cancelUser">Cancel</button>
             </form>
         </div>
     </div>
 
-    <!-- Add Stock Pop-Up Form -->
-    <div id="addStockPopup" class="popup">
-        <div class="popup-content">
-            <span class="close">&times;</span>
-            <h2>Add New Stock</h2>
-            <form id="addStockForm">
-                <label for="stockName">Stock Name:</label>
-                <input type="text" id="stockName" name="stockName" required>
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" required>
-                <label for="price">Price:</label>
-                <input type="number" id="price" name="price" step="0.01" required>
-                <button type="button" id="addStockBtn">OK</button>
-                <button type="button" id="cancelStockBtn">Cancel</button>
-            </form>
-        </div>
-    </div>
 
-    <script src="{{ asset('js/admin.js') }}"></script><!-- Link to the external JavaScript file -->
+    <div id="addEventPopup" class="popup" style="display: none;">
+    <div class="popup-content">
+        <h2>Add New Event</h2>
+        <form id="addEventForm">
+            <label for="eventName">Event Name:</label>
+            <input type="text" id="eventName" required>
+
+            <label for="stockName">Stock Name:</label>
+            <input type="text" id="stockName" required>
+
+            <label for="eventType">Event Type:</label>
+            <select id="eventType">
+                <option value="Webinar">Webinar</option>
+                <option value="Seminar">Seminar</option>
+                <option value="Conference">Conference</option>
+                <option value="Workshop">Workshop</option>
+            </select>
+
+            <label for="eventPrice">Price:</label>
+            <input type="number" id="eventPrice" required>
+
+            <label for="eventDate">Event Date:</label>
+            <input type="date" id="eventDate" required>
+
+            <button type="button" id="saveEvent">Save</button>
+            <button type="button" id="cancelEvent">Cancel</button>
+        </form>
+    </div>
+</div>
+
+
+    <!-- JavaScript -->
+    <script src="{{ asset('js/admin.js') }}"></script>
 </body>
 </html>

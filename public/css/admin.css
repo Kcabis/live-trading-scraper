@@ -4,6 +4,65 @@ body {
     margin: 0;
     padding: 0;
 }
+/* Admin Dashboard Section */
+#adminDashboardSection {
+    margin-top: 30px;
+}
+
+#adminDashboardSection h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.overview {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Makes it responsive */
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 20%;
+    min-width: 200px; /* Ensures cards don't get too small on narrow screens */
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Adds hover effect */
+}
+
+.card h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.card p {
+    font-size: 22px;
+    color: #2a9d8f;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .overview {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .card {
+        width: 100%;
+    }
+}
+
 
 .dashboard {
     display: flex;
@@ -148,4 +207,11 @@ table th {
 
 table tbody tr:hover {
     background-color: #f1f1f1;
+}
+#back{
+    background-color: #333;
+    font-size: 16px;
+    margin:5px;
+    padding: 4px;
+    
 }

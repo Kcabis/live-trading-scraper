@@ -1,53 +1,35 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Support\Facades\Mail;
+namespace App\Http\Controllers;
 
-public function register(Request $request)
+use Illuminate\Http\Request;
+use App\Models\Member; // Use your Member model for credentials
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+class AuthController extends Controller
 {
-    $request->validate([
-        'first_name' => 'required',
-        'last_name' => 'required',
-        'email' => 'required|email|unique:users',
-        'mobile' => 'required|regex:/^[0-9]{10}$/',
-        'password' => 'required|confirmed|min:6',
-    ]);
+    public function login(Request $request)
+    {
+        // Validate the input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-    $verificationCode = rand(100000, 999999);
+        // Fetch user data from the database
+        $member = Member::where('email', $request->email)->first();
 
-    $user = User::create([
-        'first_name' => $request->first_name,
-        'last_name' => $request->last_name,
-        'email' => $request->email,
-        'mobile' => $request->mobile,
-        'password' => bcrypt($request->password),
-        'email_verification_code' => $verificationCode,
-    ]);
+        // Check if user exists and password matches
+        if ($member && Hash::check($request->password, $member->password)) {
+            // Start a session for the authenticated user
+            session(['user' => $member]);
 
-    Mail::raw("Your verification code is: $verificationCode", function ($message) use ($user) {
-        $message->to($user->email)
-            ->subject('Email Verification Code');
-    });
+            // Redirect to portfolio page
+            return redirect()->route('portfolio')->with('success', 'Login successful!');
+        }
 
-    return response()->json(['message' => 'Verification code sent to email.']);
-}
-
-public function verify(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'verification_code' => 'required|digits:6',
-    ]);
-
-    $user = User::where('email', $request->email)
-        ->where('email_verification_code', $request->verification_code)
-        ->first();
-
-    if (!$user) {
-        return response()->json(['message' => 'Invalid verification code.'], 400);
+        // If authentication fails
+        return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
     }
-
-    $user->update(['is_verified' => true, 'email_verification_code' => null]);
-
-    return response()->json(['message' => 'Email verified successfully.']);
 }

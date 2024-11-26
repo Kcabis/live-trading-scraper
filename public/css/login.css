@@ -139,3 +139,30 @@ p a {
 p a:hover {
     text-decoration: underline;
 }
+#back {
+    position: fixed; /* Fixes the button position on the screen */
+    top: 20px; /* Distance from the top edge */
+    left: 20px; /* Distance from the left edge */
+    background-color: #673AB7; /* Button background color */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    padding: 10px 20px; /* Add padding to the button */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold font */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease; /* Smooth background color change */
+}
+
+#back a {
+    color: white; /* White text color for the link */
+    text-decoration: none; /* Remove underline from link */
+}
+
+#back:hover {
+    background-color: #5E35B1; /* Change background color on hover */
+}
+
+#back a:hover {
+    text-decoration: underline; /* Underline the link when hovered */
+}
+

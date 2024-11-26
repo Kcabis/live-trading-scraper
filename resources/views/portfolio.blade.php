@@ -13,14 +13,13 @@
             <button id="sidebarToggle">☰</button> <br>
             <ul>
                 <li><a href="#" data-target="dashboardSection" class="menu-item">Dashboard</a></li>
-                <li><a href="#" data-target="financialsSection" class="menu-item">Financials</a></li>
-                <li><a href="#" data-target="advancedChartsSection" class="menu-item">Advanced Charts</a></li>
+                <li><a href="#" data-target="eventsSection" class="menu-item">Events</a></li>
+                <li><a href="#" data-target="listedsecuritiesSection" class="menu-item">Listed Securities</a></li>
                 <li><a href="#" data-target="accountStatementSection" class="menu-item">Account Statement</a></li>
                 <li><a href="#" data-target="buyHistorySection" class="menu-item">Buy History</a></li>
                 <li><a href="#" data-target="sellHistorySection" class="menu-item">Sell History</a></li>
                 <li><a href="#" data-target="traderAnalyticsSection" class="menu-item">Trader Analytics</a></li>
-                <li><a href="#" data-target="settingsSection" class="menu-item">Settings</a></li>
-                <li><a href="#" id="themeToggle">Dark Mode</a></li>
+                <li><a href="#" data-target="settingsSection" class="menu-item">Settings</a></li>   
             </ul>
         </div>
         <div class="main-content">
@@ -39,11 +38,11 @@
             <div id="dashboardSection" class="content-section">
                 <div class="shareholder-options">
                     <select id="shareholderSelect">
-                        <option value="" disabled selected>Select Shareholder</option>
+                        <option value="" disabled selected>Select Portfolio</option>
                         <!-- Dynamic options will be added here -->
                     </select>
-                    <button id="addShareholder">Add Shareholder</button>
-                    <button id="editShareholder">Edit Shareholder</button>
+                    <button id="addShareholder">Add Portfolio</button>
+                    <button id="editShareholder">Edit Portfolio</button>
                 </div>
                 <div class="overview">
                     <div class="card1">
@@ -98,19 +97,19 @@
                         </tbody>
                     </table>
                     <button id="addStock">Add Stock</button>
-                    <button id="Sellstock"> Sell stock</button>
+                    <button id="sellStock"> Sell stock</button>
                 </div>
             </div>
 
             <!-- Financials Section -->
-            <div id="financialsSection" class="content-section" style="display: none;">
-                <h2>Financials</h2>
+            <div id="eventsSection" class="content-section" style="display: none;">
+                <h2>Events</h2>
                 <!-- Financials content goes here -->
             </div>
 
             <!-- Advanced Charts Section -->
-            <div id="advancedChartsSection" class="content-section" style="display: none;">
-                <h2>Advanced Charts</h2>
+            <div id="listedsecuritiesSection" class="content-section" style="display: none;">
+                <h2>Listed Securities</h2>
                 <!-- Advanced Charts content goes here -->
             </div>
 
@@ -259,62 +258,112 @@
     </div>
 
     <!-- Add Stock Pop-Up Form -->
-    <div id="addStockPopup" class="popup">
-        <div class="popup-content">
-            <span class="close">&times;</span>
-            <h2>Add New Stock</h2>
-            <form id="addStockForm">
-                <label for="stockName">Stock Name:</label>
-                <input type="text" id="stockName" name="stockName" required> 
-                <label for="select" id="select" class="ok"> Type</label>
-                <select id="sel" class="form-select">
-                    <option value="1">IPO</option>
-                    <option value="2">Secondary</option>
-                    <option value="3">Right</option>
-                    <option value="4">Bonus</option>
-                </select> <br>
-                <label for="purchasePrice">Purchase Price:</label>
-                <input type="number" id="purchasePrice" name="purchasePrice" step="0.01" required>
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" required>
-                <button type="button" id="addStockBtn">OK</button>
-                <button type="button" id="cancelBtn">Cancel</button>
-            </form>
-        </div>
+<div id="addStockPopup" class="popup">
+    <div class="popup-content">
+        <span class="close">&times;</span>
+        <h2>Add New Stock</h2>
+        <form id="addStockForm">
+            <label for="stockName">Stock Name:</label>
+            <input type="text" id="stockName" name="stockName" required> 
+            <label for="select" id="select" class="ok"> Type</label>
+            <select id="sel" class="form-select">
+                <option value="1">IPO</option>
+                <option value="2">Secondary</option>
+                <option value="3">Right</option>
+                <option value="4">Bonus</option>
+            </select> <br>
+            <label for="purchasePrice">Purchase Price:</label>
+            <input type="number" id="purchasePrice" name="purchasePrice" step="0.01" required>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" required>
+            <button type="button" id="addStockBtn">OK</button>
+            <button type="button" id="cancelStockBtn">Cancel</button>
+        </form>
     </div>
-    <!-- Sell k Stock Pop-Up Form -->
-    <div id="sellStockPopup" class="popup">
-        <div class="popup-content">
-            <span class="close">&times;</span>
-            <h2>Sell your stock</h2>
-            <form id="sellStockForm">
-                <label for="stockName">Stock Name:</label>
-                <input type="text" id="stockName" name="stockName" required> 
-                <label for="selling price">selling price</label>
-                <input type="number" id="Selling price" name="Selling price" step="0.01" required>
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" required>
-                <button type="button" id="sellStockBtn">OK</button>
-                <button type="button" id="cancelBtn">Cancel</button>
-            </form>
-        </div>
+</div>
+
+<script>
+// Convert the stock name to uppercase as the user types
+document.getElementById('stockName').addEventListener('input', function() {
+    this.value = this.value.toUpperCase();
+});
+
+// Optional: Handling pop-up open and close actions
+var popup = document.getElementById('addStockPopup');
+var closeBtn = document.getElementsByClassName('close')[0];
+
+function openPopup() {
+    popup.style.display = "block";
+}
+
+function closePopup() {
+    popup.style.display = "none";
+}
+
+closeBtn.onclick = closePopup;
+
+window.onclick = function(event) {
+    if (event.target == popup) {
+        closePopup();
+    }
+};
+</script>
+
+
+
+    <!-- Sell Stock Pop-Up Form -->
+<div id="sellStockPopup" class="popup">
+    <div class="popup-content">
+        <span class="close">&times;</span>
+        <h2>Sell your stock</h2>
+        <form id="sellStockForm">
+            <label for="stockName">Stock Name:</label>
+            <input type="text" id="sName" name="stockName" required>
+            
+            <label for="sellingPrice">Selling Price:</label>
+            <input type="number" id="sellingPrice" name="sellingPrice" step="0.01" required>
+            
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" required>
+
+            <label for="sel">Capital gain Tax</label>
+            <select id="sel" class="form-select">
+            <option value="1">7.5%</option>
+            <option value="2">5%</option>
+            </select>
+            <br>
+            <button type="button" id="sellStockBtn">OK</button>
+            <button type="button" id="cancelSellStockBtn">Cancel</button>
+        </form>
     </div>
-    <!-- Add shareholder popup -->
-    <div id="addShareholderPopup" class="popup" style="display: none;">
+</div>
+
+<script>
+    // Automatically convert stock name to uppercase
+    document.getElementById('sName').addEventListener('input', function() {
+    this.value = this.value.toUpperCase();
+})
+</script>
+
+
+
+
+
+<!-- Add shareholder popup -->
+<div id="addShareholderPopup" class="popup" style="display: none;">
         <div class="popup-content">
             <span class="close">&times;</span>
-            <h2>Add New Shareholder</h2>
+            <h2>Add New Portfolior</h2>
             <form id="addShareholderForm">
-                <label for="shareholderName">Shareholder Name:</label>
+                <label for="shareholderName">Portfolio Name:</label>
                 <input type="text" id="shareholderName" name="shareholderName" required>
-                <button type="button" id="addShareholderBtn">Add Shareholder</button>
+                <button type="button" id="addShareholderBtn">Add Portfolio</button>
                 <button type="button" id="cancelShareholderBtn">Cancel</button>
             </form>
         </div>
     </div>
-    
 
-    <!-- Confirmation Popup -->
+    <!-- buy Confirmation Popup -->
     <div id="confirmPopup" class="popup">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -326,6 +375,23 @@
             <p>WACC: Rs. <span id="confirmWacc"></span></p>
             <p>Total Cost: Rs. <span id="confirmTotalCost"></span></p>
             <button type="button" id="confirmBtn">Confirm</button>
+            <button type="button" id="cancelConfirmBtn">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Sell  Confirmation Popup -->
+    <div id="sellconfirmPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>Confirm Stock Details</h2>
+            <p>Total Amount: Rs. <span id="confirmTotalAmount"></span></p>
+            <p>SEBON Commission: Rs. <span id="confirmSebonCommission"></span></p>
+            <p>Broker Commission: Rs. <span id="confirmBrokerCommission"></span></p>
+            <p>DP Fee: Rs. <span id="confirmDpFee"></span></p>
+            <p>WACC: Rs. <span id="confirmWacc"></span></p>
+            <p>CGT:Rs. <span id="CGT"></span></p>
+            <p>Net Receivale:Rs. <span id="Net revceiavale"></span></p>
+            <button type="button" id="sellconfirmBtn">Confirm</button>
             <button type="button" id="cancelConfirmBtn">Cancel</button>
         </div>
     </div>
