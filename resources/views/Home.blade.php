@@ -13,10 +13,10 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;
             color: #333;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
         }
 
         /* Navbar Styles */
@@ -25,30 +25,55 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: rgba(103, 58, 183, 0.9); /* Transparent purple */
+            background-color: rgba(0, 0, 0, 0.8); /* Transparent black */
             padding: 10px 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        nav a {
+        nav .nav-links a {
             color: white;
             text-decoration: none;
             padding: 10px 20px;
-            margin-right: 20px;
+            margin-right: 10px;
             font-weight: bold;
             font-size: 16px;
         }
 
-        nav a:hover {
+        nav .nav-links a:hover {
             background-color: #5E35B1;
             border-radius: 4px;
         }
 
-        /* Hero Section (Full Background Image) */
+        nav .search-box {
+            position: relative;
+        }
+
+        nav .search-box input {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        nav .search-box button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Hero Section */
         .hero {
             position: relative;
-            background-image: url('https://source.unsplash.com/1600x900/?business,finance');
+            background-image: url('/images/home.JPG');
             background-size: cover;
             background-position: center;
             width: 100%;
@@ -58,31 +83,43 @@
             align-items: center;
             text-align: center;
             color: white;
-            z-index: 1;
         }
 
         .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Dark overlay for better readability */
-            z-index: 0;
-        }
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Dark overlay */
+    z-index: 0;
+    filter: blur(2px);
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+.hero h1,
+.hero p,
+.cta-buttons,
+.quote {
+    position: relative;
+    z-index: 1; /* Higher than the pseudo-element */
+}
 
         .hero h1 {
-            font-size: 60px;
-            font-weight: 700;
+            font-size: 70px;
+            font-weight: 800;
             margin-bottom: 20px;
             z-index: 1;
+            color:aqua; /* Gold for prominence */
         }
 
         .hero p {
-            font-size: 24px;
-            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: bold;
             z-index: 1;
+            color: aqua;
+            margin-bottom: 40px;
         }
 
         .cta-buttons {
@@ -106,6 +143,17 @@
             background-color: #5E35B1;
         }
 
+        .quote {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+            font-size: 20pxpx;
+            z-index: 1;
+        }
+
         /* Footer Section */
         footer {
             background-color: #333;
@@ -119,7 +167,7 @@
         }
 
         footer a {
-            color: #673AB7;
+            color: #FFD700;
             text-decoration: none;
         }
 
@@ -130,11 +178,11 @@
         /* Responsive Styles */
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 45px;
+                font-size: 50px;
             }
 
             .hero p {
-                font-size: 18px;
+                font-size: 20px;
             }
 
             .cta-buttons {
@@ -143,11 +191,16 @@
             }
 
             nav {
-                padding: 15px;
+                flex-wrap: wrap;
             }
 
-            nav a {
+            nav .nav-links a {
                 font-size: 14px;
+                margin-right: 5px;
+            }
+
+            nav .search-box input {
+                width: 120px;
             }
         }
     </style>
@@ -155,10 +208,17 @@
 <body>
     <!-- Navbar -->
     <nav>
-        <a href="{{url('login')}}">User Login</a>
-        <a href="{{url('adminlog')}}">Admin Login</a>
-        <a href="{{url('register')}}">Signup</a>
-        <a href="#about">About</a>
+        <div class="nav-links">
+            <a href="{{url('login')}}">User login</a>
+            <a href="{{url('loginad')}}">Admin Login</a>
+            <a href="{{url('register')}}">Signup</a>
+            <a href="#about">About</a>
+            <a href="#">Contact us</a>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Search...">
+            <button><img src="https://img.icons8.com/material-outlined/24/search.png" alt="Search"></button>
+        </div>
     </nav>
 
     <!-- Hero Section -->
@@ -171,6 +231,9 @@
                 <a href="{{url('register')}}">Sign Up</a>
             </div>
         </div>
+        <div class="quote">
+            "Every loss is a lesson, and every gain is the test. The market doesn't reward greed but teaches patience."
+        </div>
     </div>
 
     <!-- Footer -->
@@ -180,7 +243,7 @@
     </footer>
 
     <script>
-        // If necessary, you can add JS for smooth scroll or other interactions
+        // Placeholder for interactive JavaScript if needed
     </script>
 </body>
 </html>

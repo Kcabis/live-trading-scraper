@@ -187,10 +187,10 @@
 
             <label for="eventType">Event Type:</label>
             <select id="eventType">
-                <option value="Webinar">Webinar</option>
-                <option value="Seminar">Seminar</option>
-                <option value="Conference">Conference</option>
-                <option value="Workshop">Workshop</option>
+                <option value="1">IPO</option>
+                <option value="2">Right</option>
+                <option value="3">Bonus</option>
+                <option value="4">Auction</option>
             </select>
 
             <label for="eventPrice">Price:</label>

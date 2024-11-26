@@ -395,6 +395,6 @@ window.onclick = function(event) {
             <button type="button" id="cancelConfirmBtn">Cancel</button>
         </div>
     </div>
-    
+    <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>

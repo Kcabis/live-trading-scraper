@@ -20,7 +20,7 @@ Route::get('/portfolio', function () {
 
 
 Route::get('/', function () {
-    return redirect('/login');
+    return redirect('/home');
 });
 
 Route::get('/login', function () {
@@ -35,6 +35,10 @@ Route::get('/admin', function () {
 Route::get('/home', function () {
     return view('home');
 });
+Route::get('/loginad', function () {
+    return view('loginad'); // This refers to registration.blade.php
+});
+
 
 use App\Http\Controllers\AuthController;
 
