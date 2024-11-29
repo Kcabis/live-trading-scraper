@@ -8,25 +8,27 @@ use App\Models\Event;
 class EventController extends Controller
 {
     public function store(Request $request)
+
     {
+    //   dd($request->all());
         // Validate incoming data
-        $request->validate([
-            'eventName' => 'required|string|max:255',
-            'stockName' => 'required|string|max:255',
-            'eventType' => 'required|string',
-            'eventPrice' => 'required|numeric|min:0',
-            'eventDate' => 'required|date',
+        $validated = $request->validate([
+            'event_name' => 'required|string|max:255',
+            'stock_name' => 'required|string|max:255',
+            'event_type' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'event_date' => 'required|date',
         ]);
 
         // Save to the database
-        Event::create([
-            'event_name' => $request->input('eventName'),
-            'stock_name' => $request->input('stockName'),
-            'event_type' => $request->input('eventType'),
-            'price' => $request->input('eventPrice'),
-            'event_date' => $request->input('eventDate'),
-        ]);
+        Event::create($validated);
 
-        return response()->json(['message' => 'Event added successfully!'], 201);
+        return redirect()->back()->with("message","Event Added Successfully.");
+    }
+    public function index(){
+        $events = Event::all();
+       
+        return view('admin',compact("events"));
     }
 }
+

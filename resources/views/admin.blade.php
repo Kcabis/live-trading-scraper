@@ -135,6 +135,23 @@
                         </tr>
                     </thead>
                     <tbody id="eventBody">
+                        @foreach($events as $event)
+                        <tr>
+                        <td>{{$event->event_name}}</td>
+                        <td>{{$event->stock_name}}</td>
+                        <td>{{$event->event_type}}</td>
+                        <td>{{$event->price}}</td>
+                        <td>{{$event->event_date}}</td>
+                        <td>
+                        
+                            <button type="button">Edit</button>
+                            <form action="#">
+                            <button type="button">Delete</button>
+                            </form>
+                        </td>
+                        </tr>
+
+                        @endforeach
                         <!-- Dynamic rows will be added here -->
                     </tbody>
                 </table>
@@ -178,28 +195,29 @@
     <div id="addEventPopup" class="popup" style="display: none;">
     <div class="popup-content">
         <h2>Add New Event</h2>
-        <form id="addEventForm">
+        <form id="addEventForm" action="/add-event" method="POST">
+            @csrf
             <label for="eventName">Event Name:</label>
-            <input type="text" id="eventName" required>
+            <input type="text" name="event_name"id="eventName" required>
 
             <label for="stockName">Stock Name:</label>
-            <input type="text" id="stockName" required>
+            <input type="text" name="stock_name" id="stockName" required>
 
             <label for="eventType">Event Type:</label>
-            <select id="eventType">
+            <select id="eventType" name="event_type">
                 <option value="1">IPO</option>
                 <option value="2">Right</option>
                 <option value="3">Bonus</option>
                 <option value="4">Auction</option>
             </select>
-
+   
             <label for="eventPrice">Price:</label>
-            <input type="number" id="eventPrice" required>
+            <input type="number" name="price" id="eventPrice" required>
 
             <label for="eventDate">Event Date:</label>
-            <input type="date" id="eventDate" required>
+            <input type="date" name="event_date" id="eventDate" required>
 
-            <button type="button" id="saveEvent">Save</button>
+            <button type="submit" id="saveEvent">Save</button>
             <button type="button" id="cancelEvent">Cancel</button>
         </form>
     </div>

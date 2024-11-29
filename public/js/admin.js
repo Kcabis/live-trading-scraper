@@ -70,41 +70,41 @@ document.getElementById('saveUser').addEventListener('click', function () {
 });
 
 // Save Event Data Dynamically into the Table
-document.getElementById('saveEvent').addEventListener('click', function () {
-    const eventName = document.getElementById('eventName').value;
-    const stockName = document.getElementById('stockName').value;
-    const eventType = document.getElementById('eventType').value;
-    const eventPrice = document.getElementById('eventPrice').value;
-    const eventDate = document.getElementById('eventDate').value;
+// document.getElementById('saveEvent').addEventListener('click', function () {
+//     const eventName = document.getElementById('eventName').value;
+//     const stockName = document.getElementById('stockName').value;
+//     const eventType = document.getElementById('eventType').value;
+//     const eventPrice = document.getElementById('eventPrice').value;
+//     const eventDate = document.getElementById('eventDate').value;
 
-    if (eventName && stockName && eventType && eventPrice && eventDate) {
-        const tableBody = document.getElementById('eventBody');
-        const newRow = tableBody.insertRow();
+//     if (eventName && stockName && eventType && eventPrice && eventDate) {
+//         const tableBody = document.getElementById('eventBody');
+//         const newRow = tableBody.insertRow();
 
-        const nameCell = newRow.insertCell(0);
-        const stockCell = newRow.insertCell(1);
-        const typeCell = newRow.insertCell(2);
-        const priceCell = newRow.insertCell(3);
-        const dateCell = newRow.insertCell(4);
-        const actionCell = newRow.insertCell(5);
+//         const nameCell = newRow.insertCell(0);
+//         const stockCell = newRow.insertCell(1);
+//         const typeCell = newRow.insertCell(2);
+//         const priceCell = newRow.insertCell(3);
+//         const dateCell = newRow.insertCell(4);
+//         const actionCell = newRow.insertCell(5);
 
-        nameCell.innerText = eventName;
-        stockCell.innerText = stockName;
-        typeCell.innerText = eventType;
-        priceCell.innerText = eventPrice;
-        dateCell.innerText = eventDate;
-        actionCell.innerHTML = `<button class="editEvent">Edit</button><button class="deleteEvent">Delete</button>`;
+//         nameCell.innerText = eventName;
+//         stockCell.innerText = stockName;
+//         typeCell.innerText = eventType;
+//         priceCell.innerText = eventPrice;
+//         dateCell.innerText = eventDate;
+//         actionCell.innerHTML = `<button class="editEvent">Edit</button><button class="deleteEvent">Delete</button>`;
 
-        document.getElementById('eventName').value = '';
-        document.getElementById('stockName').value = '';
-        document.getElementById('eventType').value = 'Webinar';
-        document.getElementById('eventPrice').value = '';
-        document.getElementById('eventDate').value = '';
-        document.getElementById('addEventPopup').style.display = 'none';
-    } else {
-        alert('Please fill all fields');
-    }
-});
+//         document.getElementById('eventName').value = '';
+//         document.getElementById('stockName').value = '';
+//         document.getElementById('eventType').value = 'Webinar';
+//         document.getElementById('eventPrice').value = '';
+//         document.getElementById('eventDate').value = '';
+//         document.getElementById('addEventPopup').style.display = 'none';
+//     } else {
+//         alert('Please fill all fields');
+//     }
+// });
 
 // Edit and Delete User Actions
 document.addEventListener('click', function (e) {

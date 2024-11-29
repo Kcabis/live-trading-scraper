@@ -29,9 +29,9 @@ Route::get('/login', function () {
 Route::get('/registration', function () {
     return view('registration'); // This refers to registration.blade.php
 });
-Route::get('/admin', function () {
-    return view('admin'); // This refers to registration.blade.php
-});
+// Route::get('/admin', function () {
+//     return view('admin'); // This refers to registration.blade.php
+// });
 Route::get('/home', function () {
     return view('home');
 });
@@ -77,5 +77,6 @@ Route::get('/portfolio/{id}', [PortfolioController::class, 'getPortfolio']);
 
 use App\Http\Controllers\EventController;
 
+Route::get('/admin', [EventController::class, 'index']);
 Route::post('/add-event', [EventController::class, 'store']);
 
