@@ -9,13 +9,9 @@ class Portfolio extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',  
-        'portfolio_data'
-    ];
+    // Specify the table if it's not the plural form of the model name
+    protected $table = 'portfolios';
 
-    // Automatically cast portfolio_data to an array when retrieved
-    protected $casts = [
-        'portfolio_data' => 'array', // This will make sure the portfolio_data is treated as an array when fetched
-    ];
+    // Allow mass assignment for these fields
+    protected $fillable = ['shareholder_name'];
 }

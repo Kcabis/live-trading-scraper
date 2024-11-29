@@ -2,26 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Portfolio;
+use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
 {
-    public function store(Request $request)
+    // Store a new portfolio
+    public function savePortfolio(Request $request)
     {
-        // Validate the incoming request
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'portfolio_data' => 'required|array',
+        $request->validate([
+            'shareholder_name' => 'required|string|max:255',
         ]);
 
-        // Create a new AmedPortfolio record
         $portfolio = Portfolio::create([
-            'name' => $validated['name'],
-            'portfolio_data' => json_encode($validated['portfolio_data']), // Convert portfolio data to JSON
+            'shareholder_name' => $request->shareholder_name,
         ]);
 
-        // Return a response, you can redirect or return JSON
-        return response()->json(['message' => 'Portfolio saved successfully!', 'portfolio' => $portfolio]);
+        return response()->json([
+            'message' => 'Portfolio created successfully!',
+            'portfolio' => $portfolio,
+        ]);
+    }
+
+    // Get all portfolios
+    public function getAllPortfolios()
+    {
+        $portfolios = Portfolio::all();
+
+        return response()->json($portfolios);
+    }
+
+    // Get a single portfolio by ID
+    public function getPortfolio($id)
+    {
+        $portfolio = Portfolio::findOrFail($id);
+
+        return response()->json([
+            'portfolio' => $portfolio,
+        ]);
     }
 }

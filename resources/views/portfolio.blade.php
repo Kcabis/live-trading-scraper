@@ -1,4 +1,3 @@
-
 <html>
 <html lang="en">
 <head>
@@ -16,18 +15,18 @@
                 <li><a href="#" data-target="eventsSection" class="menu-item">Events</a></li>
                 <li><a href="#" data-target="listedsecuritiesSection" class="menu-item">Listed Securities</a></li>
                 <li><a href="#" data-target="accountStatementSection" class="menu-item">Account Statement</a></li>
-                <li><a href="#" data-target="buyHistorySection" class="menu-item">Buy History</a></li>
-                <li><a href="#" data-target="sellHistorySection" class="menu-item">Sell History</a></li>
+                <li><a href="#" data-target="buyHistorySection" class="menu-item"> History</a></li>
                 <li><a href="#" data-target="traderAnalyticsSection" class="menu-item">Trader Analytics</a></li>
-                <li><a href="#" data-target="settingsSection" class="menu-item">Settings</a></li>   
+                <li><a href="#" data-target="settingsSection" class="menu-item">Settings</a></li>  
+                
+                
             </ul>
+            
         </div>
+       
         <div class="main-content">
             <header>
                 <div class="header-content">
-                    <div class="search-container">
-                        <input type="text" placeholder="Search..." id="searchBox">
-                    </div>
                     <div class="profile-icon">
                         <img src="/image/bull.jpg" alt="Profile">
                     </div>
@@ -164,11 +163,10 @@
                                     <th>Type</th>
                                     <th>Quantity</th>
                                     <th>Purchase Price</th>
-                                    <th>SEBON Fees</th>
-                                    <th>Commission</th>
-                                    <th>DP Charge</th>
-                                    <th>Amount Paid</th>
-                                    <th>Effective Rate</th>
+                                    <th>Selling price</th>
+                                    <th>Profit amount</th>
+                                    <th>CGT</th>
+                                    <th>Amt Receivable</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -179,70 +177,6 @@
                 </div>
             
             </div>
-
-            
-
-            <!-- Sell History Section -->
-            <div id="sellHistorySection" class="content-section" style="display: none;">
-                <h2>Sell History</h2>
-                <!-- Sell History content goes here -->
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-                <style>
-                    .table-container {
-                        margin-top: 20px;
-                    }
-                    .table{
-                        width: 100%;
-                    }
-                    .table th {
-                        background-color: #2a9d8f;
-                        color: white;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="showEntries">Show 
-                                <select id="showEntries" class="form-select form-select-sm" style="width: auto; display: inline-block;">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select> entries
-                            </label>
-                        </div>
-                        <!-- <div class="col-md-6 text-end">
-                            <input type="text" id="searchBox" class="form-control form-control-sm" placeholder="Search">
-                        </div> -->
-                    </div>
-                    
-                    <div class="table-container">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Action</th>
-                                    <th>Symbol</th>
-                                    <th>Date</th>
-                                    <th>Type</th>
-                                    <th>Quantity</th>
-                                    <th>Sell Price</th>
-                                    <th>SEBON Fees</th>
-                                    <th>Commission</th>
-                                    <th>DP Charge</th>
-                                    <th>Net received</th>
-                                    <th>Profit Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Table data will be populated dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
             <!-- Trader Analytics Section -->
             <div id="traderAnalyticsSection" class="content-section" style="display: none;">
                 <h2>Trader Analytics</h2>

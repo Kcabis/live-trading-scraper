@@ -61,43 +61,66 @@ body {
 
 /* Header styling */
 /* Header styling */
-header {
+/* Header Container */
+.header-container {
+    position: relative;
     display: flex;
-    justify-content: center; /* Center the header content horizontally */
-    align-items: center;
-    margin-bottom: 20px;
+    justify-content: flex-end; /* Move content to the right */
+    padding: 10px 20px;
+    background-color: #f9f9f9;
 }
 
-/* Container for header content to control layout */
-.header-content {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between; /* Space between search box and profile icon */
+/* Profile Styles */
+.profile {
+    position: relative;
+    display: inline-block; /* Ensure dropdown aligns closely */
 }
 
-/* Container for the search box */
-.search-container {
-    display: flex;
-    justify-content: center; /* Center the search box */
-    flex-grow: 1; /* Allow the search box container to grow */
-}
-
-#searchBox {
-    width: 250px;
-    padding: 2px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-
-/* Profile icon styling */
-.profile-icon img {
+/* Profile Icon */
+.profile-icon {
     width: 40px;
     height: 40px;
-    border-radius: 50%; /* Circular profile icon */
+    border-radius: 50%;
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.profile-icon:hover {
+    transform: scale(1.1); /* Slight zoom effect */
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-10%); /* Adjust closer to the icon */
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    display: none; /* Initially hidden */
+    flex-direction: column;
+    z-index: 1000;
+}
+
+/* Dropdown Links */
+.dropdown-menu a {
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}
+
+/* Show Dropdown on Hover */
+.profile:hover .dropdown-menu {
+    display: flex;
 }
 
 /* Shareholder options styling */

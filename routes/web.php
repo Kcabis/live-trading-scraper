@@ -64,10 +64,18 @@ Route::get('/portfolio', function () {
 })->name('portfolio');
 
 
-use App\Http\Controllers\PortfolioController;
-
-Route::post('/save-portfolio', [PortfolioController::class, 'store']);
-
-
 Route::post('otp-verification', [RegistrationController::class, 'verifyOtp']);
 Route::get('otp-verification/{email}', [RegistrationController::class, 'showOtpForm']);
+
+
+use App\Http\Controllers\PortfolioController;
+
+// For web routes (use api.php for APIs)
+Route::get('/portfolios', [PortfolioController::class, 'getAllPortfolios']);
+Route::post('/portfolio', [PortfolioController::class, 'savePortfolio']);
+Route::get('/portfolio/{id}', [PortfolioController::class, 'getPortfolio']);
+
+use App\Http\Controllers\EventController;
+
+Route::post('/add-event', [EventController::class, 'store']);
+

@@ -1,13 +1,14 @@
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 // Sidebar Toggle
-document.getElementById('sidebarToggle').addEventListener('click', function() {
+document.getElementById('sidebarToggle').addEventListener('click', function () {
     const sidebar = document.querySelector('.sidebar');
-    sidebar.classList.toggle('sidebar-open');
+    sidebar.classList.toggle('collapsed');
 });
 
 // Show/Hide Sections based on Menu Click
 const menuItems = document.querySelectorAll('.menu-item');
 menuItems.forEach(item => {
-    item.addEventListener('click', function() {
+    item.addEventListener('click', function () {
         const targetSection = document.getElementById(item.getAttribute('data-target'));
         document.querySelectorAll('.content-section').forEach(section => {
             section.style.display = 'none';
@@ -17,33 +18,27 @@ menuItems.forEach(item => {
 });
 
 // Show Popup for Adding User
-document.getElementById('addUser').addEventListener('click', function() {
+document.getElementById('addUser').addEventListener('click', function () {
     document.getElementById('addUserPopup').style.display = 'block';
 });
 
 // Show Popup for Adding Event
-document.getElementById('addEvent').addEventListener('click', function() {
+document.getElementById('addEvent').addEventListener('click', function () {
     document.getElementById('addEventPopup').style.display = 'block';
 });
 
 // Hide Popup (User)
-document.getElementById('cancelUser').addEventListener('click', function() {
+document.getElementById('cancelUser').addEventListener('click', function () {
     document.getElementById('addUserPopup').style.display = 'none';
 });
 
 // Hide Popup (Event)
-document.getElementById('cancelEvent').addEventListener('click', function() {
+document.getElementById('cancelEvent').addEventListener('click', function () {
     document.getElementById('addEventPopup').style.display = 'none';
 });
 
-// // Handle Logout
-// document.getElementById('logout').addEventListener('click', function() {
-//     // You can use sessionStorage or localStorage to log out the user, or just redirect directly
-//     window.location.href = "{{ url('home') }}"; // Redirect to login.blade.php
-// });
-
 // Save User Data Dynamically into the Table
-document.getElementById('saveUser').addEventListener('click', function() {
+document.getElementById('saveUser').addEventListener('click', function () {
     const userName = document.getElementById('userName').value;
     const userEmail = document.getElementById('userEmail').value;
     const userRole = document.getElementById('userRole').value;
@@ -51,7 +46,7 @@ document.getElementById('saveUser').addEventListener('click', function() {
     if (userName && userEmail && userRole) {
         const tableBody = document.getElementById('userBody');
         const newRow = tableBody.insertRow();
-        
+
         const idCell = newRow.insertCell(0);
         const nameCell = newRow.insertCell(1);
         const emailCell = newRow.insertCell(2);
@@ -65,7 +60,6 @@ document.getElementById('saveUser').addEventListener('click', function() {
         roleCell.innerText = userRole;
         actionCell.innerHTML = `<button class="editUser">Edit</button><button class="deleteUser">Delete</button>`;
 
-        // Reset form and close popup
         document.getElementById('userName').value = '';
         document.getElementById('userEmail').value = '';
         document.getElementById('userRole').value = 'admin';
@@ -76,7 +70,7 @@ document.getElementById('saveUser').addEventListener('click', function() {
 });
 
 // Save Event Data Dynamically into the Table
-document.getElementById('saveEvent').addEventListener('click', function() {
+document.getElementById('saveEvent').addEventListener('click', function () {
     const eventName = document.getElementById('eventName').value;
     const stockName = document.getElementById('stockName').value;
     const eventType = document.getElementById('eventType').value;
@@ -101,7 +95,6 @@ document.getElementById('saveEvent').addEventListener('click', function() {
         dateCell.innerText = eventDate;
         actionCell.innerHTML = `<button class="editEvent">Edit</button><button class="deleteEvent">Delete</button>`;
 
-        // Reset form and close popup
         document.getElementById('eventName').value = '';
         document.getElementById('stockName').value = '';
         document.getElementById('eventType').value = 'Webinar';
@@ -113,8 +106,8 @@ document.getElementById('saveEvent').addEventListener('click', function() {
     }
 });
 
-// Edit and Delete User Actions (Dynamically)
-document.addEventListener('click', function(e) {
+// Edit and Delete User Actions
+document.addEventListener('click', function (e) {
     if (e.target && e.target.classList.contains('editUser')) {
         const row = e.target.closest('tr');
         const id = row.cells[0].innerText;
@@ -126,7 +119,7 @@ document.addEventListener('click', function(e) {
         document.getElementById('userEmail').value = email;
         document.getElementById('userRole').value = role;
 
-        // You can add logic here to update the row or replace it with edited values
+        // Add save changes logic if needed
     } else if (e.target && e.target.classList.contains('deleteUser')) {
         e.target.closest('tr').remove();
     } else if (e.target && e.target.classList.contains('editEvent')) {
@@ -142,8 +135,6 @@ document.addEventListener('click', function(e) {
         document.getElementById('eventType').value = type;
         document.getElementById('eventPrice').value = price;
         document.getElementById('eventDate').value = date;
-
-        // You can add logic here to update the row or replace it with edited values
     } else if (e.target && e.target.classList.contains('deleteEvent')) {
         e.target.closest('tr').remove();
     }

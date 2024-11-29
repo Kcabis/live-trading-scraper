@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Portfolio Management</title>
@@ -19,7 +20,6 @@
                 <li><a href="#" data-target="stockManagementSection" class="menu-item">Stock Management</a></li>
                 <li><a href="#" data-target="listedSecuritiesSection" class="menu-item">Listed Securities</a></li>
                 <li><a href="#" data-target="eventManagementSection" class="menu-item">Event Management</a></li>
-                <li><a href="#" data-target="analyticsSection" class="menu-item">Analytics</a></li>
                 <li><a href="#" data-target="systemSettingsSection" class="menu-item">System Settings</a></li>
                 <li><button id="back"><a href="{{url('home')}}">Logout</a></button></li>
             </ul>
@@ -31,7 +31,7 @@
                 <div class="header-content">
                     <!-- Search Bar -->
                     <div class="search-container">
-                        <input type="text" placeholder="Search..." id="adminSearchBox">
+                        <p>Welcome to admin panel</p>
                     </div>
                     <!-- Profile Icon -->
                     <div class="profile-icon">

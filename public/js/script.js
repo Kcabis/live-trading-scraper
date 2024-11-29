@@ -405,10 +405,31 @@ document.getElementById('stockName').addEventListener('input', function() {
            sellStockPopup.style.display = 'none';
            sellStockForm.reset();
        });
+
+       // Handle dropdown toggle for the profile icon
+const profileImage = document.getElementById('profileImage');
+const profileDropdown = document.getElementById('profileDropdown');
+
+// Toggle the dropdown visibility on hover
+profileImage.addEventListener('mouseenter', () => {
+    profileDropdown.style.display = 'block';
+});
+
+profileImage.addEventListener('mouseleave', () => {
+    setTimeout(() => {
+        profileDropdown.style.display = 'none';
+    }, 200); // Delay to prevent flickering
+});
+
+// Ensure dropdown remains visible while hovering over it
+profileDropdown.addEventListener('mouseenter', () => {
+    profileDropdown.style.display = 'block';
+});
+
+profileDropdown.addEventListener('mouseleave', () => {
+    profileDropdown.style.display = 'none';
+});
+
        
        
    });
-
-     
-
-        
