@@ -14,9 +14,7 @@ Route::post('/register', [RegistrationController::class, 'store']);
 
 Route::get('/scrape', [ScrapeController::class, 'scrape']);
 
-Route::get('/portfolio', function () {
-    return view('portfolio');
-});
+
 
 
 Route::get('/', function () {
@@ -56,27 +54,32 @@ Route::post('/logout', function () {
     return redirect()->route('login')->with('success', 'Logged out successfully.');
 })->name('logout');
 
-Route::get('/portfolio', function () {
-    if (!session('user')) {
-        return redirect()->route('login')->withErrors(['You must be logged in to access the portfolio.']);
-    }
-    return view('portfolio');
-})->name('portfolio');
-
-
 Route::post('otp-verification', [RegistrationController::class, 'verifyOtp']);
 Route::get('otp-verification/{email}', [RegistrationController::class, 'showOtpForm']);
 
 
+
+//portfolio controler
 use App\Http\Controllers\PortfolioController;
 
 // For web routes (use api.php for APIs)
-Route::get('/portfolios', [PortfolioController::class, 'getAllPortfolios']);
-Route::post('/portfolio', [PortfolioController::class, 'savePortfolio']);
-Route::get('/portfolio/{id}', [PortfolioController::class, 'getPortfolio']);
+//Route::get('/portfolios', [PortfolioController::class, 'getAllPortfolios']);
+Route::get('/portfolio', [PortfolioController::class, 'index']);
+//Route::post('/add-ph',[PortfolioController::class,'save']);
+//Route::get('/portfolio/{id}', [PortfolioController::class, 'getPortfolio']);
+Route::post('/add-ph', [PortfolioController::class, 'store']);
 
+
+
+
+//event controller
 use App\Http\Controllers\EventController;
 
 Route::get('/admin', [EventController::class, 'index']);
 Route::post('/add-event', [EventController::class, 'store']);
+
+
+use App\Http\Controllers\StocksController;
+Route::post('/add-stock', [StocksController::class, 'store']);
+
 

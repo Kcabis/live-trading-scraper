@@ -36,29 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
    document.getElementById('addShareholderBtn').addEventListener('click', function () {
     const shareholderName = document.getElementById('shareholderName').value.trim();
 
-    // Check if shareholder name is not empty and doesn't already exist
-    if (shareholderName !== "") {
-        if (!shareholders.hasOwnProperty(shareholderName)) {
-            // Add the new shareholder to the object
-            shareholders[shareholderName] = { stocks: [] };
-
-            // Add shareholder to the select dropdown
-            const option = document.createElement('option');
-            option.value = shareholderName;
-            option.text = shareholderName;
-            shareholderSelect.add(option);
-
-            // Hide the popup and clear the input field
-            addShareholderPopup.style.display = 'none';
-            document.getElementById('shareholderName').value = '';
-        } else {
-            // If shareholder already exists, show an alert
-            alert('Shareholder already exists!');
-        }
-    } else {
-        // If the input field is empty, show an alert
-        alert('Please enter a shareholder name.');
-    }
 });
     
     // Close the Add Shareholder Popup when clicking the 'x' or cancel button

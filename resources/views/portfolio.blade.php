@@ -38,9 +38,11 @@
                 <div class="shareholder-options">
                     <select id="shareholderSelect">
                         <option value="" disabled selected>Select Portfolio</option>
-                        <!-- Dynamic options will be added here -->
+                        @foreach($portfolios as $portfolio)
+                        <option value="{{$portfolio->id}}"> {{$portfolio->portfolio_name}}</option>
+                        @endforeach
                     </select>
-                    <button id="addShareholder">Add Portfolio</button>
+                    <button id="addShareholder" >Add Portfolio</button>
                     <button id="editShareholder">Edit Portfolio</button>
                 </div>
                 <div class="overview">
@@ -196,11 +198,12 @@
     <div class="popup-content">
         <span class="close">&times;</span>
         <h2>Add New Stock</h2>
-        <form id="addStockForm">
+        <form id="addStockForm" action="/add-stock" method="POST">
+            @csrf
             <label for="stockName">Stock Name:</label>
             <input type="text" id="stockName" name="stockName" required>
             <label for="select" id="select" class="ok"> Type</label>
-            <select id="sel" class="form-select">
+            <select id="sel" class="form-select" name="type">
                 <option value="1">IPO</option>
                 <option value="2">Secondary</option>
                 <option value="3">Right</option>
@@ -210,7 +213,7 @@
             <input type="number" id="purchasePrice" name="purchasePrice" step="0.01" required>
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" required>
-            <button type="button" id="addStockBtn">OK</button>
+            <button type="submit" id="addStockBtn">OK</button>
             <button type="button" id="cancelStockBtn">Cancel</button>
         </form>
     </div>
@@ -280,18 +283,16 @@ window.onclick = function(event) {
 </script>
 
 
-
-
-
 <!-- Add shareholder popup -->
 <div id="addShareholderPopup" class="popup" style="display: none;">
         <div class="popup-content">
             <span class="close">&times;</span>
-            <h2>Add New Portfolior</h2>
-            <form id="addShareholderForm">
+            <h2>Add New Portfolio</h2>
+            <form id="addShareholderForm" action="/add-ph" method="POST">
+                @csrf
                 <label for="shareholderName">Portfolio Name:</label>
-                <input type="text" id="shareholderName" name="shareholderName" required>
-                <button type="button" id="addShareholderBtn">Add Portfolio</button>
+                <input type="text" id="shareholderName" name="portfolio_name" required>
+                <button type="submit" id="addShareholderBtn">Add Portfolio</button>
                 <button type="button" id="cancelShareholderBtn">Cancel</button>
             </form>
         </div>
