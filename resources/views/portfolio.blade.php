@@ -198,7 +198,7 @@
         <h2>Add New Stock</h2>
         <form id="addStockForm">
             <label for="stockName">Stock Name:</label>
-            <input type="text" id="stockName" name="stockName" required> 
+            <input type="text" id="stockName" name="stockName" required>
             <label for="select" id="select" class="ok"> Type</label>
             <select id="sel" class="form-select">
                 <option value="1">IPO</option>
