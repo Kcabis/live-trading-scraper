@@ -72,11 +72,6 @@ Route::post('/add-stock', [StocksController::class, 'store']);
 
 
 
-<<<<<<< HEAD
-use App\Http\Controllers\FolioadminController;
-Route::get('/admin', [FolioadminController::class, 'index']);
-Route::post('/add-ad',[FolioadminController::class,'store']);
-=======
 //event controller
  use App\Http\Controllers\EventController;
  use App\Http\Controllers\FolioadminController;
@@ -86,7 +81,6 @@ Route::post('/add-ad',[FolioadminController::class,'store']);
 
 // Route::get('/admin',[FolioadminController::class,'index']);
  Route::post('/add-ad', [FolioadminController::class, 'store']);
->>>>>>> 18039a8a416939975600ccaf8ae8f569e22afb8f
 
 
 // Route::get('/folioadmins', [FolioadminController::class, 'index'])->name('folioadmins');
