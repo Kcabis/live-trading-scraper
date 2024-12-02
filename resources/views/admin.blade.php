@@ -234,6 +234,9 @@
                 <option value="2">Right</option>
                 <option value="3">Bonus</option>
                 <option value="4">Auction</option>
+                <option value="4">FPO</option>
+                <option value="5">Debenture</option>
+                <option value="6">Foreign Employement</option>   
             </select>
    
             <label for="eventPrice">Price:</label>
