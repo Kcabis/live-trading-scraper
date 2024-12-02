@@ -183,7 +183,6 @@
                 <label for="userRole">Role:</label>
                 <select id="userRole">
                     <option value="admin">Admin</option>
-                    <option value="user">User</option>
                 </select>
                 <button type="button" id="saveUser">Save</button>
                 <button type="button" id="cancelUser">Cancel</button>
