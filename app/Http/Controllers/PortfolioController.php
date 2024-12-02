@@ -8,37 +8,26 @@ use Illuminate\Http\Request;
 class PortfolioController extends Controller
 {
     // Store a new portfolio
-    public function savePortfolio(Request $request)
+    public function store(Request $request)
     {
-        $request->validate([
-            'shareholder_name' => 'required|string|max:255',
+        
+        
+        $validated=$request->validate([
+            'portfolio_name' => 'required|string|max:255',
         ]);
 
-        $portfolio = Portfolio::create([
-            'shareholder_name' => $request->shareholder_name,
-        ]);
+        
 
-        return response()->json([
-            'message' => 'Portfolio created successfully!',
-            'portfolio' => $portfolio,
-        ]);
+            // Save to the database
+        Portfolio::create($validated);
+        return redirect()->back()->with("message","portfolio Added Successfully.");
+        dd("fyuv");
+
+    }
+    public function index(){
+            
+        $portfolios= Portfolio::all();
+        return view('portfolio',compact("portfolios"));
     }
 
-    // Get all portfolios
-    public function getAllPortfolios()
-    {
-        $portfolios = Portfolio::all();
-
-        return response()->json($portfolios);
-    }
-
-    // Get a single portfolio by ID
-    public function getPortfolio($id)
-    {
-        $portfolio = Portfolio::findOrFail($id);
-
-        return response()->json([
-            'portfolio' => $portfolio,
-        ]);
-    }
 }

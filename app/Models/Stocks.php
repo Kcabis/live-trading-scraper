@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Portfolio extends Model
+class Stocks extends Model
 {
     use HasFactory;
-    // Allow mass assignment for these fields
-    protected $fillable = ['portfolio_name'];
+    protected $fillable = ['stockName', 'type', 'purchasePrice', 'quantity'];
 }
