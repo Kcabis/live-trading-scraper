@@ -38,7 +38,7 @@
     <div class="input-group">
         <label for="password"><img src="https://img.icons8.com/material-outlined/24/000000/lock-2.png"/></label>
         <input type="password" name="password" id="password" placeholder="Password" required>
-        <button type="button" class="show-password"><img src="https://img.icons8.com/material-outlined/24/000000/visible.png"/></button>
+        <button type="button" class="show-password" onclick="togglePassword()"><img src="https://img.icons8.com/material-outlined/24/000000/visible.png"/></button>
     </div>
     <div class="remember-me">
         <input type="checkbox" id="remember">
@@ -57,3 +57,11 @@
     </div>
 </body>
 </html>
+<!-- <script>
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+        }
+    </script> -->

@@ -86,6 +86,7 @@
                         <!-- Dynamic rows will be added here -->
                         @foreach($folioadmins as $folioadmin)
                         <tr>
+                        <td>{{$folioadmin->id}}</td>
                         <td>{{$folioadmin->user_name}}</td>
                         <td>{{$folioadmin->email}}</td>
                         <td>{{$folioadmin->password}}</td>
@@ -208,7 +209,6 @@
                 <label for="userRole">Role:</label>
                 <select id="userRole" name="role">
                     <option value="admin">Admin</option>
-                    <option value="user">User</option>
                 </select>
                 <button type="submit" id="saveUser">Save</button>
                 <button type="button" id="cancelUser">Cancel</button>

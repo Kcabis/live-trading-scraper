@@ -15,8 +15,8 @@ class FolioadminController extends Controller
         // Validate incoming data
         $validated = $request->validate([
             'user_name' => 'required|string|max:255',
-            'email' => 'required|string|max:255',
-            'password' => 'required|string|max:12',
+            'email' => 'required|email|unique:members,email',
+           'password' => 'required|min:6|confirmed',
             'role' => 'required|string',
             
         ]);
