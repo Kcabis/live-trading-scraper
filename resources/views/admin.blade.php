@@ -69,6 +69,7 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Password</th>
                             <th>Role</th>
                             <th>Action</th>
                         </tr>
@@ -175,17 +176,20 @@
     <div id="addUserPopup" class="popup" style="display: none;">
         <div class="popup-content">
             <h2>Add New User</h2>
-            <form id="addUserForm">
+            <form id="addUserForm" action="/add-ad" method="POST">
+                @csrf
                 <label for="userName">Name:</label>
-                <input type="text" id="userName" required>
+                <input type="text" id="userName" name="user_name"required>
                 <label for="userEmail">Email:</label>
-                <input type="email" id="userEmail" required>
+                <input type="email" id="userEmail" name="email"required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password"required>
                 <label for="userRole">Role:</label>
-                <select id="userRole">
+                <select id="userRole" name="role">
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
                 </select>
-                <button type="button" id="saveUser">Save</button>
+                <button type="submit" id="saveUser">Save</button>
                 <button type="button" id="cancelUser">Cancel</button>
             </form>
         </div>

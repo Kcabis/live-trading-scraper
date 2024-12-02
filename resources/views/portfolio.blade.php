@@ -192,15 +192,15 @@
     </div>
 
     <!-- Add Stock Pop-Up Form -->
-<div id="addStockPopup" class="popup">
     <div class="popup-content">
         <span class="close">&times;</span>
         <h2>Add New Stock</h2>
-        <form id="addStockForm">
+        <form id="addStockForm" action="/add-stock" method="POST">
+            @csrf
             <label for="stockName">Stock Name:</label>
             <input type="text" id="stockName" name="stockName" required> 
             <label for="select" id="select" class="ok"> Type</label>
-            <select id="sel" class="form-select">
+            <select id="sel" class="form-select" name="type">
                 <option value="1">IPO</option>
                 <option value="2">Secondary</option>
                 <option value="3">Right</option>
@@ -210,10 +210,25 @@
             <input type="number" id="purchasePrice" name="purchasePrice" step="0.01" required>
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" required>
-            <button type="button" id="addStockBtn">OK</button>
+            <button type="submit" id="addStockBtn">OK</button>
             <button type="button" id="cancelStockBtn">Cancel</button>
         </form>
     </div>
+
+    <!-- Confirmation Section -->
+    <div class="confirmation-section">
+        <h3>Confirmation Details</h3>
+        <p>Total Amount: <span id="totalAmount">0</span></p>
+        <p>SEBON Commission: <span id="sebonCommission">0</span></p>
+        <p>Broker Commission: <span id="brokerCommission">0</span></p>
+        <p>DP Fee: <span id="dpFee">0</span></p>
+        <p>WACC: <span id="wacc">0</span></p>
+        <p>Total Cost: <span id="totalCost">0</span></p>
+
+        <button type="button" class="close">Close</button>
+    </div>
+</div>
+
 </div>
 
 <script>
@@ -297,21 +312,7 @@ window.onclick = function(event) {
         </div>
     </div>
 
-    <!-- buy Confirmation Popup -->
-    <div id="confirmPopup" class="popup">
-        <div class="popup-content">
-            <span class="close">&times;</span>
-            <h2>Confirm Stock Details</h2>
-            <p>Total Amount: Rs. <span id="confirmTotalAmount"></span></p>
-            <p>SEBON Commission: Rs. <span id="confirmSebonCommission"></span></p>
-            <p>Broker Commission: Rs. <span id="confirmBrokerCommission"></span></p>
-            <p>DP Fee: Rs. <span id="confirmDpFee"></span></p>
-            <p>WACC: Rs. <span id="confirmWacc"></span></p>
-            <p>Total Cost: Rs. <span id="confirmTotalCost"></span></p>
-            <button type="button" id="confirmBtn">Confirm</button>
-            <button type="button" id="cancelConfirmBtn">Cancel</button>
-        </div>
-    </div>
+   
 
     <!-- Sell  Confirmation Popup -->
     <div id="sellconfirmPopup" class="popup">

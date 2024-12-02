@@ -37,37 +37,39 @@ document.getElementById('cancelEvent').addEventListener('click', function () {
     document.getElementById('addEventPopup').style.display = 'none';
 });
 
-// Save User Data Dynamically into the Table
-document.getElementById('saveUser').addEventListener('click', function () {
-    const userName = document.getElementById('userName').value;
-    const userEmail = document.getElementById('userEmail').value;
-    const userRole = document.getElementById('userRole').value;
+// // Save User Data Dynamically into the Table
+// document.getElementById('saveUser').addEventListener('click', function () {
+//     const userName = document.getElementById('userName').value;
+//     const userEmail = document.getElementById('userEmail').value;
+//     const userPassword = document.getElementById('Password').value;
+//     const userRole = document.getElementById('userRole').value;
 
-    if (userName && userEmail && userRole) {
-        const tableBody = document.getElementById('userBody');
-        const newRow = tableBody.insertRow();
+//     if (userName && userEmail && userRole) {
+//         const tableBody = document.getElementById('userBody');
+//         const newRow = tableBody.insertRow();
 
-        const idCell = newRow.insertCell(0);
-        const nameCell = newRow.insertCell(1);
-        const emailCell = newRow.insertCell(2);
-        const roleCell = newRow.insertCell(3);
-        const actionCell = newRow.insertCell(4);
+//         const idCell = newRow.insertCell(0);
+//         const nameCell = newRow.insertCell(1);
+//         const emailCell = newRow.insertCell(2);
+//         const roleCell = newRow.insertCell(3);
+//         const roleCell = newRow.insertCell(3);
+//         const actionCell = newRow.insertCell(4);
 
-        const newId = tableBody.rows.length; // Assuming ID is based on row count
-        idCell.innerText = newId;
-        nameCell.innerText = userName;
-        emailCell.innerText = userEmail;
-        roleCell.innerText = userRole;
-        actionCell.innerHTML = `<button class="editUser">Edit</button><button class="deleteUser">Delete</button>`;
+//         const newId = tableBody.rows.length; // Assuming ID is based on row count
+//         idCell.innerText = newId;
+//         nameCell.innerText = userName;
+//         emailCell.innerText = userEmail;
+//         roleCell.innerText = userRole;
+//         actionCell.innerHTML = `<button class="editUser">Edit</button><button class="deleteUser">Delete</button>`;
 
-        document.getElementById('userName').value = '';
-        document.getElementById('userEmail').value = '';
-        document.getElementById('userRole').value = 'admin';
-        document.getElementById('addUserPopup').style.display = 'none';
-    } else {
-        alert('Please fill all fields');
-    }
-});
+//         document.getElementById('userName').value = '';
+//         document.getElementById('userEmail').value = '';
+//         document.getElementById('userRole').value = 'admin';
+//         document.getElementById('addUserPopup').style.display = 'none';
+//     } else {
+//         alert('Please fill all fields');
+//     }
+// });
 
 // Save Event Data Dynamically into the Table
 // document.getElementById('saveEvent').addEventListener('click', function () {

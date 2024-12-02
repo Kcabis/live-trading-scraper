@@ -80,3 +80,6 @@ use App\Http\Controllers\EventController;
 Route::get('/admin', [EventController::class, 'index']);
 Route::post('/add-event', [EventController::class, 'store']);
 
+
+
+
