@@ -65,6 +65,8 @@
                 <button id="addUser">Add New User</button>
                 <table>
                     <thead>
+                    
+                        
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
@@ -76,7 +78,20 @@
                     </thead>
                     <tbody id="userBody">
                         <!-- Dynamic rows will be added here -->
+                        @foreach($folioadmins as $folioadmin)
+                        <tr>
+                        <td>{{$folioadmin->user_name}}</td>
+                        <td>{{$folioadmin->email}}</td>
+                        <td>{{$folioadmin->password}}</td>
+                        <td>{{$folioadmin->role}}</td>
+                        <td>
+                            <button type="button"> Edit</button>
+                            <button type="button"> Delete</button>
+</td>
+                        </tr>
+
                     </tbody>
+                    @endforeach
                 </table>
             </div>
 
