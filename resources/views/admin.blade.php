@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="dashboard">
+<div class="dashboard">
         <!-- Sidebar Section -->
         <div class="sidebar">
             <button id="sidebarToggle">☰</button> <br>
@@ -24,14 +24,18 @@
                 <li><button id="back"><a href="{{url('home')}}">Logout</a></button></li>
             </ul>
         </div>
-        
+
+        <!-- Add curved images -->
+        <div class="curved-image left"></div>
+        <div class="curved-image right"></div>
+
         <!-- Main Content Section -->
         <div class="main-content">
             <header>
                 <div class="header-content">
                     <!-- Search Bar -->
                     <div class="search-container">
-                        <p>Welcome to admin panel</p>
+                        <p class="blinking-text">Welcome to Smart Folio</p>
                     </div>
                     <!-- Profile Icon -->
                     <div class="profile-icon">
@@ -39,24 +43,26 @@
                     </div>
                 </div>
             </header>
-                      <!-- Admin Dashboard Section -->
-<div id="adminDashboardSection" class="content-section">
-    <h2>Admin Dashboard</h2>
-    <div class="overview">
-        <div class="card">
-            <h3>Total Users</h3>
-            <p id="totalUsers">0</p>
-        </div>
-        <div class="card">
-            <h3>Total Stocks Listed</h3>
-            <p id="totalStocks">0</p>
-        </div>
-        <div class="card">
-            <h3>System Health</h3>
-            <p id="systemHealth">Good</p>
-        </div>
-    </div>
-</div>
+
+            <!-- Admin Dashboard Section -->
+            <div id="adminDashboardSection" class="content-section">
+                <h2>Admin Dashboard</h2>
+                <div class="overview">
+                    <div class="card">
+                        <h3>Total Users</h3>
+                        <p id="totalUsers">0</p>
+                    </div>
+                    <div class="card">
+                        <h3>Total Stocks Listed</h3>
+                        <p id="totalStocks">0</p>
+                    </div>
+                    <div class="card">
+                        <h3>System Health</h3>
+                        <p id="systemHealth">Good</p>
+                    </div>
+                </div>
+            </div>
+
 
 
             <!-- User Management Section -->
