@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Models\Stocks;
-<<<<<<< HEAD
-=======
-
->>>>>>> ce87f6c2d5df74826ce338a13489c699030c0818
 use Illuminate\Http\Request;
 
 class StocksController extends Controller
