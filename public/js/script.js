@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
             alert("Please select a shareholder first.");
         } else {
             addStockPopup.style.display = 'flex';
+            confirmPopup.style.display='flex';
         }
     });
     document.querySelectorAll('#addStockPopup .close, #cancelStockBtn').forEach(function(btn) {

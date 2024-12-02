@@ -219,6 +219,24 @@
     </div>
 </div>
 
+    <!-- buy Confirmation Popup -->
+    <div id="confirmPopup" class="buypopup">
+        <div class="buypopup-content">
+            <span class="close">&times;</span>
+            <h2>Confirm Stock Details</h2>
+            <p>Total Amount: Rs. <span id="confirmTotalAmount"></span></p>
+            <p>SEBON Commission: Rs. <span id="confirmSebonCommission"></span></p>
+            <p>Broker Commission: Rs. <span id="confirmBrokerCommission"></span></p>
+            <p>DP Fee: Rs. <span id="confirmDpFee"></span></p>
+            <p>WACC: Rs. <span id="confirmWacc"></span></p>
+            <p>Total Cost: Rs. <span id="confirmTotalCost"></span></p>
+            <button type="button" id="confirmBtn">Confirm</button>
+            <button type="button" id="cancelConfirmBtn">Cancel</button>
+        </div>
+    </div>
+
+</div>
+
 <script>
 // Convert the stock name to uppercase as the user types
 document.getElementById('stockName').addEventListener('input', function() {
@@ -298,21 +316,7 @@ window.onclick = function(event) {
         </div>
     </div>
 
-    <!-- buy Confirmation Popup -->
-    <div id="confirmPopup" class="popup">
-        <div class="popup-content">
-            <span class="close">&times;</span>
-            <h2>Confirm Stock Details</h2>
-            <p>Total Amount: Rs. <span id="confirmTotalAmount"></span></p>
-            <p>SEBON Commission: Rs. <span id="confirmSebonCommission"></span></p>
-            <p>Broker Commission: Rs. <span id="confirmBrokerCommission"></span></p>
-            <p>DP Fee: Rs. <span id="confirmDpFee"></span></p>
-            <p>WACC: Rs. <span id="confirmWacc"></span></p>
-            <p>Total Cost: Rs. <span id="confirmTotalCost"></span></p>
-            <button type="button" id="confirmBtn">Confirm</button>
-            <button type="button" id="cancelConfirmBtn">Cancel</button>
-        </div>
-    </div>
+   
 
     <!-- Sell  Confirmation Popup -->
     <div id="sellconfirmPopup" class="popup">
