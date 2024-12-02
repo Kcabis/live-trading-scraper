@@ -86,6 +86,7 @@
                         <!-- Dynamic rows will be added here -->
                         @foreach($folioadmins as $folioadmin)
                         <tr>
+                        <td>{{$folioadmin->id}}</td>
                         <td>{{$folioadmin->user_name}}</td>
                         <td>{{$folioadmin->email}}</td>
                         <td>{{$folioadmin->password}}</td>
