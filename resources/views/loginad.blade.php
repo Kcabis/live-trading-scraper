@@ -205,13 +205,6 @@
                 </div>
                 <button type="submit" class="btn-primary">Sign In</button>
             </form>
-
-            <div class="additional-options">
-                <a href="#">Forgot Password?</a>
-                <a href="#">Reset Password</a>
-            </div>
-            <hr>
-            <p>New on our platform? <a href="{{ url('/registration') }}">Create new account</a></p>
         </div>
     </div>
 
