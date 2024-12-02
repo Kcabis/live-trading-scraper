@@ -45,9 +45,6 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/portfolio', function () {
-    return view('portfolio');
-})->name('portfolio');
 
 Route::post('/logout', function () {
     session()->forget('user');
@@ -64,7 +61,7 @@ use App\Http\Controllers\PortfolioController;
 
 // For web routes (use api.php for APIs)
 //Route::get('/portfolios', [PortfolioController::class, 'getAllPortfolios']);
-Route::get('/portfolio', [PortfolioController::class, 'index']);
+Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio');
 //Route::post('/add-ph',[PortfolioController::class,'save']);
 //Route::get('/portfolio/{id}', [PortfolioController::class, 'getPortfolio']);
 Route::post('/add-ph', [PortfolioController::class, 'store']);
