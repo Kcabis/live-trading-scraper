@@ -76,10 +76,7 @@ Route::get('/admin', [EventController::class, 'index']);
 Route::post('/add-event', [EventController::class, 'store']);
 
 
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\StocksController;
 Route::post('/add-stock', [StocksController::class, 'store']);
->>>>>>> ce87f6c2d5df74826ce338a13489c699030c0818
 
 
