@@ -82,13 +82,14 @@ Route::post('/add-stock', [StocksController::class, 'store']);
 
 
 use App\Http\Controllers\FolioadminController;
+Route::get('/admin', [FolioadminController::class, 'index']);
 Route::post('/add-ad',[FolioadminController::class,'store']);
-Route::get('/folioadmins', [FolioadminController::class, 'index'])->name('folioadmins.index');
 
-//Route::get('/folioadmins', [FolioadminController::class, 'index'])->name('folioadmins');
+
+// Route::get('/folioadmins', [FolioadminController::class, 'index'])->name('folioadmins');
 
 //use App\Http\Controllers\FolioadminController;
 
-//Route::get('/admin', [FolioadminController::class, 'index'])->name('admin.index');
+// Route::get('/admin', [FolioadminController::class, 'index'])->name('admin.index');
 //Route::post('/add-ad', [FolioadminController::class, 'store'])->name('admin.store');
 
