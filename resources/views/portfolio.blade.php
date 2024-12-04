@@ -27,6 +27,9 @@
         <div class="main-content">
             <header>
                 <div class="header-content">
+                    <div class="search-container">
+                    <p class="blinking-text">Welcome to Smart folio</p>
+                    </div>
                     <div class="profile-icon">
                         <img src="/image/bull.jpg" alt="Profile">
                     </div>
@@ -96,6 +99,7 @@
                         <tbody id="portfolioBody">
                             <!-- Dynamic rows will be added here -->
                         </tbody>
+                       
                     </table>
                     <button id="addStock">Add Stock</button>
                     <button id="sellStock"> Sell stock</button>
@@ -204,10 +208,10 @@
             <input type="text" id="stockName" name="stockName" required>
             <label for="select" id="select" class="ok"> Type</label>
             <select id="sel" class="form-select" name="type">
-                <option value="1">IPO</option>
-                <option value="2">Secondary</option>
-                <option value="3">Right</option>
-                <option value="4">Bonus</option>
+                <option value="IPO">IPO</option>
+                <option value="Secondary">Secondary</option>
+                <option value="Right">Right</option>
+                <option value="Bonus">Bonus</option>
             </select> <br>
             <label for="purchasePrice">Purchase Price:</label>
             <input type="number" id="purchasePrice" name="purchasePrice" step="0.01" required>
@@ -220,7 +224,7 @@
 </div>
 
     <!-- buy Confirmation Popup -->
-    <div id="confirmPopup" class="buypopup">
+    <!-- <div id="confirmPopup" class="buypopup">
         <div class="buypopup-content">
             <span class="close">&times;</span>
             <h2>Confirm Stock Details</h2>
@@ -233,7 +237,7 @@
             <button type="button" id="confirmBtn">Confirm</button>
             <button type="button" id="cancelConfirmBtn">Cancel</button>
         </div>
-    </div>
+    </div> -->
 
 </div>
 

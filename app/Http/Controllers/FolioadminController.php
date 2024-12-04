@@ -11,19 +11,19 @@ class FolioadminController extends Controller
     public function store(Request $request)
 
     {
-    //   dd($request->all());
         // Validate incoming data
         $validated = $request->validate([
             'user_name' => 'required|string|max:255',
             'email' => 'required|email|unique:members,email',
-           'password' => 'required|min:6|confirmed',
+           'password' => 'required|min:6',
             'role' => 'required|string',
-            
         ]);
 
         // Save to the database
+        $validated['password']=bcrypt($validated['password']);
         Folioadmin::create($validated);
         return redirect()->back()->with("message","admin Added Successfully.");
+
     }
     public function index(){
         $folioadmins = Folioadmin::all();

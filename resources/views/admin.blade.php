@@ -31,6 +31,15 @@
 
         <!-- Main Content Section -->
         <div class="main-content">
+        @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>  
+@endif
             <header>
                 <div class="header-content">
                     <!-- Search Bar -->
@@ -146,6 +155,7 @@
             <div id="eventManagementSection" class="content-section" style="display: none;">
                 <h2>Event Management</h2>
                 <button id="addEvent">Add New Event</button>
+                
                 <table>
                     <thead>
                         <tr>
@@ -167,7 +177,7 @@
                         <td>{{$event->event_date}}</td>
                         <td>
                         
-                            <button type="button">Edit</button>
+                            <button type="button" >Edit</button>
                             <form action="#">
                             <button type="button">Delete</button>
                             </form>
@@ -216,7 +226,7 @@
         </div>
     </div>
 
-
+<!-- Add Event  -->
     <div id="addEventPopup" class="popup" style="display: none;">
     <div class="popup-content">
         <h2>Add New Event</h2>
@@ -230,10 +240,13 @@
 
             <label for="eventType">Event Type:</label>
             <select id="eventType" name="event_type">
-                <option value="1">IPO</option>
-                <option value="2">Right</option>
-                <option value="3">Bonus</option>
-                <option value="4">Auction</option>
+                <option value="IPO">IPO</option>
+                <option value="Right">Right</option>
+                <option value="Bonus">Bonus</option>
+                <option value="Auction">Auction</option>
+                <option value="FPO">FPO</option>
+                <option value="Debenture">Debenture</option>
+                <option value="Foreign Employement">Foreign Employement</option>
             </select>
    
             <label for="eventPrice">Price:</label>
@@ -247,8 +260,6 @@
         </form>
     </div>
 </div>
-
-
     <!-- JavaScript -->
     <script src="{{ asset('js/admin.js') }}"></script>
 </body>
