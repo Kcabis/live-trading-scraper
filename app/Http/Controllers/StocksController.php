@@ -28,6 +28,6 @@ class StocksController extends Controller
     public function index(){
         $stock = Stocks::all();
        
-        return view('portfolio',compact("stocks"));
+        return view('portfolio',compact("stock"));
     }
 }
