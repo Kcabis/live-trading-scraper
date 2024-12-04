@@ -34,7 +34,7 @@ document.getElementById('cancelUser').addEventListener('click', function () {
     document.getElementById('addUserPopup').style.display = 'none';
 });
 
-// Hide Popup (Add Event)
+// Hide Popup (Event)
 document.getElementById('cancelEvent').addEventListener('click', function () {
     document.getElementById('addEventPopup').style.display = 'none';
 });
