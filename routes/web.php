@@ -61,7 +61,7 @@ use App\Http\Controllers\PortfolioController;
 
 // For web routes (use api.php for APIs)
 //Route::get('/portfolios', [PortfolioController::class, 'getAllPortfolios']);
-Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio');
+//Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio');
 //Route::post('/add-ph',[PortfolioController::class,'save']);
 //Route::get('/portfolio/{id}', [PortfolioController::class, 'getPortfolio']);
 Route::post('/add-ph', [PortfolioController::class, 'store']);
@@ -93,6 +93,18 @@ Route::post('/add-stock', [StocksController::class, 'store']);
 
 use App\Http\Controllers\AdminController;
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+
+ use App\Http\Controllers\Dashboardcontroller;
+ Route::get('/portfolio', [Dashboardcontroller::class, 'index'])->name('dashboard');
+
+ // routes/web.php
+
+ use App\Http\Controllers\ListedSecurityController;
+
+// Route::get('/securities', [ListedSecurityController::class, 'index']);
+Route::post('/upload-csv', [ListedSecurityController::class, 'uploadCsv'])->name('uploadCsv');
+
+
 
 
 

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Management Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/styles.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/events.css')}}">
 </head>
 <body>
     <div class="dashboard">
@@ -107,10 +108,29 @@
             </div>
 
             <!-- Financials Section -->
-            <div id="eventsSection" class="content-section" style="display: none;">
-                <h2>Events</h2>
-                <!-- Financials content goes here -->
+            <div id="eventsSection" class="content-section events-section" style="display: none;">
+    <h2>Events</h2>
+    @foreach($events as $event)
+    <!-- Container for cards -->
+    <div class="cards-container">
+        <!-- Card 1 -->
+        <div class="animated-card">
+            
+            <h3 class="card-title">{{$event->event_name}}</h3>
+            <div class="card-data">
+                <div class="data-left">
+                    <p>{{$event->event_type}}</p>
+                    <p>{{$event->stock_name}}</p>
+                </div>
+                <div class="data-right">
+                    <p>{{$event->price}}</p>
+                    <p>{{$event->event_date}}</p>
+                </div>
             </div>
+        </div>
+        @endforeach
+</div>
+
 
             <!-- Advanced Charts Section -->
             <div id="listedsecuritiesSection" class="content-section" style="display: none;">
@@ -224,7 +244,11 @@
 </div>
 
     <!-- buy Confirmation Popup -->
+<<<<<<< HEAD
     <!-- <div id="confirmPopup" class="buypopup">
+=======
+    <div id="confirmPopup" class="popup">
+>>>>>>> 8818e6b45407d6ad2f8e87c03c5152561be61f25
         <div class="buypopup-content">
             <span class="close">&times;</span>
             <h2>Confirm Stock Details</h2>
@@ -338,6 +362,20 @@ window.onclick = function(event) {
             <button type="button" id="cancelConfirmBtn">Cancel</button>
         </div>
     </div>
+ <!-- Edit Portfolio Modal -->
+<div id="editPortfolioPopup" class="popup">
+    <div class="popup-content">
+        <span class="close" onclick="closeEditPopup()">&times;</span>
+        <h2>Edit Portfolio</h2>
+        <form id="editPortfolioForm">
+            <input type="hidden" id="editPortfolioId">
+            <label for="editPortfolioName">Portfolio Name:</label>
+            <input type="text" id="editPortfolioName" required>
+            <button type="submit">Save Changes</button>
+            <button type="Delete">Delete Portfolio</button>
+        </form>
+    </div>
+</div>
     <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>

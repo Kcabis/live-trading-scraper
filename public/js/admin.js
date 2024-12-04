@@ -135,12 +135,12 @@ document.getElementById('cancelEvent').addEventListener('click', function () {
 //         const price = row.cells[3].innerText;
 //         const date = row.cells[4].innerText;
 
-//         document.getElementById('eventName').value = name;
-//         document.getElementById('stockName').value = stock;
-//         document.getElementById('eventType').value = type;
-//         document.getElementById('eventPrice').value = price;
-//         document.getElementById('eventDate').value = date;
-//     } else if (e.target && e.target.classList.contains('deleteEvent')) {
-//         e.target.closest('tr').remove();
-//     }
-// });
+        document.getElementById('eventName').value = name;
+        document.getElementById('stockName').value = stock;
+        document.getElementById('eventType').value = type;
+        document.getElementById('eventPrice').value = price;
+        document.getElementById('eventDate').value = date;
+    } else if (e.target && e.target.classList.contains('deleteEvent')) {
+        e.target.closest('tr').remove();
+    }
+});
