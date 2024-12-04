@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart-Folio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Global Styles */
         * {
@@ -14,7 +15,6 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
             color: #333;
             overflow-x: hidden;
         }
@@ -25,7 +25,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* Transparent black */
+            background-color: rgba(0, 0, 0, 0.8);
             padding: 10px 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 1000;
@@ -73,60 +73,102 @@
         /* Hero Section */
         .hero {
             position: relative;
-            background-image: url('/images/home.JPG');
+            background-image: url('/images/home.jpg');
             background-size: cover;
             background-position: center;
             width: 100%;
-            height: 100vh;
+            height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            color: white;
+            align-text: center;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
 
-        .hero::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Dark overlay */
-    z-index: 0;
-    filter: blur(2px);
-    pointer-events: none; /* Allow clicks to pass through */
-}
+        .hero img {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
 
-.hero h1,
-.hero p,
-.cta-buttons,
-.quote {
-    position: relative;
-    z-index: 1; /* Higher than the pseudo-element */
-}
+        /* Apply blur effect only to the background */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: inherit;
+            background-size: inherit;
+            background-position: inherit;
+            filter: blur(1px);
+            z-index: -1;
+        }
+
+        /* Hero content */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            animation: fadeIn 5s ease-in-out;
+            color: white;
+        }
 
         .hero h1 {
             font-size: 70px;
             font-weight: 800;
             margin-bottom: 20px;
-            z-index: 1;
-            color:aqua; /* Gold for prominence */
+            color: aqua;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            animation: colorChange 5s infinite linear;
+        }
+
+        @keyframes colorChange {
+            0% { color: aqua; }
+            25% { color: gold; }
+            50% { color: red; }
+            75% { color: lime; }
+            100% { color: aqua; }
         }
 
         .hero p {
             font-size: 28px;
             font-weight: bold;
-            z-index: 1;
-            color: aqua;
+            color: white;
             margin-bottom: 40px;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+            animation: colorChange 5s infinite linear;
+        }
+
+        /* Quote Section */
+        .quote {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            font-size: 20px;
+            font-style: italic;
+            color: #FFD700;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background to make text readable */
         }
 
         .cta-buttons {
             display: flex;
             justify-content: center;
             gap: 30px;
-            z-index: 1;
         }
 
         .cta-buttons a {
@@ -141,17 +183,6 @@
 
         .cta-buttons a:hover {
             background-color: #5E35B1;
-        }
-
-        .quote {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.8);
-            font-style: italic;
-            font-size: 20pxpx;
-            z-index: 1;
         }
 
         /* Footer Section */
@@ -175,45 +206,17 @@
             text-decoration: underline;
         }
 
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 50px;
-            }
-
-            .hero p {
-                font-size: 20px;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            nav {
-                flex-wrap: wrap;
-            }
-
-            nav .nav-links a {
-                font-size: 14px;
-                margin-right: 5px;
-            }
-
-            nav .search-box input {
-                width: 120px;
-            }
-        }
     </style>
 </head>
 <body>
     <!-- Navbar -->
     <nav>
         <div class="nav-links">
-            <a href="{{url('login')}}">User login</a>
+            <a href="{{url('login')}}">User Login</a>
             <a href="{{url('loginad')}}">Admin Login</a>
             <a href="{{url('register')}}">Signup</a>
             <a href="#about">About</a>
-            <a href="#">Contact us</a>
+            <a href="#">Contact Us</a>
         </div>
         <div class="search-box">
             <input type="text" placeholder="Search...">
@@ -223,7 +226,7 @@
 
     <!-- Hero Section -->
     <div class="hero">
-        <div>
+        <div class="hero-content">
             <h1>Smart-Folio</h1>
             <p>Your Investment Tracker</p>
             <div class="cta-buttons">
@@ -231,8 +234,10 @@
                 <a href="{{url('register')}}">Sign Up</a>
             </div>
         </div>
+        <!-- Quote Section in Front of the Image -->
         <div class="quote">
-            "Every loss is a lesson, and every gain is the test. The market doesn't reward greed but teaches patience."
+            "Every Loss is a lesson and every gain is the <br>
+            The market doesn't reward greed but teaches patience"
         </div>
     </div>
 
@@ -242,8 +247,6 @@
         <p>For more information, visit our <a href="#about">About</a> section.</p>
     </footer>
 
-    <script>
-        // Placeholder for interactive JavaScript if needed
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

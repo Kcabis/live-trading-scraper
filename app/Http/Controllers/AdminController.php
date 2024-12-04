@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Folioadmin;
 use Illuminate\Http\Request;
+use App\Models\ListedSecurity;
 
 class AdminController extends Controller
 {
@@ -11,7 +12,8 @@ class AdminController extends Controller
     {
         $events = Event::all(); // Fetch events from EventController logic
         $folioadmins = Folioadmin::all(); // Fetch data from FolioadminController logic
+        $securities = ListedSecurity::all();
 
-        return view('admin', compact('events', 'folioadmins')); // Pass data to the view
+        return view('admin', compact('events', 'folioadmins','securities')); // Pass data to the view
     }
 }

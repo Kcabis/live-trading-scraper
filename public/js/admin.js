@@ -140,4 +140,5 @@ document.addEventListener('click', function (e) {
     } else if (e.target && e.target.classList.contains('deleteEvent')) {
         e.target.closest('tr').remove();
     }
+    
 });

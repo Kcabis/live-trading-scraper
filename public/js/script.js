@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sellStockBtn = document.getElementById('sellStockBtn');
     const addStockBtn = document.getElementById('addStockBtn');
+    const editShareholder=document.getElementById('editShareholder');
+    const editPortfolioPopup=document.getElementById('editPortfolioPopup');
     const cancelShareholderBtn = document.getElementById('cancelShareholderBtn');
     const cancelStockBtn =document.getElementById('cancelStockBtn');
     const cancelsellStockBtn =document.getElementById('cancelsellStockBtn');
@@ -31,7 +33,10 @@ document.addEventListener('DOMContentLoaded', function () {
     newShareholderBtn.addEventListener('click', function() {
         addShareholderPopup.style.display = 'flex';
     });
-
+    //open edit shareholder popup
+    editShareholder.addEventListener('click',function(){
+        editPortfolioPopup.style.display="flex";
+    });
    // Handle adding new shareholder
    document.getElementById('addShareholderBtn').addEventListener('click', function () {
     const shareholderName = document.getElementById('shareholderName').value.trim();
@@ -72,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
             alert("Please select a shareholder first.");
         } else {
             addStockPopup.style.display = 'flex';
-            confirmPopup.style.display='flex';
+            confirmPopup.style.display='none';
         }
     });
     document.querySelectorAll('#addStockPopup .close, #cancelStockBtn').forEach(function(btn) {
