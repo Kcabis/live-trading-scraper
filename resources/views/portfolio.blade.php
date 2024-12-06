@@ -6,6 +6,7 @@
     <title>Portfolio Management Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/styles.css')}}">
     <link rel="stylesheet" href="{{ asset('css/events.css')}}">
+    <link rel="stylesheet" href="{{asset('css/settings.css')}}">
 </head>
 <body>
     <div class="dashboard">
@@ -128,6 +129,7 @@
                 </div>
             </div>
         </div>
+</div>
         @endforeach
 </div>
 
@@ -210,10 +212,51 @@
             </div>
 
             <!-- Settings Section -->
-            <div id="settingsSection" class="content-section" style="display: none;">
-                <h2>Settings</h2>
-                <!-- Settings content goes here -->
-            </div>
+            <!-- Settings Section -->
+<div id="settingsSection" class="content-section" style="display: none;">
+    <h2>Settings</h2>
+    <div class="profile-container">
+        <img id="profileImage" class="profile-img" src="default-profile.png" alt="Profile Image" />
+        <button id="editProfileButton" class="edit-profile-btn">Edit</button>
+    </div>
+    <div class="user-details">
+        <h3>User Details</h3>
+        <form id="userDetailsForm">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" />
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" />
+
+            <label for="phone">Phone No.</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" />
+        </form>
+    </div>
+    <div class="change-password">
+        <h3>Change Password</h3>
+        <form id="passwordForm">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password" />
+
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password" />
+
+            <label for="retypePassword">Retype Password</label>
+            <input type="password" id="retypePassword" name="retypePassword" placeholder="Retype new password" />
+        </form>
+    </div>
+</div>
+
+<!-- Popup Modal -->
+<div id="imageUploadModal" class="modal">
+    <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <h3>Upload Profile Image</h3>
+        <input type="file" id="imageInput" />
+        <button id="saveImageButton">Save</button>
+    </div>
+</div>
+
         </div>
     </div>
 
@@ -244,7 +287,7 @@
 </div>
 
     <!-- buy Confirmation Popup -->
-    <div id="confirmPopup" class="popup">
+    <!-- <div id="confirmPopup" class="buypopup">
         <div class="buypopup-content">
             <span class="close">&times;</span>
             <h2>Confirm Stock Details</h2>
@@ -361,13 +404,13 @@ window.onclick = function(event) {
  <!-- Edit Portfolio Modal -->
 <div id="editPortfolioPopup" class="popup">
     <div class="popup-content">
-        <span class="close" onclick="closeEditPopup()">&times;</span>
+        <span class="close">&times;</span>
         <h2>Edit Portfolio</h2>
         <form id="editPortfolioForm">
             <input type="hidden" id="editPortfolioId">
             <label for="editPortfolioName">Portfolio Name:</label>
             <input type="text" id="editPortfolioName" required>
-            <button type="submit">Save Changes</button>
+            <button type="submit">Update portfolio</button>
             <button type="Delete">Delete Portfolio</button>
         </form>
     </div>

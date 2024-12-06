@@ -2,14 +2,18 @@
 .cards-container {
     display: flex;
     gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
+    justify-content: space-between; /* Distributes cards evenly */
+    flex-wrap: wrap; /* Allows wrapping to the next row */
     margin-top: 20px;
+    max-width: 1080px; /* Adjust based on your layout needs */
+    margin-left: auto;
+    margin-right: auto; /* Center align the container */
 }
 
 .animated-card {
+    flex: 0 0 calc(25% - 20px); /* Adjust width to fit 4 cards per row */
+    max-width: 250px; /* Ensure consistent width */
     background-color: #ffffff;
-    width: 250px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     padding: 20px;
@@ -17,6 +21,13 @@
     position: relative;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .animated-card {
+        flex: 0 0 calc(50% - 20px); /* 2 cards per row for smaller screens */
+        max-width: 100%;
+    }
 }
 
 .animated-card:hover {
@@ -74,10 +85,4 @@
     color: #e76f51;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .animated-card {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-}
+

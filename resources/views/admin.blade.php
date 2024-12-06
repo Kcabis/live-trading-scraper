@@ -131,7 +131,7 @@
                 </table>
             </div>
 
-    <<div id="listedSecuritiesSection" class="content-section" style="display: none;">
+    <div id="listedSecuritiesSection" class="content-section" style="display: none;">
     <h2>Listed Securities</h2>
     <div class="container">
         <div class="row">
