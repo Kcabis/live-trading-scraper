@@ -98,11 +98,11 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody id="portfolioBody">
+                        <tbody>
                             @foreach ($stocks as $stock)
                             <tr>
                                 <td>{{$stock->id}}</td>
-                                <td>{{$stock->stock_name}}</td>
+                                <td>{{$stock->symbol}}</td>
                                 <td>{{$stock->purchase_price}}</td>
                                 <td>{{$stock->quantity}}</td>
                                 <td>{{$stock->purchase_value}}</td>
@@ -300,7 +300,7 @@
             <input type="number" id="purchasePrice" name="purchasePrice" step="0.01" required>
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" required>
-            <button type="button" id="addStockBtn">OK</button>
+            <button type="submit" id="addStockBtn">OK</button>
             <button type="button" id="cancelStockBtn">Cancel</button>
     </div>
 </div>
