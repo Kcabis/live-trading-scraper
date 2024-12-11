@@ -98,8 +98,23 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody id="portfolioBody">
-                            <!-- Dynamic rows will be added here -->
+                        <tbody>
+                            @foreach ($stocks as $stock)
+                            <tr>
+                                <td>{{$stock->id}}</td>
+                                <td>{{$stock->symbol}}</td>
+                                <td>{{$stock->purchase_price}}</td>
+                                <td>{{$stock->quantity}}</td>
+                                <td>{{$stock->purchase_value}}</td>
+                                <td>{{$stock->ltp}}</td>
+                                <td>{{$stock->market_value}}</td>
+                                <td>{{$stock->profit_loss}}</td>
+                                <td>
+                                    <button class="sellStockBtn">Sell</button>
+                                </td>
+                            </tr>
+                            
+                            @endforeach
                         </tbody>
                        
                     </table>
@@ -198,7 +213,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Table data will be populated dynamically -->
+                                
                             </tbody>
                         </table>
                     </div>
@@ -263,7 +278,12 @@
         <form id="addStockForm" action="/add-stock" method="POST">
             @csrf
             <label for="stockName">Stock Name:</label>
-            <input type="text" id="stockName" name="stockName" required>
+            <select id="stockName" name="stockName" required>
+                <option value="" disabled selected>Select Stock</option>
+                @foreach($symbols as $symbol)
+                <option value="{{$symbol}}">{{$symbol}}</option>
+                @endforeach
+            </select>
             <label for="select" id="select" class="ok"> Type</label>
             <select id="sel" class="form-select" name="type">
                 <option value="IPO">IPO</option>
@@ -277,12 +297,11 @@
             <input type="number" id="quantity" name="quantity" required>
             <button type="submit" id="addStockBtn">OK</button>
             <button type="button" id="cancelStockBtn">Cancel</button>
-        </form>
     </div>
 </div>
 
     <!-- buy Confirmation Popup -->
-    <!-- <div id="confirmPopup" class="buypopup">
+    <div id="confirmPopup" class="buypopup">
         <div class="buypopup-content">
             <span class="close">&times;</span>
             <h2>Confirm Stock Details</h2>
@@ -292,10 +311,11 @@
             <p>DP Fee: Rs. <span id="confirmDpFee"></span></p>
             <p>WACC: Rs. <span id="confirmWacc"></span></p>
             <p>Total Cost: Rs. <span id="confirmTotalCost"></span></p>
-            <button type="button" id="confirmBtn">Confirm</button>
+            <button type="submit" id="send">OK</button>
             <button type="button" id="cancelConfirmBtn">Cancel</button>
         </div>
-    </div> -->
+    </div>
+    </form>
 
 </div>
 

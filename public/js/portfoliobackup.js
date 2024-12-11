@@ -107,6 +107,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Adding a stock: If stock exists, update its values instead of creating a new row
     addStockBtn.addEventListener('click', function () {
+        //open confirm popup
+        
         const stockName = document.getElementById('stockName').value.trim();
         const purchasePrice = parseFloat(document.getElementById('purchasePrice').value);
         const quantity = parseInt(document.getElementById('quantity').value);
