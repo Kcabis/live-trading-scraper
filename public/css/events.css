@@ -11,7 +11,7 @@
 }
 
 .animated-card {
-    flex: 0 0 calc(25% - 20px); /* Adjust width to fit 4 cards per row */
+     /* Adjust width to fit 4 cards per row */
     max-width: 250px; /* Ensure consistent width */
     background-color: #ffffff;
     border-radius: 10px;

@@ -102,7 +102,12 @@
                         <td>{{$folioadmin->role}}</td>
                         <td>
                             <button type="button"> Edit</button>
-                            <button type="button"> Delete</button>
+                            <form action="{{route('folioadmin.delete',$folioadmin->id)}}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button type="submit">Delete</button>
+
+                            </form>
 </td>
                         </tr>
 
@@ -282,8 +287,10 @@
                         <td>
                         
                             <button type="button" >Edit</button>
-                            <form action="#">
-                            <button type="button">Delete</button>
+                            <form action="{{route('event.delete',$event->id)}}" method="post">
+                                @csrf
+                                @method('delete')
+                            <button type="submit" >Delete</button>
                             </form>
                         </td>
                         </tr>

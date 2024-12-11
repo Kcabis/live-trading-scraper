@@ -104,6 +104,12 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 // Route::get('/securities', [ListedSecurityController::class, 'index']);
 Route::post('/upload-csv', [ListedSecurityController::class, 'uploadCsv'])->name('uploadCsv');
 
+//event deletion
+Route::delete('event/delete/{event}',[EventController::class,'delete'])->name('event.delete');
+Route::delete('folioadmin/delete/{folioadmin}',[FolioadminController::class,'delete'])->name('folioadmin.delete');
+
+
+
 
 
 

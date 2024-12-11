@@ -223,13 +223,8 @@
         <h3>User Details</h3>
         <form id="userDetailsForm">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" />
-
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" />
-
             <label for="phone">Phone No.</label>
-            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" />
         </form>
     </div>
     <div class="change-password">
@@ -404,11 +399,17 @@ window.onclick = function(event) {
  <!-- Edit Portfolio Modal -->
 <div id="editPortfolioPopup" class="popup">
     <div class="popup-content">
+        <input type="hidden" id="editPortfolioId">
+        <label for="editPortfolioName">Choose a portfolio</label>
+        
         <span class="close">&times;</span>
         <h2>Edit Portfolio</h2>
         <form id="editPortfolioForm">
-            <input type="hidden" id="editPortfolioId">
-            <label for="editPortfolioName">Portfolio Name:</label>
+             @foreach($portfolios as $portfolio)
+            <select name="portfolio" id="portfolio">
+                <option value="{{$portfolio->id}}">{{$portfolio->portfolio_name}}</option>
+            </select>
+            @endforeach
             <input type="text" id="editPortfolioName" required>
             <button type="submit">Update portfolio</button>
             <button type="Delete">Delete Portfolio</button>
