@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('portfolio_id')->constrained();
             $table->string('stock_name');
             $table->string('type');
             $table->decimal('purchase_price', 10, 2);

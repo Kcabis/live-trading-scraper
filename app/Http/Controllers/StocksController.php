@@ -10,6 +10,7 @@ class StocksController extends Controller
     {
         // Validate incoming data including the confirmation data
         $validated = $request->validate([
+            'portfolio_id' => 'required|numeric',
             'stockName' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'purchasePrice' => 'required|numeric',
@@ -22,8 +23,9 @@ class StocksController extends Controller
             'totalCost' => 'required|numeric',
         ]);
 
-        // Save to the database
+        // Create a new stock record
         Stocks::create([
+            'portfolio_id' => $validated['portfolio_id'],
             'stock_name' => $validated['stockName'],
             'type' => $validated['type'],
             'purchase_price' => $validated['purchasePrice'],
@@ -34,6 +36,7 @@ class StocksController extends Controller
             'dp_fee' => $validated['dpFee'],
             'wacc' => $validated['wacc'],
             'total_cost' => $validated['totalCost'],
+
         ]);
 
         return redirect()->back()->with("message", "Stock Added Successfully.");

@@ -11,11 +11,13 @@ use App\MOdels\ListedSecurity;
 
 class Dashboardcontroller extends Controller
 {
-    public function index()
-    {
+    public function index(Request $request)
+    {   
+        $portfolio_id = $request->query('portfolio_id');
+
         $portfolios= Portfolio::all(); // Fetch events from EventController logic
         $events=Event::all();
-        $stocks= $this->getStocksWithLTPfromMerolagani();
+        $stocks= $this->getStocksWithLTPfromMerolagani($portfolio_id);
         $symbols = $this->scrape();
         $securities = ListedSecurity::all();
         return view('portfolio', compact('portfolios','events' , 'symbols' , 'stocks','securities')); // Pass data to the view
@@ -63,8 +65,13 @@ class Dashboardcontroller extends Controller
             }
 
 
-    public function getStocksWithLTPfromMerolagani(){
-        $stocks = Stocks::all();
+    public function getStocksWithLTPfromMerolagani($portfolio_id){
+       
+        $stocks = Stocks::where('portfolio_id', $portfolio_id)->get();
+        if($stocks->isEmpty()){
+            return $stocks;
+        }
+        
 
         $client = new Client([
             'headers' => [
@@ -107,7 +114,7 @@ class Dashboardcontroller extends Controller
         $stocks = $stocks->map(function($stock) use ($data){
             $stock->ltp = 0;
             foreach($data as $d){
-                if($stock->stockName == $d['symbol']){
+                if($stock->stock_name == $d['symbol']){
                     $stock->ltp = $d['ltp'];
                 }
             }

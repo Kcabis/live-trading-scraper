@@ -1,5 +1,6 @@
 <html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="{{asset('css/settings.css')}}">
     <link rel="stylesheet" href="{{asset('css/listed.css')}}">
 </head>
+
 <body>
     <div class="dashboard">
         <div class="sidebar">
@@ -20,18 +22,18 @@
                 <li><a href="#" data-target="accountStatementSection" class="menu-item">Account Statement</a></li>
                 <li><a href="#" data-target="buyHistorySection" class="menu-item"> History</a></li>
                 <li><a href="#" data-target="traderAnalyticsSection" class="menu-item">Trader Analytics</a></li>
-                <li><a href="#" data-target="settingsSection" class="menu-item">Settings</a></li>  
-                
-                
+                <li><a href="#" data-target="settingsSection" class="menu-item">Settings</a></li>
+
+
             </ul>
-            
+
         </div>
-       
+
         <div class="main-content">
             <header>
                 <div class="header-content">
                     <div class="search-container">
-                    <p class="blinking-text">Welcome to Smart folio</p>
+                        <p class="blinking-text">Welcome to Smart folio</p>
                     </div>
                     <div class="profile-icon">
                         <img src="/image/bull.jpg" alt="Profile">
@@ -45,10 +47,45 @@
                     <select id="shareholderSelect">
                         <option value="" disabled selected>Select Portfolio</option>
                         @foreach($portfolios as $portfolio)
-                        <option value="{{$portfolio->id}}"> {{$portfolio->portfolio_name}}</option>
+                            <option value="{{$portfolio->id}}"> {{$portfolio->portfolio_name}}</option>
                         @endforeach
                     </select>
-                    <button id="addShareholder" >Add Portfolio</button>
+
+
+                    <script>
+
+                        shareholderSelect.addEventListener('change', function () {
+                            const selectedPortfolio = this.value;
+                            const portfolio_id = document.getElementById('portfolio_id');
+                            portfolio_id.value = selectedPortfolio;
+                            fetchPortfolioData(selectedPortfolio);
+                        });
+
+                    </script>
+
+                    <div style="
+                        display: flex;
+                        justify-content: start;
+                        align-items: center;
+                        margin-top: 20px;
+                    ">
+                    <form id="searchStockForm" action="/portfolio" method="GET">
+                        <input type="hidden" id="portfolio_id" name="portfolio_id">
+                        <button type="submit"
+                            style="background-color: #2a9d8f; color: white; border: none; padding: 10px 20px; margin-left: 10px;"
+                        >Search</button>
+                    </form>
+
+                    <form id="clearStockForm" action="/portfolio" method="GET">
+                        <button type="submit"
+                            style="background-color: #2a9d8f; color: white; border: none; padding: 10px 20px; margin-left: 10px;"
+                        >Clear</button>
+                    </form>
+                </div>
+
+
+
+                    <button id="addShareholder">Add Portfolio</button>
                     <button id="editShareholder">Edit Portfolio</button>
                 </div>
                 <div class="overview">
@@ -73,7 +110,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="card4">
                         <h3>Daily Gains</h3>
                         <p id="dailyGains">Rs 0.00</p>
@@ -84,7 +121,7 @@
                     <div class="table-search-container">
                         <input type="text" id="tableSearchBox" placeholder="Search Stock Name...">
                     </div>
-                
+
                     <table>
                         <thead>
                             <tr>
@@ -101,23 +138,55 @@
                         </thead>
                         <tbody>
                             @foreach ($stocks as $stock)
-                            <tr>
-                                <td>{{$stock->id}}</td>
-                                <td>{{$stock->stockName}}</td>
-                                <td>{{$stock->purchase_price}}</td>
-                                <td>{{$stock->quantity}}</td>
-                                <td>{{$stock->purchase_value}}</td>
-                                <td>{{$stock->ltp}}</td>
-                                <td>{{$stock->market_value}}</td>
-                                <td>{{$stock->profit_loss}}</td>
-                                <td>
-                                    <button class="sellStockBtn">Sell</button>
-                                </td>
-                            </tr>
-                            
+                                <tr>
+                                    <td>{{$stock->id}}</td>
+                                    <td>{{$stock->stock_name}}</td>
+                                    <td>{{$stock->wacc}}</td>
+                                    <td>{{$stock->quantity}}</td>
+                                    <td>
+                                        <script>
+                                            var purchasePrice = {{$stock->wacc}};
+                                            var quantity = {{$stock->quantity}};
+                                            var purchaseValue = purchasePrice * quantity;
+                                            document.write(purchaseValue);
+                                        </script>
+                                    </td>
+                                    <td>{{$stock->ltp}}</td>
+                                    <td>
+                                        <script>
+                                            var ltpRaw = '{{$stock->ltp}}'.replace(/,/g, '');
+                                            var ltp = parseFloat(ltpRaw);
+                                            var marketValue = ltp * quantity;
+                                            document.write(marketValue.toFixed(2));
+                                        </script>
+                                    </td>
+                                    <td>
+                                        <script>
+                                            var purchaseValue = {{$stock->wacc}} * {{$stock->quantity}};
+                                            var ltpRaw = '{{$stock->ltp}}'.replace(/,/g, '');
+                                            var ltp = parseFloat(ltpRaw);
+                                            var marketValue = ltp * {{$stock->quantity}};
+
+                                            var profitLoss = marketValue - purchaseValue;
+                                            if (profitLoss > 0) {
+                                                document.write('<span class="profit-badge">Profit</span> Rs. ' + profitLoss.toFixed(2));
+                                            } else if (profitLoss < 0) {
+                                                document.write('<span class="loss-badge">Loss</span> Rs. ' + Math.abs(profitLoss).toFixed(2));
+                                            } else {
+                                                document.write('Rs. 0.00');
+                                            }
+                                        </script>
+                                    </td>
+                                    <td>
+                                        <button class="addStockBtn">Add</button>
+                                        <button class="editStockBtn">Edit</button>
+                                        <button class="deleteStockBtn">Delete</button>
+                                    </td>
+                                </tr>
+
                             @endforeach
                         </tbody>
-                       
+
                     </table>
                     <button id="addStock">Add Stock</button>
                     <button id="sellStock"> Sell stock</button>
@@ -126,188 +195,193 @@
 
             <!-- Financials Section -->
             <div id="eventsSection" class="content-section events-section" style="display: none;">
-    <h2>Events</h2>
-    @foreach($events as $event)
-    <!-- Container for cards -->
-    <div class="cards-container">
-        <!-- Card 1 -->
-        <div class="animated-card">
-            
-            <h3 class="card-title">{{$event->event_name}}</h3>
-            <div class="card-data">
-                <div class="data-left">
-                    <p>{{$event->event_type}}</p>
-                    <p>{{$event->stock_name}}</p>
+                <h2>Events</h2>
+                @foreach($events as $event)
+                    <!-- Container for cards -->
+                    <div class="cards-container">
+                        <!-- Card 1 -->
+                        <div class="animated-card">
+
+                            <h3 class="card-title">{{$event->event_name}}</h3>
+                            <div class="card-data">
+                                <div class="data-left">
+                                    <p>{{$event->event_type}}</p>
+                                    <p>{{$event->stock_name}}</p>
+                                </div>
+                                <div class="data-right">
+                                    <p>{{$event->price}}</p>
+                                    <p>{{$event->event_date}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <div id="listedsecuritiesSection" class="content-section listed-section" style="display: none;">
+                <h2>Listed Securities</h2>
+
+                <!-- Header Section -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div class="Live">
+                        <button type="button" onclick="window.location.href='{{ route('scrape') }}'">Live
+                            Market</button>
+                    </div>
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Search by Symbol..." />
+                    </div>
                 </div>
-                <div class="data-right">
-                    <p>{{$event->price}}</p>
-                    <p>{{$event->event_date}}</p>
+
+                <!-- Table Container -->
+                <div class="table-container">
+                    <table id="securitiesTable">
+                        <thead>
+                            <tr>
+                                <th>S.N</th>
+                                <th>Date</th>
+                                <th>Security ID</th>
+                                <th>
+                                    <span id="symbolHeader">Symbol</span>
+                                    <button class="sort-button" onclick="sortTable()">Sort</button>
+                                    <button class="sort-button" onclick="resetTable()">Reset</button>
+                                </th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($securities as $security)
+                                <tr>
+                                    <td>{{ $security->stock_id }}</td>
+                                    <td>{{ $security->Date }}</td>
+                                    <td>{{ $security->S_ID }}</td>
+                                    <td>{{ $security->symbol }}</td>
+                                    <td>{{$security->Name}}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-</div>
-        @endforeach
-</div>
 
-<div id="listedsecuritiesSection" class="content-section listed-section" style="display: none;">
-    <h2>Listed Securities</h2>
+            <!-- JavaScript for Search and Sort -->
+            <script>
+                // Search functionality
+                document.getElementById('searchInput').addEventListener('input', function () {
+                    const searchValue = this.value.toUpperCase();
+                    const table = document.getElementById('securitiesTable');
+                    const rows = table.getElementsByTagName('tr');
+                    for (let i = 1; i < rows.length; i++) {
+                        const symbolCell = rows[i].getElementsByTagName('td')[3]; // Corrected index for Symbol column
+                        if (symbolCell) {
+                            const textValue = symbolCell.textContent || symbolCell.innerText;
+                            rows[i].style.display = textValue.toUpperCase().includes(searchValue) ? '' : 'none';
+                        }
+                    }
+                });
 
-    <!-- Header Section -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <div class="Live">
-            <button type="button" onclick="window.location.href='{{ route('scrape') }}'">Live Market</button>
-        </div>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search by Symbol..." />
-        </div>
-    </div>
+                let originalRows = [];
 
-    <!-- Table Container -->
-    <div class="table-container">
-        <table id="securitiesTable">
-            <thead>
-                <tr>
-                    <th>S.N</th>
-                    <th>Date</th>
-                    <th>Security ID</th>
-                    <th>
-                        <span id="symbolHeader">Symbol</span>
-                        <button class="sort-button" onclick="sortTable()">Sort</button>
-                        <button class="sort-button" onclick="resetTable()">Reset</button>
-                    </th>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($securities as $security)
-                <tr>
-                    <td>{{ $security->stock_id }}</td>
-                    <td>{{ $security->Date }}</td>
-                    <td>{{ $security->S_ID }}</td>
-                    <td>{{ $security->symbol }}</td>
-                    <td>{{$security->Name}}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
+                // Save the original rows when the page loads
+                window.addEventListener('DOMContentLoaded', function () {
+                    const table = document.getElementById('securitiesTable');
+                    const rows = Array.from(table.rows).slice(1); // Skip header
+                    originalRows = rows.map(row => row.cloneNode(true)); // Clone the original rows
+                });
 
-<!-- JavaScript for Search and Sort -->
-<script>
-    // Search functionality
-document.getElementById('searchInput').addEventListener('input', function () {
-    const searchValue = this.value.toUpperCase();
-    const table = document.getElementById('securitiesTable');
-    const rows = table.getElementsByTagName('tr');
-    for (let i = 1; i < rows.length; i++) {
-        const symbolCell = rows[i].getElementsByTagName('td')[3]; // Corrected index for Symbol column
-        if (symbolCell) {
-            const textValue = symbolCell.textContent || symbolCell.innerText;
-            rows[i].style.display = textValue.toUpperCase().includes(searchValue) ? '' : 'none';
-        }
-    }
-});
+                // Sort functionality
+                function sortTable() {
+                    const table = document.getElementById('securitiesTable');
+                    const rows = Array.from(table.rows).slice(1); // Skip header row
+                    const sortedRows = rows.sort((a, b) => {
+                        const symbolA = a.cells[3].textContent.trim().toUpperCase();
+                        const symbolB = b.cells[3].textContent.trim().toUpperCase();
+                        return symbolA.localeCompare(symbolB);
+                    });
+                    const tbody = table.querySelector('tbody');
+                    tbody.innerHTML = ''; // Clear the table
+                    sortedRows.forEach(row => tbody.appendChild(row)); // Append sorted rows
+                }
 
-let originalRows = [];
+                // Reset functionality
+                function resetTable() {
+                    const table = document.getElementById('securitiesTable');
+                    const tbody = table.querySelector('tbody');
+                    tbody.innerHTML = ''; // Clear the table
+                    originalRows.forEach(row => tbody.appendChild(row.cloneNode(true))); // Restore original rows
+                }
 
-// Save the original rows when the page loads
-window.addEventListener('DOMContentLoaded', function () {
-    const table = document.getElementById('securitiesTable');
-    const rows = Array.from(table.rows).slice(1); // Skip header
-    originalRows = rows.map(row => row.cloneNode(true)); // Clone the original rows
-});
-
-// Sort functionality
-function sortTable() {
-    const table = document.getElementById('securitiesTable');
-    const rows = Array.from(table.rows).slice(1); // Skip header row
-    const sortedRows = rows.sort((a, b) => {
-        const symbolA = a.cells[3].textContent.trim().toUpperCase();
-        const symbolB = b.cells[3].textContent.trim().toUpperCase();
-        return symbolA.localeCompare(symbolB);
-    });
-    const tbody = table.querySelector('tbody');
-    tbody.innerHTML = ''; // Clear the table
-    sortedRows.forEach(row => tbody.appendChild(row)); // Append sorted rows
-}
-
-// Reset functionality
-function resetTable() {
-    const table = document.getElementById('securitiesTable');
-    const tbody = table.querySelector('tbody');
-    tbody.innerHTML = ''; // Clear the table
-    originalRows.forEach(row => tbody.appendChild(row.cloneNode(true))); // Restore original rows
-}
-
-
-</script>
+            </script>
 
 
             <!-- Account Statement Section -->
             <div id="accountStatementSection" class="content-section" style="display: none;">
                 <h2>Account Statement</h2>
                 <!-- Account Statement content goes here -->
-            </div>            
-                  <!-- Buy History Section -->
+            </div>
+            <!-- Buy History Section -->
             <div id="buyHistorySection" class="content-section" style="display: none;">
                 <h2>Buy History</h2>
                 <!-- Buy History content goes here -->
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+                    rel="stylesheet">
                 <style>
                     .table-container {
                         margin-top: 20px;
-                        
+
                     }
-                    .table{
+
+                    .table {
                         width: 100%;
                     }
+
                     .table th {
                         background-color: #2a9d8f;
                         color: white;
                     }
                 </style>
-            </head>
-            <body>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="showEntries">Show 
-                                <select id="showEntries" class="form-select form-select-sm" style="width: auto; display: inline-block;">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select> entries
-                            </label>
-                        </div>
-                        <!-- <div class="col-md-6 text-end">
+                </head>
+
+                <body>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="showEntries">Show
+                                    <select id="showEntries" class="form-select form-select-sm"
+                                        style="width: auto; display: inline-block;">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select> entries
+                                </label>
+                            </div>
+                            <!-- <div class="col-md-6 text-end">
                             <input type="text" id="searchBox" class="form-control form-control-sm" placeholder="Search">
                         </div> -->
+                        </div>
+
+                        <div class="table-container">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Action</th>
+                                        <th>Stock</th>
+                                        <th>Type</th>
+                                        <th>Quantity</th>
+                                        <th>Purchase Price</th>
+                                        <th>Selling price</th>
+                                        <th>Profit amount</th>
+                                        <th>CGT</th>
+                                        <th>Amt Receivable</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    
-                    <div class="table-container">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Action</th>
-                                    <th>Stock</th>
-                                    <th>Type</th>
-                                    <th>Quantity</th>
-                                    <th>Purchase Price</th>
-                                    <th>Selling price</th>
-                                    <th>Profit amount</th>
-                                    <th>CGT</th>
-                                    <th>Amt Receivable</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            
+
             </div>
             <!-- Trader Analytics Section -->
             <div id="traderAnalyticsSection" class="content-section" style="display: none;">
@@ -317,174 +391,178 @@ function resetTable() {
 
             <!-- Settings Section -->
             <!-- Settings Section -->
-<div id="settingsSection" class="content-section" style="display: none;">
-    <h2>Settings</h2>
-    <div class="profile-container">
-        <img id="profileImage" class="profile-img" src="default-profile.png" alt="Profile Image" />
-        <button id="editProfileButton" class="edit-profile-btn">Edit</button>
-    </div>
-    <div class="user-details">
-        <h3>User Details</h3>
-        <form id="userDetailsForm">
-            <label for="username">Username</label>
-            <label for="email">Email</label>
-            <label for="phone">Phone No.</label>
-        </form>
-    </div>
-    <div class="change-password">
-        <h3>Change Password</h3>
-        <form id="passwordForm">
-            <label for="currentPassword">Current Password</label>
-            <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password" />
+            <div id="settingsSection" class="content-section" style="display: none;">
+                <h2>Settings</h2>
+                <div class="profile-container">
+                    <img id="profileImage" class="profile-img" src="default-profile.png" alt="Profile Image" />
+                    <button id="editProfileButton" class="edit-profile-btn">Edit</button>
+                </div>
+                <div class="user-details">
+                    <h3>User Details</h3>
+                    <form id="userDetailsForm">
+                        <label for="username">Username</label>
+                        <label for="email">Email</label>
+                        <label for="phone">Phone No.</label>
+                    </form>
+                </div>
+                <div class="change-password">
+                    <h3>Change Password</h3>
+                    <form id="passwordForm">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" name="currentPassword"
+                            placeholder="Enter current password" />
 
-            <label for="newPassword">New Password</label>
-            <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password" />
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password" />
 
-            <label for="retypePassword">Retype Password</label>
-            <input type="password" id="retypePassword" name="retypePassword" placeholder="Retype new password" />
-        </form>
-    </div>
-</div>
+                        <label for="retypePassword">Retype Password</label>
+                        <input type="password" id="retypePassword" name="retypePassword"
+                            placeholder="Retype new password" />
+                    </form>
+                </div>
+            </div>
 
-<!-- Popup Modal -->
-<div id="imageUploadModal" class="modal">
-    <div class="modal-content">
-        <span id="closeModal" class="close">&times;</span>
-        <h3>Upload Profile Image</h3>
-        <input type="file" id="imageInput" />
-        <button id="saveImageButton">Save</button>
-    </div>
-</div>
+            <!-- Popup Modal -->
+            <div id="imageUploadModal" class="modal">
+                <div class="modal-content">
+                    <span id="closeModal" class="close">&times;</span>
+                    <h3>Upload Profile Image</h3>
+                    <input type="file" id="imageInput" />
+                    <button id="saveImageButton">Save</button>
+                </div>
+            </div>
 
         </div>
     </div>
 
- <!-- Add Stock Pop-Up Form -->
-<div id="addStockPopup" class="popup">
-    <div class="popup-content">
-        <span class="close">&times;</span>
-        <h2>Add New Stock</h2>
-        <form id="addStockForm" action="/add-stock" method="POST">
-            @csrf
-            <label for="stockName">Stock Name:</label>
-            <select id="stockName" name="stockName" required>
-                <option value="" disabled selected>Select Stock</option>
-                @foreach($symbols as $symbol)
-                <option value="{{$symbol}}">{{$symbol}}</option>
-                @endforeach
-            </select>
-            <label for="select" id="select" class="ok">Type</label>
-            <select id="sel" class="form-select" name="type">
-                <option value="IPO">IPO</option>
-                <option value="Secondary">Secondary</option>
-                <option value="Right">Right</option>
-                <option value="Bonus">Bonus</option>
-            </select> <br>
-            <label for="purchasePrice">Purchase Price:</label>
-            <input type="number" id="purchasePrice" name="purchasePrice" step="0.01" required>
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" required>
-            
-            <!-- Hidden Fields for Confirmation Data -->
-            <input type="hidden" id="confirmTotalAmount" name="totalAmount">
-            <input type="hidden" id="confirmSebonCommission" name="sebonCommission">
-            <input type="hidden" id="confirmBrokerCommission" name="brokerCommission">
-            <input type="hidden" id="confirmDpFee" name="dpFee">
-            <input type="hidden" id="confirmWacc" name="wacc">
-            <input type="hidden" id="confirmTotalCost" name="totalCost">
+    <!-- Add Stock Pop-Up Form -->
+    <div id="addStockPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>Add New Stock</h2>
+            <form id="addStockForm" action="/add-stock" method="POST">
+                @csrf
+                <label for="stockName">Stock Name:</label>
+                <select id="stockName" name="stockName" required>
+                    <option value="" disabled selected>Select Stock</option>
+                    @foreach($symbols as $symbol)
+                        <option value="{{$symbol}}">{{$symbol}}</option>
+                    @endforeach
+                </select>
+                <label for="select" id="select" class="ok">Type</label>
+                <select id="sel" class="form-select" name="type">
+                    <option value="IPO">IPO</option>
+                    <option value="Secondary">Secondary</option>
+                    <option value="Right">Right</option>
+                    <option value="Bonus">Bonus</option>
+                </select> <br>
+                <label for="purchasePrice">Purchase Price:</label>
+                <input type="number" id="purchasePrice" name="purchasePrice" step="0.01" required>
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" required>
+
+                <!-- Hidden Fields for Confirmation Data -->
+                <input type="hidden" id="confirmTotalAmount" name="totalAmount">
+                <input type="hidden" id="confirmSebonCommission" name="sebonCommission">
+                <input type="hidden" id="confirmBrokerCommission" name="brokerCommission">
+                <input type="hidden" id="confirmDpFee" name="dpFee">
+                <input type="hidden" id="confirmWacc" name="wacc">
+                <input type="hidden" id="confirmTotalCost" name="totalCost">
+                <input type="hidden" id="portfolio_id" name="portfolio_id">
+
+                <!-- Buttons -->
+                <button type="button" id="addStockBtn">OK</button>
+                <button type="button" id="cancelStockBtn">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Buy Confirmation Popup -->
+    <div id="confirmPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>Confirm Stock Details</h2>
+            <p>Total Amount: Rs. <span id="confirmTotalAmountDisplay"></span></p>
+            <p>SEBON Commission: Rs. <span id="confirmSebonCommissionDisplay"></span></p>
+            <p>Broker Commission: Rs. <span id="confirmBrokerCommissionDisplay"></span></p>
+            <p>DP Fee: Rs. <span id="confirmDpFeeDisplay"></span></p>
+            <p>WACC: Rs. <span id="confirmWaccDisplay"></span></p>
+            <p>Total Cost: Rs. <span id="confirmTotalCostDisplay"></span></p>
 
             <!-- Buttons -->
-            <button type="button" id="addStockBtn">OK</button>
-            <button type="button" id="cancelStockBtn">Cancel</button>
-        </form>
+            <button type="submit" id="send">OK</button>
+            <button type="button" id="cancelConfirmBtn">Cancel</button>
+            </form>
+
+        </div>
     </div>
-</div>
 
-<!-- Buy Confirmation Popup -->
-<div id="confirmPopup" class="popup">
-    <div class="popup-content">
-        <span class="close">&times;</span>
-        <h2>Confirm Stock Details</h2>
-        <p>Total Amount: Rs. <span id="confirmTotalAmountDisplay"></span></p>
-        <p>SEBON Commission: Rs. <span id="confirmSebonCommissionDisplay"></span></p>
-        <p>Broker Commission: Rs. <span id="confirmBrokerCommissionDisplay"></span></p>
-        <p>DP Fee: Rs. <span id="confirmDpFeeDisplay"></span></p>
-        <p>WACC: Rs. <span id="confirmWaccDisplay"></span></p>
-        <p>Total Cost: Rs. <span id="confirmTotalCostDisplay"></span></p>
+    {{--
+    <script>
+        // Convert the stock name to uppercase as the user types
+        document.getElementById('stockName').addEventListener('input', function () {
+            this.value = this.value.toUpperCase();
+        });
 
-        <!-- Buttons -->
-        <button type="button" id="send">OK</button>
-        <button type="button" id="cancelConfirmBtn">Cancel</button>
-    </div>
-</div>
+        // Optional: Handling pop-up open and close actions
+        var popup = document.getElementById('addStockPopup');
+        var closeBtn = document.getElementsByClassName('close')[0];
 
-{{-- 
-<script>
-// Convert the stock name to uppercase as the user types
-document.getElementById('stockName').addEventListener('input', function() {
-    this.value = this.value.toUpperCase();
-});
+        function openPopup() {
+            popup.style.display = "block";
+        }
 
-// Optional: Handling pop-up open and close actions
-var popup = document.getElementById('addStockPopup');
-var closeBtn = document.getElementsByClassName('close')[0];
+        function closePopup() {
+            popup.style.display = "none";
+        }
 
-function openPopup() {
-    popup.style.display = "block";
-}
+        closeBtn.onclick = closePopup;
 
-function closePopup() {
-    popup.style.display = "none";
-}
-
-closeBtn.onclick = closePopup;
-
-window.onclick = function(event) {
-    if (event.target == popup) {
-        closePopup();
-    }
-};
-</script> --}}
+        window.onclick = function (event) {
+            if (event.target == popup) {
+                closePopup();
+            }
+        };
+    </script> --}}
 
 
 
     <!-- Sell Stock Pop-Up Form -->
-<div id="sellStockPopup" class="popup">
-    <div class="popup-content">
-        <span class="close">&times;</span>
-        <h2>Sell your stock</h2>
-        <form id="sellStockForm">
-            <label for="stockName">Stock Name:</label>
-            <input type="text" id="sName" name="stockName" required>
-            
-            <label for="sellingPrice">Selling Price:</label>
-            <input type="number" id="sellingPrice" name="sellingPrice" step="0.01" required>
-            
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" required>
+    <div id="sellStockPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>Sell your stock</h2>
+            <form id="sellStockForm">
+                <label for="stockName">Stock Name:</label>
+                <input type="text" id="sName" name="stockName" required>
 
-            <label for="sel">Capital gain Tax</label>
-            <select id="sel" class="form-select">
-            <option value="1">7.5%</option>
-            <option value="2">5%</option>
-            </select>
-            <br>
-            <button type="button" id="sellStockBtn">OK</button>
-            <button type="button" id="cancelSellStockBtn">Cancel</button>
-        </form>
+                <label for="sellingPrice">Selling Price:</label>
+                <input type="number" id="sellingPrice" name="sellingPrice" step="0.01" required>
+
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" required>
+
+                <label for="sel">Capital gain Tax</label>
+                <select id="sel" class="form-select">
+                    <option value="1">7.5%</option>
+                    <option value="2">5%</option>
+                </select>
+                <br>
+                <button type="button" id="sellStockBtn">OK</button>
+                <button type="button" id="cancelSellStockBtn">Cancel</button>
+            </form>
+        </div>
     </div>
-</div>
 
-<script>
-    // Automatically convert stock name to uppercase
-    document.getElementById('sName').addEventListener('input', function() {
-    this.value = this.value.toUpperCase();
-})
-</script>
+    <script>
+        // Automatically convert stock name to uppercase
+        document.getElementById('sName').addEventListener('input', function () {
+            this.value = this.value.toUpperCase();
+        })
+    </script>
 
 
-<!-- Add shareholder popup -->
-<div id="addShareholderPopup" class="popup" style="display: none;">
+    <!-- Add shareholder popup -->
+    <div id="addShareholderPopup" class="popup" style="display: none;">
         <div class="popup-content">
             <span class="close">&times;</span>
             <h2>Add New Portfolio</h2>
@@ -498,7 +576,7 @@ window.onclick = function(event) {
         </div>
     </div>
 
-   
+
 
     <!-- Sell  Confirmation Popup -->
     <div id="sellconfirmPopup" class="popup">
@@ -516,26 +594,27 @@ window.onclick = function(event) {
             <button type="button" id="cancelConfirmBtn">Cancel</button>
         </div>
     </div>
- <!-- Edit Portfolio Modal -->
-<div id="editPortfolioPopup" class="popup">
-    <div class="popup-content">
-        <input type="hidden" id="editPortfolioId">
-        <label for="editPortfolioName">Choose a portfolio</label>
-        
-        <span class="close">&times;</span>
-        <h2>Edit Portfolio</h2>
-        <form id="editPortfolioForm">
-             @foreach($portfolios as $portfolio)
-            <select name="portfolio" id="portfolio">
-                <option value="{{$portfolio->id}}">{{$portfolio->portfolio_name}}</option>
-            </select>
-            @endforeach
-            <input type="text" id="editPortfolioName" required>
-            <button type="submit">Update portfolio</button>
-            <button type="Delete">Delete Portfolio</button>
-        </form>
+    <!-- Edit Portfolio Modal -->
+    <div id="editPortfolioPopup" class="popup">
+        <div class="popup-content">
+            <input type="hidden" id="editPortfolioId">
+            <label for="editPortfolioName">Choose a portfolio</label>
+
+            <span class="close">&times;</span>
+            <h2>Edit Portfolio</h2>
+            <form id="editPortfolioForm">
+                @foreach($portfolios as $portfolio)
+                    <select name="portfolio" id="portfolio">
+                        <option value="{{$portfolio->id}}">{{$portfolio->portfolio_name}}</option>
+                    </select>
+                @endforeach
+                <input type="text" id="editPortfolioName" required>
+                <button type="submit">Update portfolio</button>
+                <button type="Delete">Delete Portfolio</button>
+            </form>
+        </div>
     </div>
-</div>
     <script src="{{ asset('js/script.js') }}"></script>
 </body>
+
 </html>
