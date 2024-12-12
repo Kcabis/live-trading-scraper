@@ -28,15 +28,23 @@ document.getElementById('addUser').addEventListener('click', function () {
 document.getElementById('addEvent').addEventListener('click', function () {
     document.getElementById('addEventPopup').style.display = 'block';
 });
+// Show Popup for Editing Event
+document.getElementById('edit-btn').addEventListener('click', function () {
+    document.getElementById('editEventPopup').style.display = 'flex';
+});
 
 // Hide Popup (User)
 document.getElementById('cancelUser').addEventListener('click', function () {
     document.getElementById('addUserPopup').style.display = 'none';
 });
 
-// Hide Popup (Add Event)
+// Hide Popup (Event)
 document.getElementById('cancelEvent').addEventListener('click', function () {
     document.getElementById('addEventPopup').style.display = 'none';
+});
+// Hide Popup (Edit)
+document.getElementById('canceleditEvent').addEventListener('click', function () {
+    document.getElementById('editEventPopup').style.display = 'none';
 });
 
 
@@ -140,7 +148,8 @@ document.getElementById('cancelEvent').addEventListener('click', function () {
 //         document.getElementById('eventType').value = type;
 //         document.getElementById('eventPrice').value = price;
 //         document.getElementById('eventDate').value = date;
-//     } else if (e.target && e.target.classList.contains('deleteEvent')) {
+//     } 
+//     else if (e.target && e.target.classList.contains('deleteEvent')) {
 //         e.target.closest('tr').remove();
 //     }
     

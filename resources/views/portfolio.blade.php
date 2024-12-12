@@ -128,6 +128,7 @@
     <h2>Events</h2>
     @foreach($events as $event)
     <!-- Container for cards -->
+     <div class="boxes">
     <div class="cards-container">
         <!-- Card 1 -->
         <div class="animated-card">
