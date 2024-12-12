@@ -286,17 +286,11 @@
                         <td>{{$event->event_date}}</td>
                         <td>
                         
-<<<<<<< HEAD
-                            <button type="button" id="edit-btn">Edit</button>
-                            <form action="#">
-                            <button type="button">Delete</button>
-=======
                             <button type="button" >Edit</button>
                             <form action="{{route('event.delete',$event->id)}}" method="post">
                                 @csrf
                                 @method('delete')
                             <button type="submit" >Delete</button>
->>>>>>> bdaeef095905e4c91cf1f970ff9dcd6cfc417b2c
                             </form>
                         </td>
                         </tr>
@@ -357,21 +351,10 @@
 
             <label for="eventType">Event Type:</label>
             <select id="eventType" name="event_type">
-<<<<<<< HEAD
-                <option value="IPO">IPO</option>
-                <option value="Right">Right</option>
-                <option value="Bonus">Bonus</option>
-                <option value="Auction">Auction</option>
-                <option value="FPO">FPO</option>
-                <option value="Debenture">Debenture</option>
-                <option value="Foreign Employement">Foreign Employement</option>
-                <option value="Foreign Employement">Foreign Employement</option>   
-=======
                 <option value="1">IPO</option>
                 <option value="2">Right</option>
                 <option value="3">Bonus</option>
                 <option value="4">Auction</option>
->>>>>>> bdaeef095905e4c91cf1f970ff9dcd6cfc417b2c
             </select>
    
             <label for="eventPrice">Price:</label>
