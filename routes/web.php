@@ -12,7 +12,8 @@ Route::post('/register', [RegistrationController::class, 'store']);
 
 
 
-Route::get('/scrape', [ScrapeController::class, 'scrape']);
+Route::get('/scrape', [ScrapeController::class, 'scrape'])->name('scrape');
+
 
 
 

@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Portfolio;
 use GuzzleHttp\Client;
 use App\Models\Stocks;
+use App\MOdels\ListedSecurity;
 
 class Dashboardcontroller extends Controller
 {
@@ -16,7 +17,8 @@ class Dashboardcontroller extends Controller
         $events=Event::all();
         $stocks= $this->getStocksWithLTPfromMerolagani();
         $symbols = $this->scrape();
-        return view('portfolio', compact('portfolios','events' , 'symbols' , 'stocks')); // Pass data to the view
+        $securities = ListedSecurity::all();
+        return view('portfolio', compact('portfolios','events' , 'symbols' , 'stocks','securities')); // Pass data to the view
     }
 
 

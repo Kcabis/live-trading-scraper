@@ -95,7 +95,7 @@ table th, table td {
 
 table th {
     background-color: #4A90E2;
-    color: #fff;
+    color:darkblue;
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -125,3 +125,4 @@ table tbody tr td {
 .sort-button:hover {
     background-color: #bbb;
 }
+

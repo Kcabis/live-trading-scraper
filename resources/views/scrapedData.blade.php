@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scraped Data</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Add any CSS file if necessary -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,11 +13,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: start;
             height: 100vh;
         }
 
         h1 {
+            margin-top: 20px;
             margin-bottom: 20px;
             color: #333;
             text-align: center;
@@ -84,9 +84,38 @@
                 padding: 8px 10px;
             }
         }
+
+        /* Back button styling */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .back-button:active {
+            transform: scale(1);
+        }
     </style>
 </head>
 <body>
+    <!-- Back button -->
+    <a href="{{ route('dashboard') }}" class="back-button">Back</a>
+
     <h1>Scraped Stock Data</h1>
 
     <div class="search-bar">
