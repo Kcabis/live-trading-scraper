@@ -44,7 +44,15 @@
             <!-- Dashboard Section -->
             <div id="dashboardSection" class="content-section">
                 <div class="shareholder-options">
-                    <select id="shareholderSelect">
+                   
+
+                    <div style="
+                        display: flex;
+                        justify-content: start;
+                        align-items: center;
+                        margin-top: 20px;
+                    ">
+                     <select id="shareholderSelect">
                         <option value="" disabled selected>Select Portfolio</option>
                         @foreach($portfolios as $portfolio)
                             <option value="{{$portfolio->id}}"> {{$portfolio->portfolio_name}}</option>
@@ -63,35 +71,42 @@
 
                     </script>
 
-                    <div style="
-                        display: flex;
-                        justify-content: start;
-                        align-items: center;
-                        margin-top: 20px;
-                    ">
-                    <form id="searchStockForm" action="/portfolio" method="GET">
-                        <input type="hidden" id="portfolio_id" name="portfolio_id">
-                        <button type="submit"
-                            style="background-color: #2a9d8f; color: white; border: none; padding: 10px 20px; margin-left: 10px;"
-                        >Search</button>
-                    </form>
+                        <form id="searchStockForm" action="/portfolio" method="GET">
+                            <input type="hidden" id="portfolio_id" name="portfolio_id">
+                            <button type="submit" style="padding: 8px;
+    font-size: 12px;
+    margin-left: 10px; /* Space between buttons */
+    cursor: pointer;
+    background-color: #ccc; /* Blue background for buttons */
+    color: black;
+    border: none;
+    border-radius: 8px;">Search</button>
+                        </form>
 
-                    <form id="clearStockForm" action="/portfolio" method="GET">
-                        <button type="submit"
-                            style="background-color: #2a9d8f; color: white; border: none; padding: 10px 20px; margin-left: 10px;"
-                        >Clear</button>
-                    </form>
-                </div>
+                        <form id="clearStockForm" action="/portfolio" method="GET">
+                            <button type="submit" style="padding: 8px;
+    font-size: 12px;
+    margin-left: 10px; /* Space between buttons */
+    cursor: pointer;
+    background-color: #ccc; /* Blue background for buttons */
+    color: black;
+    border: none;
+    border-radius: 8px;">Clear</button>
+                        </form>
+
+                        <button id="addShareholder">Add Portfolio</button>
+                        <button id="editShareholder">Edit Portfolio</button>
+
+                    </div>
 
 
 
-                    <button id="addShareholder">Add Portfolio</button>
-                    <button id="editShareholder">Edit Portfolio</button>
+
                 </div>
                 <div class="overview">
                     <div class="card1">
                         <h3>Portfolio Value</h3>
-                        <p id="marketValue">Rs 0.00</p>
+                        <p id="portfolioVal">Rs 0.00</p>
                     </div>
                     <div class="card2">
                         <h3>Current Investment</h3>
@@ -157,7 +172,8 @@
                                             var ltpRaw = '{{$stock->ltp}}'.replace(/,/g, '');
                                             var ltp = parseFloat(ltpRaw);
                                             var marketValue = ltp * quantity;
-                                            document.write(marketValue.toFixed(2));
+                                            document.write('<p id="marketValue">' + marketValue + '</p>' +
+                                                '<input type="hidden" id="marketValueRaw" value="' + marketValue + '">');
                                         </script>
                                     </td>
                                     <td>
@@ -185,6 +201,38 @@
                                 </tr>
 
                             @endforeach
+
+                            <script>
+                                // calculate all market value sum and append to portfolioVal
+                                var marketValueSum = 0;
+                                var marketValueElements = document.querySelectorAll('#marketValueRaw');
+                                marketValueElements.forEach(function (element) {
+                                    marketValueSum += parseFloat(element.value);
+                                });
+                                document.getElementById('portfolioVal').textContent = 'Rs. ' + marketValueSum.toFixed(2);
+
+
+                            </script>
+
+                            <style>
+                                .profit-badge {
+                                    background-color: #2a9d8f;
+                                    color: white;
+                                    padding: 5px 10px;
+                                    border-radius: 5px;
+                                }
+
+                                .loss-badge {
+                                    background-color: #e76f51;
+                                    color: white;
+                                    padding: 5px 10px;
+                                    border-radius: 5px;
+                                }
+
+                                #marketValueRaw {
+                                    display: none;
+                                }
+                            </style>
                         </tbody>
 
                     </table>
