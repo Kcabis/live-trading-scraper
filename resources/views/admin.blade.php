@@ -281,7 +281,7 @@
                         <td>{{$event->event_date}}</td>
                         <td>
                         
-                            <button type="button" >Edit</button>
+                            <button type="button" id="edit-btn">Edit</button>
                             <form action="#">
                             <button type="button">Delete</button>
                             </form>
@@ -350,11 +350,8 @@
                 <option value="Auction">Auction</option>
                 <option value="FPO">FPO</option>
                 <option value="Debenture">Debenture</option>
-<<<<<<< HEAD
                 <option value="Foreign Employement">Foreign Employement</option>
-=======
                 <option value="Foreign Employement">Foreign Employement</option>   
->>>>>>> 8818e6b45407d6ad2f8e87c03c5152561be61f25
             </select>
    
             <label for="eventPrice">Price:</label>
@@ -365,6 +362,40 @@
 
             <button type="submit" id="saveEvent">Save</button>
             <button type="button" id="cancelEvent">Cancel</button>
+        </form>
+    </div>
+</div>
+<div id="editEventPopup" class="popup" style="display: none;">
+    <div class="popup-content">
+        <h2>Add New Event</h2>
+        <form id="addEventForm" action="/add-event" method="POST">
+            @csrf
+            <label for="eventName">Event Name:</label>
+            <input type="text" name="event_name"id="eventName" required>
+
+            <label for="stockName">Stock Name:</label>
+            <input type="text" name="stock_name" id="stockName" required>
+
+            <label for="eventType">Event Type:</label>
+            <select id="eventType" name="event_type">
+                <option value="IPO">IPO</option>
+                <option value="Right">Right</option>
+                <option value="Bonus">Bonus</option>
+                <option value="Auction">Auction</option>
+                <option value="FPO">FPO</option>
+                <option value="Debenture">Debenture</option>
+                <option value="Foreign Employement">Foreign Employement</option>
+                <option value="Foreign Employement">Foreign Employement</option>   
+            </select>
+   
+            <label for="eventPrice">Price:</label>
+            <input type="number" name="price" id="eventPrice" required>
+
+            <label for="eventDate">Event Date:</label>
+            <input type="date" name="event_date" id="eventDate" required>
+
+            <button type="submit" id="saveEvent">Save</button>
+            <button type="button" id="canceleditEvent">Cancel</button>
         </form>
     </div>
 </div>

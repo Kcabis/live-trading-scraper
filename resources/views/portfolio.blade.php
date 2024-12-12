@@ -112,6 +112,7 @@
     <h2>Events</h2>
     @foreach($events as $event)
     <!-- Container for cards -->
+     <div class="boxes">
     <div class="cards-container">
         <!-- Card 1 -->
         <div class="animated-card">
@@ -128,6 +129,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    </div>
         @endforeach
 </div>
 
@@ -244,11 +247,7 @@
 </div>
 
     <!-- buy Confirmation Popup -->
-<<<<<<< HEAD
     <!-- <div id="confirmPopup" class="buypopup">
-=======
-    <div id="confirmPopup" class="popup">
->>>>>>> 8818e6b45407d6ad2f8e87c03c5152561be61f25
         <div class="buypopup-content">
             <span class="close">&times;</span>
             <h2>Confirm Stock Details</h2>
