@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const cancelsellStockBtn =document.getElementById('cancelsellStockBtn');
     const sellconfirmPopup =document.getElementById('sellconfirmPopup');
     const sellconfirmBtn =document.getElementById('sellconfirmBtn');
-    const cancelconfirmBtn =document.getElementById('cancelconfirmBtn');
+    const cancelConfirmBtn =document.getElementById('cancelConfirmBtn');
 
 
     let shareholders = {}; // Stores all shareholders and their stock portfolios
@@ -86,16 +86,17 @@ document.querySelectorAll('#editPortfolioPopup .close').forEach(function(btn){
             confirmPopup.style.display='none';
         }
     });
-    document.querySelectorAll('#addStockPopup .close, #cancelStockBtn').forEach(function(btn) {
+       // Close Add Stock Popup
+       document.querySelectorAll('#addStockPopup .close, #cancelStockBtn').forEach(function (btn) {
         btn.addEventListener('click', function () {
             addStockPopup.style.display = 'none'; // Hide the popup
         });
     });
 
+    // Prevent form submission and handle logic manually
+    addStockBtn.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent form submission
 
-
-    // Adding a stock: If stock exists, update its values instead of creating a new row
-    addStockBtn.addEventListener('click', function () {
         const stockName = document.getElementById('stockName').value.trim();
         const purchasePrice = parseFloat(document.getElementById('purchasePrice').value);
         const quantity = parseInt(document.getElementById('quantity').value);
@@ -115,7 +116,7 @@ document.querySelectorAll('#editPortfolioPopup .close').forEach(function(btn){
         let brokerCommission = 0;
     
         // Commission charges only apply for secondary type buys
-        if (stock.buyType === "2") { // Secondary type
+        if (stock.buyType === "Secondary") { // Secondary type
             sebonCommission = totalAmount * 0.015 / 100; // Sebon commission is 0.015%
             brokerCommission = calculateBrokerCommission(totalAmount); // Calculate broker commission based on total amount
             dpFee=25;
@@ -124,14 +125,22 @@ document.querySelectorAll('#editPortfolioPopup .close').forEach(function(btn){
         const totalCost = totalAmount + dpFee + sebonCommission + brokerCommission;
         const wacc = totalCost / stock.quantity;
     
-        // Show all calculated values in confirmation popup
-        document.getElementById('confirmTotalAmount').textContent = totalAmount.toFixed(2);
-        document.getElementById('confirmSebonCommission').textContent = sebonCommission.toFixed(2);
-        document.getElementById('confirmBrokerCommission').textContent = brokerCommission.toFixed(2);
-        document.getElementById('confirmDpFee').textContent = dpFee.toFixed(2);
-        document.getElementById('confirmWacc').textContent = wacc.toFixed(2);
-        document.getElementById('confirmTotalCost').textContent = totalCost.toFixed(2);
-    
+    // Set the hidden fields in the form with the calculated data
+    document.getElementById('confirmTotalAmountDisplay').textContent = totalAmount.toFixed(2);
+    document.getElementById('confirmSebonCommissionDisplay').textContent = sebonCommission.toFixed(2);
+    document.getElementById('confirmBrokerCommissionDisplay').textContent = brokerCommission.toFixed(2);
+    document.getElementById('confirmDpFeeDisplay').textContent = dpFee.toFixed(2);
+    document.getElementById('confirmWaccDisplay').textContent = wacc.toFixed(2);
+    document.getElementById('confirmTotalCostDisplay').textContent = totalCost.toFixed(2);
+
+    // Fill hidden form inputs with calculated values
+    document.getElementById('confirmTotalAmount').value = totalAmount.toFixed(2);
+    document.getElementById('confirmSebonCommission').value = sebonCommission.toFixed(2);
+    document.getElementById('confirmBrokerCommission').value = brokerCommission.toFixed(2);
+    document.getElementById('confirmDpFee').value = dpFee.toFixed(2);
+    document.getElementById('confirmWacc').value = wacc.toFixed(2);
+    document.getElementById('confirmTotalCost').value = totalCost.toFixed(2);
+
         // Store WACC as purchase price for the current stock
         currentStock.purchasePrice = wacc;
         confirmPopup.style.display = 'flex';
@@ -215,6 +224,15 @@ document.querySelectorAll('#editPortfolioPopup .close').forEach(function(btn){
             return totalAmount * 0.27 / 100;
         }
     }
+    // Handle confirmation click event to submit the form
+document.getElementById('send').addEventListener('click', function () {
+    document.getElementById('addStockForm').submit(); // Submit the form to save data
+});
+
+// Cancel confirmation
+document.getElementById('cancelConfirmBtn').addEventListener('click', function () {
+    confirmPopup.style.display = 'none'; // Hide confirmation popup
+});
 
     // Open Sell Stock Popup
 document.getElementById('sellStock').addEventListener('click', function () {

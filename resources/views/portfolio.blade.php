@@ -271,7 +271,7 @@
         </div>
     </div>
 
-    <!-- Add Stock Pop-Up Form -->
+ <!-- Add Stock Pop-Up Form -->
 <div id="addStockPopup" class="popup">
     <div class="popup-content">
         <span class="close">&times;</span>
@@ -285,7 +285,7 @@
                 <option value="{{$symbol}}">{{$symbol}}</option>
                 @endforeach
             </select>
-            <label for="select" id="select" class="ok"> Type</label>
+            <label for="select" id="select" class="ok">Type</label>
             <select id="sel" class="form-select" name="type">
                 <option value="IPO">IPO</option>
                 <option value="Secondary">Secondary</option>
@@ -296,30 +296,41 @@
             <input type="number" id="purchasePrice" name="purchasePrice" step="0.01" required>
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" required>
-            <button type="submit" id="addStockBtn">OK</button>
+            
+            <!-- Hidden Fields for Confirmation Data -->
+            <input type="hidden" id="confirmTotalAmount" name="totalAmount">
+            <input type="hidden" id="confirmSebonCommission" name="sebonCommission">
+            <input type="hidden" id="confirmBrokerCommission" name="brokerCommission">
+            <input type="hidden" id="confirmDpFee" name="dpFee">
+            <input type="hidden" id="confirmWacc" name="wacc">
+            <input type="hidden" id="confirmTotalCost" name="totalCost">
+
+            <!-- Buttons -->
+            <button type="button" id="addStockBtn">OK</button>
             <button type="button" id="cancelStockBtn">Cancel</button>
+        </form>
     </div>
 </div>
 
-    <!-- buy Confirmation Popup -->
-    <div id="confirmPopup" class="buypopup">
-        <div class="buypopup-content">
-            <span class="close">&times;</span>
-            <h2>Confirm Stock Details</h2>
-            <p>Total Amount: Rs. <span id="confirmTotalAmount"></span></p>
-            <p>SEBON Commission: Rs. <span id="confirmSebonCommission"></span></p>
-            <p>Broker Commission: Rs. <span id="confirmBrokerCommission"></span></p>
-            <p>DP Fee: Rs. <span id="confirmDpFee"></span></p>
-            <p>WACC: Rs. <span id="confirmWacc"></span></p>
-            <p>Total Cost: Rs. <span id="confirmTotalCost"></span></p>
-            <button type="submit" id="send">OK</button>
-            <button type="button" id="cancelConfirmBtn">Cancel</button>
-        </div>
-    </div>
-    </form>
+<!-- Buy Confirmation Popup -->
+<div id="confirmPopup" class="popup">
+    <div class="popup-content">
+        <span class="close">&times;</span>
+        <h2>Confirm Stock Details</h2>
+        <p>Total Amount: Rs. <span id="confirmTotalAmountDisplay"></span></p>
+        <p>SEBON Commission: Rs. <span id="confirmSebonCommissionDisplay"></span></p>
+        <p>Broker Commission: Rs. <span id="confirmBrokerCommissionDisplay"></span></p>
+        <p>DP Fee: Rs. <span id="confirmDpFeeDisplay"></span></p>
+        <p>WACC: Rs. <span id="confirmWaccDisplay"></span></p>
+        <p>Total Cost: Rs. <span id="confirmTotalCostDisplay"></span></p>
 
+        <!-- Buttons -->
+        <button type="button" id="send">OK</button>
+        <button type="button" id="cancelConfirmBtn">Cancel</button>
+    </div>
 </div>
 
+{{-- 
 <script>
 // Convert the stock name to uppercase as the user types
 document.getElementById('stockName').addEventListener('input', function() {
@@ -345,7 +356,7 @@ window.onclick = function(event) {
         closePopup();
     }
 };
-</script>
+</script> --}}
 
 
 

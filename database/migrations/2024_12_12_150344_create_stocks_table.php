@@ -9,17 +9,24 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->string('stockName');
+            $table->string('stock_name');
             $table->string('type');
-            $table->decimal('purchasePrice', 10, 2);
-            $table->decimal('quantity',10,2);
+            $table->decimal('purchase_price', 10, 2);
+            $table->integer('quantity');
+            $table->decimal('total_amount', 10, 2);
+            $table->decimal('sebon_commission', 10, 2);
+            $table->decimal('broker_commission', 10, 2);
+            $table->decimal('dp_fee', 10, 2);
+            $table->decimal('wacc', 10, 2);
+            $table->decimal('total_cost', 10, 2);
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.
