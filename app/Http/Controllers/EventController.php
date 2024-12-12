@@ -30,5 +30,9 @@ class EventController extends Controller
        
         return view('admin',compact("events"));
     }
+    public function delete(Event $event){
+        $event->delete();
+        return redirect()->back()->with("message","Event deleted sucessfully");
+    }
 }
 

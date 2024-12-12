@@ -15,7 +15,9 @@ menuItems.forEach(item => {
         });
         targetSection.style.display = 'block';
     });
+    
 });
+
 
 // Show Popup for Adding User
 document.getElementById('addUser').addEventListener('click', function () {
@@ -25,6 +27,10 @@ document.getElementById('addUser').addEventListener('click', function () {
 // Show Popup for Adding Event
 document.getElementById('addEvent').addEventListener('click', function () {
     document.getElementById('addEventPopup').style.display = 'block';
+});
+// Show Popup for Editing Event
+document.getElementById('edit-btn').addEventListener('click', function () {
+    document.getElementById('editEventPopup').style.display = 'flex';
 });
 
 // Hide Popup (User)
@@ -36,6 +42,11 @@ document.getElementById('cancelUser').addEventListener('click', function () {
 document.getElementById('cancelEvent').addEventListener('click', function () {
     document.getElementById('addEventPopup').style.display = 'none';
 });
+// Hide Popup (Edit)
+document.getElementById('canceleditEvent').addEventListener('click', function () {
+    document.getElementById('editEventPopup').style.display = 'none';
+});
+
 
 // // Save User Data Dynamically into the Table
 // document.getElementById('saveUser').addEventListener('click', function () {
@@ -109,35 +120,37 @@ document.getElementById('cancelEvent').addEventListener('click', function () {
 // });
 
 // Edit and Delete User Actions
-document.addEventListener('click', function (e) {
-    if (e.target && e.target.classList.contains('editUser')) {
-        const row = e.target.closest('tr');
-        const id = row.cells[0].innerText;
-        const name = row.cells[1].innerText;
-        const email = row.cells[2].innerText;
-        const role = row.cells[3].innerText;
+// document.addEventListener('click', function (e) {
+//     if (e.target && e.target.classList.contains('editUser')) {
+//         const row = e.target.closest('tr');
+//         const id = row.cells[0].innerText;
+//         const name = row.cells[1].innerText;
+//         const email = row.cells[2].innerText;
+//         const role = row.cells[3].innerText;
 
-        document.getElementById('userName').value = name;
-        document.getElementById('userEmail').value = email;
-        document.getElementById('userRole').value = role;
+//         document.getElementById('userName').value = name;
+//         document.getElementById('userEmail').value = email;
+//         document.getElementById('userRole').value = role;
 
-        // Add save changes logic if needed
-    } else if (e.target && e.target.classList.contains('deleteUser')) {
-        e.target.closest('tr').remove();
-    } else if (e.target && e.target.classList.contains('editEvent')) {
-        const row = e.target.closest('tr');
-        const name = row.cells[0].innerText;
-        const stock = row.cells[1].innerText;
-        const type = row.cells[2].innerText;
-        const price = row.cells[3].innerText;
-        const date = row.cells[4].innerText;
+//         // Add save changes logic if needed
+//     } else if (e.target && e.target.classList.contains('deleteUser')) {
+//         e.target.closest('tr').remove();
+//     } else if (e.target && e.target.classList.contains('editEvent')) {
+//         const row = e.target.closest('tr');
+//         const name = row.cells[0].innerText;
+//         const stock = row.cells[1].innerText;
+//         const type = row.cells[2].innerText;
+//         const price = row.cells[3].innerText;
+//         const date = row.cells[4].innerText;
 
-        document.getElementById('eventName').value = name;
-        document.getElementById('stockName').value = stock;
-        document.getElementById('eventType').value = type;
-        document.getElementById('eventPrice').value = price;
-        document.getElementById('eventDate').value = date;
-    } else if (e.target && e.target.classList.contains('deleteEvent')) {
-        e.target.closest('tr').remove();
-    }
-});
+//         document.getElementById('eventName').value = name;
+//         document.getElementById('stockName').value = stock;
+//         document.getElementById('eventType').value = type;
+//         document.getElementById('eventPrice').value = price;
+//         document.getElementById('eventDate').value = date;
+//     } 
+//     else if (e.target && e.target.classList.contains('deleteEvent')) {
+//         e.target.closest('tr').remove();
+//     }
+    
+// });
