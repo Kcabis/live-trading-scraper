@@ -36,7 +36,7 @@ class AuthController extends Controller
             session(['user' => $member]);
 
             // Redirect to portfolio page
-            return redirect()->route('portfolio')->with('success', 'Login successful!');
+            return redirect()->route('dashboard')->with('success', 'Login successful!');
         }
 
         // If authentication fails

@@ -102,7 +102,7 @@
                             @foreach ($stocks as $stock)
                             <tr>
                                 <td>{{$stock->id}}</td>
-                                <td>{{$stock->symbol}}</td>
+                                <td>{{$stock->stockName}}</td>
                                 <td>{{$stock->purchase_price}}</td>
                                 <td>{{$stock->quantity}}</td>
                                 <td>{{$stock->purchase_value}}</td>
@@ -145,12 +145,7 @@
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-    </div>
-    </div>
-=======
 </div>
->>>>>>> bdaeef095905e4c91cf1f970ff9dcd6cfc417b2c
         @endforeach
 </div>
 
@@ -307,11 +302,7 @@
 </div>
 
     <!-- buy Confirmation Popup -->
-<<<<<<< HEAD
-    <!-- <div id="confirmPopup" class="buypopup">
-=======
     <div id="confirmPopup" class="buypopup">
->>>>>>> bdaeef095905e4c91cf1f970ff9dcd6cfc417b2c
         <div class="buypopup-content">
             <span class="close">&times;</span>
             <h2>Confirm Stock Details</h2>
