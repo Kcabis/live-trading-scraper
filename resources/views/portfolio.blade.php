@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{ asset('css/events.css')}}">
     <link rel="stylesheet" href="{{asset('css/settings.css')}}">
     <link rel="stylesheet" href="{{asset('css/listed.css')}}">
+
+   
 </head>
 
 <body>
@@ -60,16 +62,7 @@
                     </select>
 
 
-                    <script>
-
-                        shareholderSelect.addEventListener('change', function () {
-                            const selectedPortfolio = this.value;
-                            const portfolio_id = document.getElementById('portfolio_id');
-                            portfolio_id.value = selectedPortfolio;
-                            fetchPortfolioData(selectedPortfolio);
-                        });
-
-                    </script>
+                 
 
                         <form id="searchStockForm" action="/portfolio" method="GET">
                             <input type="hidden" id="portfolio_id" name="portfolio_id">
@@ -516,13 +509,16 @@
                 <input type="hidden" id="confirmDpFee" name="dpFee">
                 <input type="hidden" id="confirmWacc" name="wacc">
                 <input type="hidden" id="confirmTotalCost" name="totalCost">
-                <input type="hidden" id="portfolio_id" name="portfolio_id">
+                <input type="hidden" id="portfolio_id2" name="portfolio_id">
+
+
 
                 <!-- Buttons -->
                 <button type="button" id="addStockBtn">OK</button>
                 <button type="button" id="cancelStockBtn">Cancel</button>
         </div>
     </div>
+
 
     <!-- Buy Confirmation Popup -->
     <div id="confirmPopup" class="popup">
@@ -543,6 +539,8 @@
 
         </div>
     </div>
+
+
 
     {{--
     <script>

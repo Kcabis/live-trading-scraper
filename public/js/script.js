@@ -468,3 +468,18 @@ document.getElementById("saveImageButton").addEventListener("click", function ()
        
        
    });
+
+
+
+
+   shareholderSelect.addEventListener('change', function () {
+       const selectedPortfolio = this.value;
+       const portfolio_id = document.getElementById('portfolio_id');
+       const portfolio_id2 = document.getElementById('portfolio_id2');
+         portfolio_id2.value = selectedPortfolio;
+       portfolio_id.value = selectedPortfolio;
+       sessionStorage.setItem('selectedPortfolioId',selectedPortfolio);
+       console.log(sessionStorage.getItem('selectedPortfolioId'));
+   });
+   
+   
