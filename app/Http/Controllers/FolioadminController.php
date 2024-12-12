@@ -29,5 +29,10 @@ class FolioadminController extends Controller
         $folioadmins = Folioadmin::all();
         return view('admin',compact("folioadmins"));
     }
+    public function delete(Folioadmin $folioadmin){
+        $folioadmin->delete();
+        return redirect()->back()->with("message","User deleted sucessfully.");
+    
+    }
 
 }

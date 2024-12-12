@@ -49,6 +49,12 @@ document.addEventListener('DOMContentLoaded', function () {
         addShareholderPopup.style.display = 'none'; // Hide the popup
     });
 });
+document.querySelectorAll('#editPortfolioPopup .close').forEach(function(btn){
+    btn.addEventListener('click',function(){
+        editPortfolioPopup.style.display='none';
+
+    });
+});
 
 
     // Menu item click events
@@ -412,6 +418,34 @@ profileDropdown.addEventListener('mouseenter', () => {
 profileDropdown.addEventListener('mouseleave', () => {
     profileDropdown.style.display = 'none';
 });
+document.getElementById("profileImage").addEventListener("click", function () {
+    document.getElementById("imageUploadModal").style.display = "flex";
+});
+
+document.getElementById("editProfileButton").addEventListener("click", function () {
+    document.getElementById("imageUploadModal").style.display = "flex";
+});
+
+document.getElementById("closeModal").addEventListener("click", function () {
+    document.getElementById("imageUploadModal").style.display = "none";
+});
+
+document.getElementById("saveImageButton").addEventListener("click", function () {
+    const fileInput = document.getElementById("imageInput");
+    const profileImage = document.getElementById("profileImage");
+
+    if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            profileImage.src = e.target.result;
+            document.getElementById("imageUploadModal").style.display = "none";
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    } else {
+        alert("Please select an image!");
+    }
+});
+
 
        
        

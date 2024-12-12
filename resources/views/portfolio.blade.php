@@ -6,6 +6,7 @@
     <title>Portfolio Management Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/styles.css')}}">
     <link rel="stylesheet" href="{{ asset('css/events.css')}}">
+    <link rel="stylesheet" href="{{asset('css/settings.css')}}">
 </head>
 <body>
     <div class="dashboard">
@@ -97,8 +98,23 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody id="portfolioBody">
-                            <!-- Dynamic rows will be added here -->
+                        <tbody>
+                            @foreach ($stocks as $stock)
+                            <tr>
+                                <td>{{$stock->id}}</td>
+                                <td>{{$stock->symbol}}</td>
+                                <td>{{$stock->purchase_price}}</td>
+                                <td>{{$stock->quantity}}</td>
+                                <td>{{$stock->purchase_value}}</td>
+                                <td>{{$stock->ltp}}</td>
+                                <td>{{$stock->market_value}}</td>
+                                <td>{{$stock->profit_loss}}</td>
+                                <td>
+                                    <button class="sellStockBtn">Sell</button>
+                                </td>
+                            </tr>
+                            
+                            @endforeach
                         </tbody>
                        
                     </table>
@@ -129,8 +145,12 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
     </div>
     </div>
+=======
+</div>
+>>>>>>> bdaeef095905e4c91cf1f970ff9dcd6cfc417b2c
         @endforeach
 </div>
 
@@ -199,7 +219,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Table data will be populated dynamically -->
+                                
                             </tbody>
                         </table>
                     </div>
@@ -213,10 +233,46 @@
             </div>
 
             <!-- Settings Section -->
-            <div id="settingsSection" class="content-section" style="display: none;">
-                <h2>Settings</h2>
-                <!-- Settings content goes here -->
-            </div>
+            <!-- Settings Section -->
+<div id="settingsSection" class="content-section" style="display: none;">
+    <h2>Settings</h2>
+    <div class="profile-container">
+        <img id="profileImage" class="profile-img" src="default-profile.png" alt="Profile Image" />
+        <button id="editProfileButton" class="edit-profile-btn">Edit</button>
+    </div>
+    <div class="user-details">
+        <h3>User Details</h3>
+        <form id="userDetailsForm">
+            <label for="username">Username</label>
+            <label for="email">Email</label>
+            <label for="phone">Phone No.</label>
+        </form>
+    </div>
+    <div class="change-password">
+        <h3>Change Password</h3>
+        <form id="passwordForm">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password" />
+
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password" />
+
+            <label for="retypePassword">Retype Password</label>
+            <input type="password" id="retypePassword" name="retypePassword" placeholder="Retype new password" />
+        </form>
+    </div>
+</div>
+
+<!-- Popup Modal -->
+<div id="imageUploadModal" class="modal">
+    <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <h3>Upload Profile Image</h3>
+        <input type="file" id="imageInput" />
+        <button id="saveImageButton">Save</button>
+    </div>
+</div>
+
         </div>
     </div>
 
@@ -228,7 +284,12 @@
         <form id="addStockForm" action="/add-stock" method="POST">
             @csrf
             <label for="stockName">Stock Name:</label>
-            <input type="text" id="stockName" name="stockName" required>
+            <select id="stockName" name="stockName" required>
+                <option value="" disabled selected>Select Stock</option>
+                @foreach($symbols as $symbol)
+                <option value="{{$symbol}}">{{$symbol}}</option>
+                @endforeach
+            </select>
             <label for="select" id="select" class="ok"> Type</label>
             <select id="sel" class="form-select" name="type">
                 <option value="IPO">IPO</option>
@@ -242,12 +303,15 @@
             <input type="number" id="quantity" name="quantity" required>
             <button type="submit" id="addStockBtn">OK</button>
             <button type="button" id="cancelStockBtn">Cancel</button>
-        </form>
     </div>
 </div>
 
     <!-- buy Confirmation Popup -->
+<<<<<<< HEAD
     <!-- <div id="confirmPopup" class="buypopup">
+=======
+    <div id="confirmPopup" class="buypopup">
+>>>>>>> bdaeef095905e4c91cf1f970ff9dcd6cfc417b2c
         <div class="buypopup-content">
             <span class="close">&times;</span>
             <h2>Confirm Stock Details</h2>
@@ -257,10 +321,11 @@
             <p>DP Fee: Rs. <span id="confirmDpFee"></span></p>
             <p>WACC: Rs. <span id="confirmWacc"></span></p>
             <p>Total Cost: Rs. <span id="confirmTotalCost"></span></p>
-            <button type="button" id="confirmBtn">Confirm</button>
+            <button type="submit" id="send">OK</button>
             <button type="button" id="cancelConfirmBtn">Cancel</button>
         </div>
-    </div> -->
+    </div>
+    </form>
 
 </div>
 
@@ -364,13 +429,19 @@ window.onclick = function(event) {
  <!-- Edit Portfolio Modal -->
 <div id="editPortfolioPopup" class="popup">
     <div class="popup-content">
-        <span class="close" onclick="closeEditPopup()">&times;</span>
+        <input type="hidden" id="editPortfolioId">
+        <label for="editPortfolioName">Choose a portfolio</label>
+        
+        <span class="close">&times;</span>
         <h2>Edit Portfolio</h2>
         <form id="editPortfolioForm">
-            <input type="hidden" id="editPortfolioId">
-            <label for="editPortfolioName">Portfolio Name:</label>
+             @foreach($portfolios as $portfolio)
+            <select name="portfolio" id="portfolio">
+                <option value="{{$portfolio->id}}">{{$portfolio->portfolio_name}}</option>
+            </select>
+            @endforeach
             <input type="text" id="editPortfolioName" required>
-            <button type="submit">Save Changes</button>
+            <button type="submit">Update portfolio</button>
             <button type="Delete">Delete Portfolio</button>
         </form>
     </div>

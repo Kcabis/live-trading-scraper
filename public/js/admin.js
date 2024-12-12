@@ -152,4 +152,5 @@ document.getElementById('canceleditEvent').addEventListener('click', function ()
 //     else if (e.target && e.target.classList.contains('deleteEvent')) {
 //         e.target.closest('tr').remove();
 //     }
+    
 // });
