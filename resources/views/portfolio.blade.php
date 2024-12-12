@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Management Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/styles.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/events.css')}}">
+    <link rel="stylesheet" href="{{asset('css/settings.css')}}">
 </head>
 <body>
     <div class="dashboard">
@@ -27,6 +29,9 @@
         <div class="main-content">
             <header>
                 <div class="header-content">
+                    <div class="search-container">
+                    <p class="blinking-text">Welcome to Smart folio</p>
+                    </div>
                     <div class="profile-icon">
                         <img src="/image/bull.jpg" alt="Profile">
                     </div>
@@ -93,9 +98,25 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody id="portfolioBody">
-                            <!-- Dynamic rows will be added here -->
+                        <tbody>
+                            @foreach ($stocks as $stock)
+                            <tr>
+                                <td>{{$stock->id}}</td>
+                                <td>{{$stock->stockName}}</td>
+                                <td>{{$stock->purchase_price}}</td>
+                                <td>{{$stock->quantity}}</td>
+                                <td>{{$stock->purchase_value}}</td>
+                                <td>{{$stock->ltp}}</td>
+                                <td>{{$stock->market_value}}</td>
+                                <td>{{$stock->profit_loss}}</td>
+                                <td>
+                                    <button class="sellStockBtn">Sell</button>
+                                </td>
+                            </tr>
+                            
+                            @endforeach
                         </tbody>
+                       
                     </table>
                     <button id="addStock">Add Stock</button>
                     <button id="sellStock"> Sell stock</button>
@@ -103,10 +124,30 @@
             </div>
 
             <!-- Financials Section -->
-            <div id="eventsSection" class="content-section" style="display: none;">
-                <h2>Events</h2>
-                <!-- Financials content goes here -->
+            <div id="eventsSection" class="content-section events-section" style="display: none;">
+    <h2>Events</h2>
+    @foreach($events as $event)
+    <!-- Container for cards -->
+    <div class="cards-container">
+        <!-- Card 1 -->
+        <div class="animated-card">
+            
+            <h3 class="card-title">{{$event->event_name}}</h3>
+            <div class="card-data">
+                <div class="data-left">
+                    <p>{{$event->event_type}}</p>
+                    <p>{{$event->stock_name}}</p>
+                </div>
+                <div class="data-right">
+                    <p>{{$event->price}}</p>
+                    <p>{{$event->event_date}}</p>
+                </div>
             </div>
+        </div>
+</div>
+        @endforeach
+</div>
+
 
             <!-- Advanced Charts Section -->
             <div id="listedsecuritiesSection" class="content-section" style="display: none;">
@@ -172,7 +213,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Table data will be populated dynamically -->
+                                
                             </tbody>
                         </table>
                     </div>
@@ -186,14 +227,50 @@
             </div>
 
             <!-- Settings Section -->
-            <div id="settingsSection" class="content-section" style="display: none;">
-                <h2>Settings</h2>
-                <!-- Settings content goes here -->
-            </div>
+            <!-- Settings Section -->
+<div id="settingsSection" class="content-section" style="display: none;">
+    <h2>Settings</h2>
+    <div class="profile-container">
+        <img id="profileImage" class="profile-img" src="default-profile.png" alt="Profile Image" />
+        <button id="editProfileButton" class="edit-profile-btn">Edit</button>
+    </div>
+    <div class="user-details">
+        <h3>User Details</h3>
+        <form id="userDetailsForm">
+            <label for="username">Username</label>
+            <label for="email">Email</label>
+            <label for="phone">Phone No.</label>
+        </form>
+    </div>
+    <div class="change-password">
+        <h3>Change Password</h3>
+        <form id="passwordForm">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password" />
+
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password" />
+
+            <label for="retypePassword">Retype Password</label>
+            <input type="password" id="retypePassword" name="retypePassword" placeholder="Retype new password" />
+        </form>
+    </div>
+</div>
+
+<!-- Popup Modal -->
+<div id="imageUploadModal" class="modal">
+    <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <h3>Upload Profile Image</h3>
+        <input type="file" id="imageInput" />
+        <button id="saveImageButton">Save</button>
+    </div>
+</div>
+
         </div>
     </div>
 
-    <!-- Add Stock Pop-Up Form -->
+ <!-- Add Stock Pop-Up Form -->
 <div id="addStockPopup" class="popup">
     <div class="popup-content">
         <span class="close">&times;</span>
@@ -201,24 +278,58 @@
         <form id="addStockForm" action="/add-stock" method="POST">
             @csrf
             <label for="stockName">Stock Name:</label>
-            <input type="text" id="stockName" name="stockName" required> 
-            <label for="select" id="select" class="ok"> Type</label>
+            <select id="stockName" name="stockName" required>
+                <option value="" disabled selected>Select Stock</option>
+                @foreach($symbols as $symbol)
+                <option value="{{$symbol}}">{{$symbol}}</option>
+                @endforeach
+            </select>
+            <label for="select" id="select" class="ok">Type</label>
             <select id="sel" class="form-select" name="type">
-                <option value="1">IPO</option>
-                <option value="2">Secondary</option>
-                <option value="3">Right</option>
-                <option value="4">Bonus</option>
+                <option value="IPO">IPO</option>
+                <option value="Secondary">Secondary</option>
+                <option value="Right">Right</option>
+                <option value="Bonus">Bonus</option>
             </select> <br>
             <label for="purchasePrice">Purchase Price:</label>
             <input type="number" id="purchasePrice" name="purchasePrice" step="0.01" required>
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" required>
-            <button type="submit" id="addStockBtn">OK</button>
+            
+            <!-- Hidden Fields for Confirmation Data -->
+            <input type="hidden" id="confirmTotalAmount" name="totalAmount">
+            <input type="hidden" id="confirmSebonCommission" name="sebonCommission">
+            <input type="hidden" id="confirmBrokerCommission" name="brokerCommission">
+            <input type="hidden" id="confirmDpFee" name="dpFee">
+            <input type="hidden" id="confirmWacc" name="wacc">
+            <input type="hidden" id="confirmTotalCost" name="totalCost">
+
+            <!-- Buttons -->
+            <button type="button" id="addStockBtn">OK</button>
             <button type="button" id="cancelStockBtn">Cancel</button>
         </form>
     </div>
 </div>
 
+<!-- Buy Confirmation Popup -->
+<div id="confirmPopup" class="popup">
+    <div class="popup-content">
+        <span class="close">&times;</span>
+        <h2>Confirm Stock Details</h2>
+        <p>Total Amount: Rs. <span id="confirmTotalAmountDisplay"></span></p>
+        <p>SEBON Commission: Rs. <span id="confirmSebonCommissionDisplay"></span></p>
+        <p>Broker Commission: Rs. <span id="confirmBrokerCommissionDisplay"></span></p>
+        <p>DP Fee: Rs. <span id="confirmDpFeeDisplay"></span></p>
+        <p>WACC: Rs. <span id="confirmWaccDisplay"></span></p>
+        <p>Total Cost: Rs. <span id="confirmTotalCostDisplay"></span></p>
+
+        <!-- Buttons -->
+        <button type="button" id="send">OK</button>
+        <button type="button" id="cancelConfirmBtn">Cancel</button>
+    </div>
+</div>
+
+{{-- 
 <script>
 // Convert the stock name to uppercase as the user types
 document.getElementById('stockName').addEventListener('input', function() {
@@ -244,7 +355,7 @@ window.onclick = function(event) {
         closePopup();
     }
 };
-</script>
+</script> --}}
 
 
 
@@ -298,21 +409,7 @@ window.onclick = function(event) {
         </div>
     </div>
 
-    <!-- buy Confirmation Popup -->
-    <div id="confirmPopup" class="popup">
-        <div class="popup-content">
-            <span class="close">&times;</span>
-            <h2>Confirm Stock Details</h2>
-            <p>Total Amount: Rs. <span id="confirmTotalAmount"></span></p>
-            <p>SEBON Commission: Rs. <span id="confirmSebonCommission"></span></p>
-            <p>Broker Commission: Rs. <span id="confirmBrokerCommission"></span></p>
-            <p>DP Fee: Rs. <span id="confirmDpFee"></span></p>
-            <p>WACC: Rs. <span id="confirmWacc"></span></p>
-            <p>Total Cost: Rs. <span id="confirmTotalCost"></span></p>
-            <button type="button" id="confirmBtn">Confirm</button>
-            <button type="button" id="cancelConfirmBtn">Cancel</button>
-        </div>
-    </div>
+   
 
     <!-- Sell  Confirmation Popup -->
     <div id="sellconfirmPopup" class="popup">
@@ -330,6 +427,26 @@ window.onclick = function(event) {
             <button type="button" id="cancelConfirmBtn">Cancel</button>
         </div>
     </div>
+ <!-- Edit Portfolio Modal -->
+<div id="editPortfolioPopup" class="popup">
+    <div class="popup-content">
+        <input type="hidden" id="editPortfolioId">
+        <label for="editPortfolioName">Choose a portfolio</label>
+        
+        <span class="close">&times;</span>
+        <h2>Edit Portfolio</h2>
+        <form id="editPortfolioForm">
+             @foreach($portfolios as $portfolio)
+            <select name="portfolio" id="portfolio">
+                <option value="{{$portfolio->id}}">{{$portfolio->portfolio_name}}</option>
+            </select>
+            @endforeach
+            <input type="text" id="editPortfolioName" required>
+            <button type="submit">Update portfolio</button>
+            <button type="Delete">Delete Portfolio</button>
+        </form>
+    </div>
+</div>
     <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>

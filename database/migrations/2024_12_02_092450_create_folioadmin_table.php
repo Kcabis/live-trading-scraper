@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stocks', function (Blueprint $table) {
+        Schema::create('folioadmin', function (Blueprint $table) {
             $table->id();
-            $table->string('stockName');
-            $table->string('type');
-            $table->decimal('purchasePrice', 10, 2);
-            $table->decimal('quantity',10,2);
+            $table->string('user_name');
+            $table->string('email');
+            $table->string('password');
+            $table->string('role');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stocks');
+        Schema::dropIfExists('folioadmin');
     }
 };

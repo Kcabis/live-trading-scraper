@@ -15,7 +15,9 @@ menuItems.forEach(item => {
         });
         targetSection.style.display = 'block';
     });
+    
 });
+
 
 // Show Popup for Adding User
 document.getElementById('addUser').addEventListener('click', function () {
@@ -32,42 +34,45 @@ document.getElementById('cancelUser').addEventListener('click', function () {
     document.getElementById('addUserPopup').style.display = 'none';
 });
 
-// Hide Popup (Event)
+// Hide Popup (Add Event)
 document.getElementById('cancelEvent').addEventListener('click', function () {
     document.getElementById('addEventPopup').style.display = 'none';
 });
 
-// Save User Data Dynamically into the Table
-document.getElementById('saveUser').addEventListener('click', function () {
-    const userName = document.getElementById('userName').value;
-    const userEmail = document.getElementById('userEmail').value;
-    const userRole = document.getElementById('userRole').value;
 
-    if (userName && userEmail && userRole) {
-        const tableBody = document.getElementById('userBody');
-        const newRow = tableBody.insertRow();
+// // Save User Data Dynamically into the Table
+// document.getElementById('saveUser').addEventListener('click', function () {
+//     const userName = document.getElementById('userName').value;
+//     const userEmail = document.getElementById('userEmail').value;
+//     const userPassword = document.getElementById('Password').value;
+//     const userRole = document.getElementById('userRole').value;
 
-        const idCell = newRow.insertCell(0);
-        const nameCell = newRow.insertCell(1);
-        const emailCell = newRow.insertCell(2);
-        const roleCell = newRow.insertCell(3);
-        const actionCell = newRow.insertCell(4);
+//     if (userName && userEmail && userRole) {
+//         const tableBody = document.getElementById('userBody');
+//         const newRow = tableBody.insertRow();
 
-        const newId = tableBody.rows.length; // Assuming ID is based on row count
-        idCell.innerText = newId;
-        nameCell.innerText = userName;
-        emailCell.innerText = userEmail;
-        roleCell.innerText = userRole;
-        actionCell.innerHTML = `<button class="editUser">Edit</button><button class="deleteUser">Delete</button>`;
+//         const idCell = newRow.insertCell(0);
+//         const nameCell = newRow.insertCell(1);
+//         const emailCell = newRow.insertCell(2);
+//         const roleCell = newRow.insertCell(3);
+//         const roleCell = newRow.insertCell(3);
+//         const actionCell = newRow.insertCell(4);
 
-        document.getElementById('userName').value = '';
-        document.getElementById('userEmail').value = '';
-        document.getElementById('userRole').value = 'admin';
-        document.getElementById('addUserPopup').style.display = 'none';
-    } else {
-        alert('Please fill all fields');
-    }
-});
+//         const newId = tableBody.rows.length; // Assuming ID is based on row count
+//         idCell.innerText = newId;
+//         nameCell.innerText = userName;
+//         emailCell.innerText = userEmail;
+//         roleCell.innerText = userRole;
+//         actionCell.innerHTML = `<button class="editUser">Edit</button><button class="deleteUser">Delete</button>`;
+
+//         document.getElementById('userName').value = '';
+//         document.getElementById('userEmail').value = '';
+//         document.getElementById('userRole').value = 'admin';
+//         document.getElementById('addUserPopup').style.display = 'none';
+//     } else {
+//         alert('Please fill all fields');
+//     }
+// });
 
 // Save Event Data Dynamically into the Table
 // document.getElementById('saveEvent').addEventListener('click', function () {
@@ -107,35 +112,36 @@ document.getElementById('saveUser').addEventListener('click', function () {
 // });
 
 // Edit and Delete User Actions
-document.addEventListener('click', function (e) {
-    if (e.target && e.target.classList.contains('editUser')) {
-        const row = e.target.closest('tr');
-        const id = row.cells[0].innerText;
-        const name = row.cells[1].innerText;
-        const email = row.cells[2].innerText;
-        const role = row.cells[3].innerText;
+// document.addEventListener('click', function (e) {
+//     if (e.target && e.target.classList.contains('editUser')) {
+//         const row = e.target.closest('tr');
+//         const id = row.cells[0].innerText;
+//         const name = row.cells[1].innerText;
+//         const email = row.cells[2].innerText;
+//         const role = row.cells[3].innerText;
 
-        document.getElementById('userName').value = name;
-        document.getElementById('userEmail').value = email;
-        document.getElementById('userRole').value = role;
+//         document.getElementById('userName').value = name;
+//         document.getElementById('userEmail').value = email;
+//         document.getElementById('userRole').value = role;
 
-        // Add save changes logic if needed
-    } else if (e.target && e.target.classList.contains('deleteUser')) {
-        e.target.closest('tr').remove();
-    } else if (e.target && e.target.classList.contains('editEvent')) {
-        const row = e.target.closest('tr');
-        const name = row.cells[0].innerText;
-        const stock = row.cells[1].innerText;
-        const type = row.cells[2].innerText;
-        const price = row.cells[3].innerText;
-        const date = row.cells[4].innerText;
+//         // Add save changes logic if needed
+//     } else if (e.target && e.target.classList.contains('deleteUser')) {
+//         e.target.closest('tr').remove();
+//     } else if (e.target && e.target.classList.contains('editEvent')) {
+//         const row = e.target.closest('tr');
+//         const name = row.cells[0].innerText;
+//         const stock = row.cells[1].innerText;
+//         const type = row.cells[2].innerText;
+//         const price = row.cells[3].innerText;
+//         const date = row.cells[4].innerText;
 
-        document.getElementById('eventName').value = name;
-        document.getElementById('stockName').value = stock;
-        document.getElementById('eventType').value = type;
-        document.getElementById('eventPrice').value = price;
-        document.getElementById('eventDate').value = date;
-    } else if (e.target && e.target.classList.contains('deleteEvent')) {
-        e.target.closest('tr').remove();
-    }
-});
+//         document.getElementById('eventName').value = name;
+//         document.getElementById('stockName').value = stock;
+//         document.getElementById('eventType').value = type;
+//         document.getElementById('eventPrice').value = price;
+//         document.getElementById('eventDate').value = date;
+//     } else if (e.target && e.target.classList.contains('deleteEvent')) {
+//         e.target.closest('tr').remove();
+//     }
+    
+// });

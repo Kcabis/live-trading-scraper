@@ -1,0 +1,88 @@
+/* General Styles */
+.cards-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between; /* Distributes cards evenly */
+    flex-wrap: wrap; /* Allows wrapping to the next row */
+    margin-top: 20px;
+    max-width: 1080px; /* Adjust based on your layout needs */
+    margin-left: auto;
+    margin-right: auto; /* Center align the container */
+}
+
+.animated-card {
+     /* Adjust width to fit 4 cards per row */
+    max-width: 250px; /* Ensure consistent width */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .animated-card {
+        flex: 0 0 calc(50% - 20px); /* 2 cards per row for smaller screens */
+        max-width: 100%;
+    }
+}
+
+.animated-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #264653;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-data {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.data-left,
+.data-right {
+    text-align: left;
+    flex: 1;
+    font-size: 14px;
+}
+
+.data-left {
+    color: #2a9d8f;
+    text-align: left;
+}
+
+.data-right {
+    color: #e76f51;
+    text-align: right;
+}
+
+/* Hover Effects */
+.animated-card:hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(42, 157, 143, 0.1);
+    z-index: -1;
+    transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.animated-card:hover .card-title {
+    color: #e76f51;
+}
+
+

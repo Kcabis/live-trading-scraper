@@ -1,4 +1,6 @@
 <?php
+
+
 namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
@@ -64,5 +66,6 @@ class ScrapeController extends Controller
 
         // Pass the scraped data to the Blade view
         return view('scrapedData', ['data' => $data]);
+
     }
 }
