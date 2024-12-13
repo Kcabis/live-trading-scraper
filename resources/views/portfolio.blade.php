@@ -540,38 +540,6 @@
         </div>
     </div>
 
-
-
-    {{--
-    <script>
-        // Convert the stock name to uppercase as the user types
-        document.getElementById('stockName').addEventListener('input', function () {
-            this.value = this.value.toUpperCase();
-        });
-
-        // Optional: Handling pop-up open and close actions
-        var popup = document.getElementById('addStockPopup');
-        var closeBtn = document.getElementsByClassName('close')[0];
-
-        function openPopup() {
-            popup.style.display = "block";
-        }
-
-        function closePopup() {
-            popup.style.display = "none";
-        }
-
-        closeBtn.onclick = closePopup;
-
-        window.onclick = function (event) {
-            if (event.target == popup) {
-                closePopup();
-            }
-        };
-    </script> --}}
-
-
-
     <!-- Sell Stock Pop-Up Form -->
     <div id="sellStockPopup" class="popup">
         <div class="popup-content">
