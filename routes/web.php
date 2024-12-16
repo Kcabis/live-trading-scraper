@@ -97,6 +97,12 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
  use App\Http\Controllers\Dashboardcontroller;
  Route::get('/portfolio', [Dashboardcontroller::class, 'index'])->name('dashboard');
+ Route::get('/events', [Dashboardcontroller::class, 'events'])->name('events');
+Route::get('/listed-securities', [Dashboardcontroller::class, 'lsts'])->name('listed-securities');
+Route::get("/dash",[DashboardController::class,'index'])->name('dash');
+
+ 
+
 
  // routes/web.php
 
@@ -108,6 +114,49 @@ Route::post('/upload-csv', [ListedSecurityController::class, 'uploadCsv'])->name
 //event deletion
 Route::delete('event/delete/{event}',[EventController::class,'delete'])->name('event.delete');
 Route::delete('folioadmin/delete/{folioadmin}',[FolioadminController::class,'delete'])->name('folioadmin.delete');
+//Route::get("/events",[EventController::class,'evnt'])->name('events');
+
+//after creating layout codes
+Route::get('/dash', function () {
+    return view('dash');
+})->name('dash');
+
+//  Route::get('/events', function () {
+//      return view('events');
+// })->name('events');
+
+
+
+Route::get('/layout', function () {
+     return view('layout');
+})->name('layout');
+
+// Route::get('/listed-securities', function () {
+//     return view('listed-securities');
+// })->name('listed-securities');
+
+Route::get('/account-statement', function () {
+    return view('account-statement');
+})->name('account-statement');
+
+Route::get('/history', function () {
+    return view('history');
+})->name('history');
+
+Route::get('/trader-analytics', function () {
+    return view('trader-analytics');
+})->name('trader-analytics');
+
+Route::get('/settings', function () {
+    return view('settings');
+})->name('settings');
+
+//routes for  each section
+ //Route::get('/dash', [DashboardController::class, 'index'])->name('dashboard');
+ //Route::get('/events', [EventController::class, 'index'])->name('eventss');
+ //Route::get('/listed-securities', [ListedSecurityController::class, 'index'])->name('listed-securities');
+// Route::get('/account-statement', [AccountStatementController::class, 'index'])->name('account-statement');
+// // Add more routes for other sections
 
 
 

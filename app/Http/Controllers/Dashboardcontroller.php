@@ -14,15 +14,26 @@ class Dashboardcontroller extends Controller
     public function index(Request $request)
     {   
         $portfolio_id = $request->query('portfolio_id');
-
         $portfolios= Portfolio::all(); // Fetch events from EventController logic
-        $events=Event::all();
+       // $events=Event::all();
         $stocks= $this->getStocksWithLTPfromMerolagani($portfolio_id);
         $symbols = $this->scrape();
-        $securities = ListedSecurity::all();
-        return view('portfolio', compact('portfolios','events' , 'symbols' , 'stocks','securities')); // Pass data to the view
+        // $securities = ListedSecurity::all();
+        return view('dash', compact('portfolios', 'symbols' , 'stocks')); // Pass data to the view
+        
     }
+   public function lsts( Request $request)
+   {
+    $securities = ListedSecurity::all();
+    return view('listed-securities',compact('securities'));
 
+   }
+   public function events( Request $request)
+   {
+    $events = Event::all();
+    return view('events',compact('events'));
+
+   }
 
     public function scrape()
     {

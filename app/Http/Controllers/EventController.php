@@ -27,9 +27,15 @@ class EventController extends Controller
     }
     public function index(){
         $events = Event::all();
-       
         return view('admin',compact("events"));
     }
+    public function evnt()
+    {
+        $events = Event::all();
+        return view('events', compact('events'));
+    }
+
+
     public function delete(Event $event){
         $event->delete();
         return redirect()->back()->with("message","Event deleted sucessfully");
