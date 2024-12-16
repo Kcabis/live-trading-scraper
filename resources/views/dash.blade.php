@@ -11,7 +11,7 @@
     <!-- Dashboard content goes here -->
 
             <!-- Dashboard Section -->
-            <div id="dashboardSection2" class="content-section2">
+            <div id="dashboardSection" class="content">
                 <div class="shareholder-options">
                    
 

@@ -26,7 +26,7 @@
     </div>
 @endsection
 @push('scripts')
-    <script>
+    {{-- <script>
         // Function to load content dynamically based on section name
         function loadSection(section) {
             // Use AJAX to load the content of the section dynamically
@@ -42,7 +42,7 @@
 
         // Optionally, load the default section when the page is first loaded
         window.onload = () => loadSection('dashboard');
-    </script>
+    </script> --}}
 @endpush
 
             
