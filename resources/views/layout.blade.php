@@ -19,7 +19,7 @@
             <ul>
                 <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                 <li><a href="{{ route('events') }}">Events</a></li>
-                <li><a href="{{ route('listed-securities') }}">Listed Securities</a></li>
+                <li><a href="{{ route('listedsecurities') }}">Listed Securities</a></li>
                 <li><a href="{{ route('account-statement') }}">Account Statement</a></li>
                 <li><a href="{{ route('history') }}">History</a></li>
                 <li><a href="{{ route('trader-analytics') }}">Trader Analytics</a></li>

@@ -17,10 +17,12 @@
             </ul>
 
         </div> --}}
+        <h1>this is my page</h1>
 
         <div class="main-content">
             <div id="contentArea">
                 <!-- The content for each section will be loaded dynamically here -->
+                <h1>hey there</h1>
             </div>
         </div>
     </div>

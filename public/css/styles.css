@@ -8,7 +8,8 @@ body {
 
 .dashboard {
     display: flex;
-    height: 100vh; /* Full height layout */
+    height: 100vh; 
+    width: 100%;/* Full height layout */
 }
 /* Sidebar styling */
 .sidebar {
@@ -415,9 +416,53 @@ header .profile-icon img {
     text-align:center; /* Center the text inside the box */
     width: 100px;
 }
-.conetnt{
+.content{
     width:100%;
+    height:100%;
 }
+.table-container {
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+.table-container h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.table-container input[type="text"] {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.table-container th, .table-container td {
+    text-align: center;
+    padding: 10px;
+}
+
+.table-container .table-dark {
+    background-color: #343a40;
+    color: white;
+}
+
+.table-container .btn-sm {
+    margin: 0 2px;
+}
+
+
 
 
 
