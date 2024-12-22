@@ -481,5 +481,14 @@ document.getElementById("saveImageButton").addEventListener("click", function ()
        sessionStorage.setItem('selectedPortfolioId',selectedPortfolio);
        console.log(sessionStorage.getItem('selectedPortfolioId'));
    });
+   document.getElementById('searchInput').addEventListener('input', function () {
+    const searchValue = this.value.toUpperCase();
+    const rows = document.querySelectorAll('#portfolioTable tr');
+    rows.forEach(row => {
+        const portfolioName = row.cells[1].textContent.toUpperCase();
+        row.style.display = portfolioName.includes(searchValue) ? '' : 'none';
+    });
+});
+
    
    

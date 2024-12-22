@@ -22,8 +22,6 @@
                     </div>
                 </div>
             </div>
-            <h1> hello there</h1>
-            <h2>hi there this is events section</h2>
         @endforeach
     </div>
     @endsection

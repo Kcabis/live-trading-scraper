@@ -98,8 +98,9 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin');
  use App\Http\Controllers\Dashboardcontroller;
  Route::get('/portfolio', [Dashboardcontroller::class, 'index'])->name('dashboard');
  Route::get('/events', [Dashboardcontroller::class, 'events'])->name('events');
-Route::get('/listed-securities', [Dashboardcontroller::class, 'lsts'])->name('listed-securities');
-Route::get("/dash",[DashboardController::class,'index'])->name('dash');
+ Route::get('/listedsecurities', [Dashboardcontroller::class, 'listed'])->name('listedsecurities');
+ Route::get("/dash",[DashboardController::class,'index'])->name('dash');
+ Route::get("/port",[DashboardController::class,'indexx'])->name('port');
 
  
 
@@ -150,8 +151,7 @@ Route::get('/trader-analytics', function () {
 Route::get('/settings', function () {
     return view('settings');
 })->name('settings');
-
-//routes for  each section
+ 
  //Route::get('/dash', [DashboardController::class, 'index'])->name('dashboard');
  //Route::get('/events', [EventController::class, 'index'])->name('eventss');
  //Route::get('/listed-securities', [ListedSecurityController::class, 'index'])->name('listed-securities');
