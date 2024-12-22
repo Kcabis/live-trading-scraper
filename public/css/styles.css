@@ -19,6 +19,7 @@ body {
     padding: 20px;
     position: relative;
     transition: width 0.3s; /* Smooth transition for width changes */
+    height: 100%;
 }
 
 /* Sidebar styling when collapsed */

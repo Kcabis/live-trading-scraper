@@ -1,4 +1,4 @@
-@extends('portfolio')
+@extends('layout')
 
 @section('title', 'Dashboard')
 
@@ -152,5 +152,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/script.js') }}"></script>
+<script src="{{ asset('js/port.js.js') }}"></script>
 @endpush
