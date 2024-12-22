@@ -362,3 +362,5 @@
     </div>
     @endsection
     <script src="{{ asset('js/script.js') }}"></script>
+
+

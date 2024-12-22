@@ -97,10 +97,7 @@
                                 <td>$00</td>
                                 <td>
 
-                        <form id="searchStockForm" action="/port" method="GET">
-                            <input type="hidden" id="portfolio_id" name="portfolio_id">
-                            <button type="submit"> View</button>
-                        </form>
+                                    <a class="btn btn-primary btn-sm" href="/port?portfolio_id={{$portfolio->id}}">View</a>
                                     <button class="btn btn-danger btn-sm">Delete</button>
                                 </td>
                             </tr>

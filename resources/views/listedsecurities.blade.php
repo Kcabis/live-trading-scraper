@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{asset('css/listed.css')}}">
 @endpush
 @section('content')
-<div id="listedsecuritiesSection" class="content-section listed-section" style="display: none;">
+<div id="listedsecuritiesSection" class="content-section listed-section">
     <h2>Listed Securities</h2>
 
     <!-- Header Section -->
