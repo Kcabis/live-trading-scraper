@@ -61,7 +61,6 @@
             </tr>
         </thead>
         <tbody>
-            @dd($stocks)
             @foreach ($stocks as $stock)
                 <tr>
                     <td>{{$stock->id}}</td>
