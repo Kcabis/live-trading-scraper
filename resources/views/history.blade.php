@@ -37,10 +37,12 @@
                         <th>Type</th>
                         <th>Quantity</th>
                         <th>Purchase Price</th>
+                        <th>Purchase amount</th>
                         <th>Selling price</th>
-                        <th>Profit amount</th>
+                        <th>Selling amount</th>
                         <th>CGT</th>
                         <th>Amt Receivable</th>
+                        <th>Profit/Loss</th>
                     </tr>
                 </thead>
                 <tbody>

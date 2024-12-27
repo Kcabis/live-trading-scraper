@@ -21,6 +21,7 @@ class StocksController extends Controller
             'dpFee' => 'required|numeric',
             'wacc' => 'required|numeric',
             'totalCost' => 'required|numeric',
+            'action' => 'required|string',
         ]);
 
         // Create a new stock record
@@ -36,6 +37,7 @@ class StocksController extends Controller
             'dp_fee' => $validated['dpFee'],
             'wacc' => $validated['wacc'],
             'total_cost' => $validated['totalCost'],
+            'action' => $validated['action'],
 
         ]);
 

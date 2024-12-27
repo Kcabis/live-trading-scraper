@@ -20,6 +20,7 @@ class Stocks extends Model
         'dp_fee',
         'wacc',
         'total_cost',
+        'action',
     ];
 
 

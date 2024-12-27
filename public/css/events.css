@@ -1,9 +1,9 @@
 /* General Styles */
 .cards-container {
     display: flex;
-    gap: 20px;
-    justify-content: space-between; /* Distributes cards evenly */
     flex-wrap: wrap; /* Allows wrapping to the next row */
+    gap: 20px; /* Adds space between the cards */
+    justify-content: space-between; /* Evenly distributes cards */
     margin-top: 20px;
     max-width: 1080px; /* Adjust based on your layout needs */
     margin-left: auto;
@@ -11,8 +11,8 @@
 }
 
 .animated-card {
-     /* Adjust width to fit 4 cards per row */
-    max-width: 250px; /* Ensure consistent width */
+    flex: 1 1 calc(33.33% - 20px); /* Allows 3 cards per row with space */
+    max-width: calc(33.33% - 20px); /* Ensure the cards fit within the row */
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -25,7 +25,14 @@
 
 @media (max-width: 768px) {
     .animated-card {
-        flex: 0 0 calc(50% - 20px); /* 2 cards per row for smaller screens */
+        flex: 1 1 calc(50% - 20px); /* 2 cards per row for smaller screens */
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .animated-card {
+        flex: 1 1 100%; /* 1 card per row for very small screens */
         max-width: 100%;
     }
 }
@@ -84,5 +91,3 @@
 .animated-card:hover .card-title {
     color: #e76f51;
 }
-
-

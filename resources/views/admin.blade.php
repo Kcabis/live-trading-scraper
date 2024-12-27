@@ -351,10 +351,10 @@
 
             <label for="eventType">Event Type:</label>
             <select id="eventType" name="event_type">
-                <option value="1">IPO</option>
-                <option value="2">Right</option>
-                <option value="3">Bonus</option>
-                <option value="4">Auction</option>
+                <option value="IPO">IPO</option>
+                <option value="Right">Right</option>
+                <option value="Bonus">Bonus</option>
+                <option value="Auction">Auction</option>
             </select>
    
             <label for="eventPrice">Price:</label>
