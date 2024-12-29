@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScrapeController;
 //use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\FolioadminController;
 
 Route::get('/register', function () {
     return view('registration');
@@ -82,7 +83,6 @@ Route::post('/add-stock', [StocksController::class, 'store']);
 
 //event controller
  use App\Http\Controllers\EventController;
- use App\Http\Controllers\FolioadminController;
 
 // Route::get('/admin', [EventController::class, 'index'])->name('admin');
  Route::post('/add-event', [EventController::class, 'store']);

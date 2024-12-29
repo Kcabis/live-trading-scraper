@@ -49,9 +49,8 @@ class Dashboardcontroller extends Controller
    // $events=Event::all();
     $stocks= $this->getStocksWithLTPfromMerolagani($portfolio_id);
     $symbols = $this->scrape();
-    // $securities = ListedSecurity::all();
+    // $securities = ListedSecurity::all()  ;
     return view('port', compact('portfolios', 'symbols' , 'stocks')); // Pass data to the view
-
    }
 
     public function scrape()
@@ -95,63 +94,75 @@ class Dashboardcontroller extends Controller
             }
 
 
-    public function getStocksWithLTPfromMerolagani($portfolio_id){
-       
-        $stocks = Stocks::where('portfolio_id', $portfolio_id)->get();
-        if($stocks->isEmpty()){
-            return $stocks;
-        }
-        
-
-        $client = new Client([
-            'headers' => [
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-            ]
-        ]);
-
-        $response = $client->get('https://merolagani.com/LatestMarket.aspx');
-        $html = $response->getBody()->getContents();
-
-        if (!$html) {
-            return response()->json(['error' => 'Failed to fetch the page content'], 500);
-        }
-
-        libxml_use_internal_errors(true); // Enable internal error handling
-
-        $dom = new \DOMDocument();
-
-        $dom->loadHTML($html); // Suppress warnings due to malformed HTML
-
-        $xpath = new \DOMXPath($dom);
-
-        $rows = $xpath->query('//table[contains(@class, "table")][1]/tbody/tr');
-
-        $data = [];
-
-        foreach ($rows as $row) {
-            $columns = $row->getElementsByTagName('td');
-            if ($columns->length >= 9){
-                $symbol = trim($columns->item(0)->textContent);
-                $ltp = trim($columns->item(1)->textContent);
-                $data[] = [
-                    'symbol' => $symbol,
-                    'ltp' => $ltp
-                ];
-            }
-        }
-
-
-        $stocks = $stocks->map(function($stock) use ($data){
-            $stock->ltp = 0;
-            foreach($data as $d){
-                if($stock->stock_name == $d['symbol']){
-                    $stock->ltp = $d['ltp'];
+            public function getStocksWithLTPfromMerolagani($portfolio_id)
+            {
+                $stocks = Stocks::where('portfolio_id', $portfolio_id)->get();
+                if ($stocks->isEmpty()) {
+                    return $stocks;
                 }
+            
+                $client = new Client([
+                    'headers' => [
+                        'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                    ]
+                ]);
+            
+                $response = $client->get('https://merolagani.com/LatestMarket.aspx');
+                $html = $response->getBody()->getContents();
+            
+                if (!$html) {
+                    return response()->json(['error' => 'Failed to fetch the page content'], 500);
+                }
+            
+                libxml_use_internal_errors(true); // Enable internal error handling
+                $dom = new \DOMDocument();
+                $dom->loadHTML($html); // Suppress warnings due to malformed HTML
+                $xpath = new \DOMXPath($dom);
+            
+                $rows = $xpath->query('//table[contains(@class, "table")][1]/tbody/tr');
+            
+                $data = [];
+            
+                foreach ($rows as $row) {
+                    $columns = $row->getElementsByTagName('td');
+                    if ($columns->length >= 9) {
+                        $symbol = trim($columns->item(0)->textContent);
+                        $ltp = trim($columns->item(1)->textContent);
+                        $data[$symbol] = $ltp; // Use symbol as key for quick lookup
+                    }
+                }
+            
+                // Group and aggregate stocks
+                $groupedStocks = $stocks->groupBy('stock_name')->map(function ($group, $stockName) use ($data) {
+                    $totalQuantity = $group->sum('quantity');
+                    $totalAmount = $group->sum('total_amount');
+                    $totalSebonCommission = $group->sum('sebon_commission');
+                    $totalBrokerCommission = $group->sum('broker_commission');
+                    $totalDpFee = $group->sum('dp_fee');
+                    $totalCost = $group->sum('total_cost');
+                    $ltp = $data[$stockName] ?? 0; // Get LTP from scraped data if available
+                    // previous quantity * existing wac + new quantity * new wacc / total quantity
+                    $totalWacc = $group->sum(function ($stock) use ($totalQuantity, $totalCost) {
+                        return ($stock->quantity * $stock->wacc) / $totalQuantity;
+                    });
+            
+                    return [
+                        'id' => $group->first()->id,
+                        'stock_name' => $stockName,
+                        'quantity' => $totalQuantity,
+                        'wacc' => $totalWacc,
+                        'total_amount' => $totalAmount,
+                        'sebon_commission' => $totalSebonCommission,
+                        'broker_commission' => $totalBrokerCommission,
+                        'dp_fee' => $totalDpFee,
+                        'total_cost' => $totalCost,
+                        'ltp' => $ltp,
+                    ];
+                });
+            
+                return $groupedStocks->values(); // Return grouped stocks as an array
             }
-            return $stock;
-        });
-        return $stocks;
-    }
+            
 
 
 

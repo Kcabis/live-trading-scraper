@@ -124,22 +124,22 @@
                     <tbody>
                         @foreach ($stocks as $stock)
                             <tr>
-                                <td>{{ $stock->id }}</td>
-                                <td>{{ $stock->stock_name }}</td>
-                                <td>{{ $stock->wacc }}</td>
-                                <td>{{ $stock->quantity }}</td>
+                                <td>{{ $stock['id'] }}</td>
+                                <td>{{ $stock['stock_name'] }}</td>
+                                <td>{{ $stock['wacc'] }}</td>
+                                <td>{{ $stock['quantity'] }}</td>
                                 <td>
                                     <script>
-                                        var purchasePrice = {{ $stock->wacc }};
-                                        var quantity = {{ $stock->quantity }};
+                                        var purchasePrice = {{ $stock['wacc'] }};
+                                        var quantity = {{ $stock['quantity'] }};
                                         var purchaseValue = purchasePrice * quantity;
                                         document.write(purchaseValue);
                                     </script>
                                 </td>
-                                <td>{{ $stock->ltp }}</td>
+                                <td>{{ $stock['ltp'] }}</td>
                                 <td>
                                     <script>
-                                        var ltpRaw = '{{ $stock->ltp }}'.replace(/,/g, '');
+                                        var ltpRaw = '{{ $stock["ltp"] }}'.replace(/,/g, '');
                                         var ltp = parseFloat(ltpRaw);
                                         var marketValue = ltp * quantity;
                                         document.write('<p id="marketValue">' + marketValue + '</p>' +
@@ -148,10 +148,10 @@
                                 </td>
                                 <td>
                                     <script>
-                                        var purchaseValue = {{ $stock->wacc }} * {{ $stock->quantity }};
-                                        var ltpRaw = '{{ $stock->ltp }}'.replace(/,/g, '');
+                                        var purchaseValue = {{ $stock['wacc'] }} * {{ $stock['quantity'] }};
+                                        var ltpRaw = '{{ $stock["ltp"] }}'.replace(/,/g, '');
                                         var ltp = parseFloat(ltpRaw);
-                                        var marketValue = ltp * {{ $stock->quantity }};
+                                        var marketValue = ltp * {{ $stock['quantity'] }};
 
                                         var profitLoss = marketValue - purchaseValue;
                                         if (profitLoss > 0) {
@@ -312,7 +312,6 @@
 
             </div>
         </div>
-
         <!-- Sell Stock Pop-Up Form -->
         <div id="sellStockPopup" class="popup">
             <div class="popup-content">

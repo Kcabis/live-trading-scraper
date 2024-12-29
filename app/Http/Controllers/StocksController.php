@@ -23,7 +23,9 @@ class StocksController extends Controller
             'totalCost' => 'required|numeric',
             'action' => 'required|string',
         ]);
-
+        
+       
+        
         // Create a new stock record
         Stocks::create([
             'portfolio_id' => $validated['portfolio_id'],

@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Folioadmin;
+use Illuminate\Support\Facades\Hash;
 
 class FolioadminController extends Controller
 {
     //
     public function store(Request $request)
 
-    {
+    {   
         // Validate incoming data
         $validated = $request->validate([
             'user_name' => 'required|string|max:255',
@@ -47,13 +48,7 @@ class FolioadminController extends Controller
 
         if (!$folioadmins) {
             return back()->withErrors(['email' => 'User does not exist'])->withInput();
-        }
-
-        if($folioadmins->is_verified == 0){
-            return back()->withErrors(['email' => 'User not verified'])->withInput();
-        }
-
-        
+        }        
 
         // Check if user exists and password matches
         if ($folioadmins && Hash::check($request->password, $folioadmins->password)) {
