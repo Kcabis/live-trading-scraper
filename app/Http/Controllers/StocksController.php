@@ -50,4 +50,5 @@ class StocksController extends Controller
        
         return view('portfolio', compact("stock"));
     }
+    
 }

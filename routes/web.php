@@ -47,6 +47,12 @@ Route::get('/login', function () {
 
 Route::post('/login', [AuthController::class, 'login']);
 
+//Route::post('/loginad', [FolioadminController::class, 'loginad']);
+Route::post('/loginad', [FolioadminController::class, 'loginad']);
+
+
+
+
 Route::post('/logout', function () {
     session()->forget('user');
     return redirect()->route('login')->with('success', 'Logged out successfully.');
@@ -70,6 +76,7 @@ Route::post('/add-ph', [PortfolioController::class, 'store']);
 
 use App\Http\Controllers\StocksController;
 Route::post('/add-stock', [StocksController::class, 'store']);
+
 
 
 
@@ -101,7 +108,7 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin');
  Route::get('/listedsecurities', [Dashboardcontroller::class, 'listed'])->name('listedsecurities');
  Route::get("/dash",[DashboardController::class,'index'])->name('dash');
  Route::get("/port",[DashboardController::class,'indexx'])->name('port');
-
+ Route::get("/history",[DashboardController::class,'history'])->name('history');
  
 
 
@@ -140,9 +147,6 @@ Route::get('/account-statement', function () {
     return view('account-statement');
 })->name('account-statement');
 
-Route::get('/history', function () {
-    return view('history');
-})->name('history');
 
 Route::get('/trader-analytics', function () {
     return view('trader-analytics');

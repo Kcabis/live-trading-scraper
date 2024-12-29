@@ -188,7 +188,7 @@
                 </div>
             @endif
 
-            <form action="{{ url('/login') }}" method="POST">
+            <form action="{{ url('/loginad') }}" method="POST">
                 @csrf
                 <div class="input-group">
                     <label for="email"><img src="https://img.icons8.com/material-outlined/24/000000/secured-letter.png"/></label>

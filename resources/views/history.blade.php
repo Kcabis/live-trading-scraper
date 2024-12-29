@@ -46,8 +46,23 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                    @foreach($stocks as $stock)
+                    <tr>
+                        <td>{{$stock->action}}</td>
+                        <td>{{$stock->stock_name}}</td>
+                        <td>{{$stock->type}}</td>
+                        <td>{{$stock->quantity}}</td>
+                        <td>{{$stock->wacc}}</td>
+                        <td>{{$stock->total_cost}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        
+                    </tr>
                 </tbody>
+                @endforeach
             </table>
         </div>
     </div>

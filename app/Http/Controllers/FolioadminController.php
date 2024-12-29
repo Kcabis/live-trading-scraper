@@ -34,5 +34,38 @@ class FolioadminController extends Controller
         return redirect()->back()->with("message","User deleted sucessfully.");
     
     }
+    public function loginad(Request $request)
+    {
+        // Validate the input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // Fetch user data from the database
+        $folioadmins= Folioadmin::where('email', $request->email)->first();
+
+        if (!$folioadmins) {
+            return back()->withErrors(['email' => 'User does not exist'])->withInput();
+        }
+
+        if($folioadmins->is_verified == 0){
+            return back()->withErrors(['email' => 'User not verified'])->withInput();
+        }
+
+        
+
+        // Check if user exists and password matches
+        if ($folioadmins && Hash::check($request->password, $folioadmins->password)) {
+            // Start a session for the authenticated user
+            session(['user' => $folioadmins]);
+
+            // Redirect to portfolio page
+            return redirect()->route('admin')->with('success', 'Login successful!');
+        }
+
+        // If authentication fails
+        return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+    }
 
 }
