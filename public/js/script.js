@@ -37,6 +37,15 @@ document.addEventListener('DOMContentLoaded', function () {
     editShareholder.addEventListener('click',function(){
         editPortfolioPopup.style.display="flex";
     });
+        // Open Sell Stock Popup
+document.getElementById('sellStock').addEventListener('click', function () {
+    if (!shareholderSelect.value) {
+        alert("Please select a shareholder first.");
+    } else {
+        sellStockPopup.style.display = 'flex';
+    }
+});
+
    // Handle adding new shareholder
    document.getElementById('addShareholderBtn').addEventListener('click', function () {
     const shareholderName = document.getElementById('shareholderName').value.trim();
@@ -234,14 +243,6 @@ document.getElementById('cancelConfirmBtn').addEventListener('click', function (
     confirmPopup.style.display = 'none'; // Hide confirmation popup
 });
 
-    // Open Sell Stock Popup
-document.getElementById('sellStock').addEventListener('click', function () {
-    if (!shareholderSelect.value) {
-        alert("Please select a shareholder first.");
-    } else {
-        sellStockPopup.style.display = 'flex';
-    }
-});
 
 // Close the sellStock Popup when clicking the 'x' or cancel button
 document.querySelectorAll('#selStockPopup .close, #cancelSellStockBtn').forEach(function(btn) {
@@ -250,39 +251,7 @@ document.querySelectorAll('#selStockPopup .close, #cancelSellStockBtn').forEach(
     });
 });
 
-sellStockBtn.addEventListener('click', function () {
-    const stockName = document.getElementById('stockName').value.trim();
-    const sellPrice = parseFloat(document.getElementById('sellingPrice').value);
-    const quantity = parseInt(document.getElementById('quantity').value);
 
-    if (!isNaN(sellPrice) && !isNaN(quantity)) {
-        const shareholderName = shareholderSelect.value;
-        const portfolio = shareholders[shareholderName];
-
-        const stock = portfolio.stocks.find(s => s.stockName === stockName);
-        if (stock) {
-            if (quantity > stock.quantity) {
-                alert("Cannot sell more than the available quantity.");
-                return;
-            }
-
-            stock.quantity -= quantity;
-            if (stock.quantity === 0) {
-                // Remove stock if quantity is 0
-                portfolio.stocks = portfolio.stocks.filter(s => s !== stock);
-            }
-
-            const profit = (sellPrice - stock.purchasePrice) * quantity;
-            alert(`Profit from selling ${stockName}: Rs ${profit.toFixed(2)}`);
-            displayPortfolio(shareholderName); // Ensure this function exists and updates the UI
-            sellStockPopup.style.display = 'none';
-        } else {
-            alert("Stock not found.");
-        }
-    } else {
-        alert("Please enter valid selling price and quantity.");
-    }
-});
 
     // document.querySelectorAll('#sellStockPopup, #cancelsellStockBtn,#sellStockBtn').forEach(function(btn) {
     //     btn.addEventListener('click', function () {
@@ -304,98 +273,9 @@ sellStockBtn.addEventListener('click', function () {
     });
     //sell stock logic
     // Open Sell Stock Popup
-document.getElementById('sellStock').addEventListener('click', function () {
-    if (!shareholderSelect.value) {
-        alert("Please select a shareholder first.");
-    } else {
-        sellStockPopup.style.display = 'flex';
-    }
-});
 
-// Handle selling stock
-sellStockBtn.addEventListener('click', function () {
-    const stockName = document.getElementById('stockName').value.trim();
-    const sellPrice = parseFloat(document.getElementById('sellingPrice').value);
-    const quantityToSell = parseInt(document.getElementById('quantity').value);
 
-    if (stockName && !isNaN(sellPrice) && !isNaN(quantityToSell)) {
-        const shareholderName = shareholderSelect.value;
-        const portfolio = shareholders[shareholderName];
 
-        // Find the stock in the portfolio
-        const stockIndex = portfolio.stocks.findIndex(s => s.stockName === stockName);
-        const stock = portfolio.stocks[stockIndex];
-
-        if (stock) {
-            if (quantityToSell > stock.quantity) {
-                alert("Cannot sell more than the available quantity.");
-                return;
-            }
-
-            // Deduct quantity or remove stock if quantity is zero
-            stock.quantity -= quantityToSell;
-            if (stock.quantity === 0) {
-                portfolio.stocks.splice(stockIndex, 1); // Remove stock from portfolio if quantity is zero
-            }
-
-            const profit = (sellPrice - stock.purchasePrice) * quantityToSell;
-            alert(`Profit from selling ${stockName}: Rs ${profit.toFixed(2)}`);
-
-            // Update UI and reset form
-            displayPortfolio(shareholderName);
-            sellStockPopup.style.display = 'none';
-            document.getElementById('sellStockForm').reset();
-        } else {
-            alert("Stock not found in your portfolio!");
-        }
-    } else {
-        alert("Please enter valid selling price and quantity.");
-    }
-});
-
-// Function to display updated portfolio in table and update dashboard
-function displayPortfolio(shareholderName) {
-    const portfolio = shareholders[shareholderName];
-    portfolioBody.innerHTML = ""; // Clear existing rows
-
-    let totalMarketValue = 0;
-    let totalPurchaseValue = 0;
-    let totalProfitLoss=0;
-
-    portfolio.stocks.forEach((stock, index) => {
-        const marketValue = stock.ltp ? stock.ltp * stock.quantity : 0;
-        const purchaseValue = stock.purchasePrice * stock.quantity;
-        const profitLoss = marketValue - purchaseValue;
-
-        totalMarketValue += marketValue;
-        totalPurchaseValue += purchaseValue;
-        totalProfitLoss += profitLoss;
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${stock.stockName}</td>
-            <td>${stock.purchasePrice.toFixed(2)}</td>
-            <td>${stock.quantity}</td>
-            <td>${purchaseValue.toFixed(2)}</td>
-            <td><input type="number" step="0.01" value="${stock.ltp || ''}" class="ltp-input" data-index="${index}"></td>
-            <td class="market-value">${marketValue.toFixed(2)}</td>
-            <td class="profit-loss">${profitLoss.toFixed(2)}</td>
-            <td>
-                <button class="edit-stock" data-index="${index}">Edit</button>
-                <button class="remove-stock" data-index="${index}">Remove</button>
-            </td>
-        `;
-        portfolioBody.appendChild(tr);
-    });
-
-    // // Update total values in the dashboard
-    // document.getElementById('portfolioValue').textContent = totalMarketValue.toFixed(2);
-    // document.getElementById('currentInvestment').textContent = totalPurchaseValue.toFixed(2);
-}
-document.getElementById('stockName').addEventListener('input', function() {
-    this.value = this.value.toUpperCase();
-});
 
 
 

@@ -137,7 +137,7 @@ class Dashboardcontroller extends Controller
                     $totalQuantity = $group->sum('quantity');
                     $totalAmount = $group->sum('total_amount');
                     $totalSebonCommission = $group->sum('sebon_commission');
-                    $totalBrokerCommission = $group->sum('broker_commission');
+                    $totalBrokerCommission = $group->first()->broker_commission;
                     $totalDpFee = $group->sum('dp_fee');
                     $totalCost = $group->sum('total_cost');
                     $ltp = $data[$stockName] ?? 0; // Get LTP from scraped data if available

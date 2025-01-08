@@ -139,7 +139,7 @@
                                 <td>{{ $stock['ltp'] }}</td>
                                 <td>
                                     <script>
-                                        var ltpRaw = '{{ $stock["ltp"] }}'.replace(/,/g, '');
+                                        var ltpRaw = '{{ $stock['ltp'] }}'.replace(/,/g, '');
                                         var ltp = parseFloat(ltpRaw);
                                         var marketValue = ltp * quantity;
                                         document.write('<p id="marketValue">' + marketValue + '</p>' +
@@ -149,7 +149,7 @@
                                 <td>
                                     <script>
                                         var purchaseValue = {{ $stock['wacc'] }} * {{ $stock['quantity'] }};
-                                        var ltpRaw = '{{ $stock["ltp"] }}'.replace(/,/g, '');
+                                        var ltpRaw = '{{ $stock['ltp'] }}'.replace(/,/g, '');
                                         var ltp = parseFloat(ltpRaw);
                                         var marketValue = ltp * {{ $stock['quantity'] }};
 
@@ -339,16 +339,9 @@
             </div>
         </div>
 
-        <script>
-            // Automatically convert stock name to uppercase
-            document.getElementById('sName').addEventListener('input', function() {
-                this.value = this.value.toUpperCase();
-            })
-        </script>
-
 
         <!-- Add shareholder popup -->
-        <div id="addShareholderPopup" class="popup" >
+        <div id="addShareholderPopup" class="popup">
             <div class="popup-content">
                 <span class="close">&times;</span>
                 <h2>Add New Portfolio</h2>
