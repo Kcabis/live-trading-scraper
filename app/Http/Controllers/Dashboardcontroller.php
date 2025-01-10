@@ -26,7 +26,7 @@ class Dashboardcontroller extends Controller
     public function history(Request $request)
     {
         $stocks=Stocks::all();
-        return view('history',compact('stocks'));
+        return view('ind-history',compact('stocks'));
     }
 
    public function listed( Request $request)

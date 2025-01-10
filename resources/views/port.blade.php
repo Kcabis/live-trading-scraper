@@ -139,7 +139,7 @@
                                 <td>{{ $stock['ltp'] }}</td>
                                 <td>
                                     <script>
-                                        var ltpRaw = '{{ $stock["ltp"] }}'.replace(/,/g, '');
+                                        var ltpRaw = '{{ $stock['ltp'] }}'.replace(/,/g, '');
                                         var ltp = parseFloat(ltpRaw);
                                         var marketValue = ltp * quantity;
                                         document.write('<p id="marketValue">' + marketValue + '</p>' +
@@ -149,7 +149,7 @@
                                 <td>
                                     <script>
                                         var purchaseValue = {{ $stock['wacc'] }} * {{ $stock['quantity'] }};
-                                        var ltpRaw = '{{ $stock["ltp"] }}'.replace(/,/g, '');
+                                        var ltpRaw = '{{ $stock['ltp'] }}'.replace(/,/g, '');
                                         var ltp = parseFloat(ltpRaw);
                                         var marketValue = ltp * {{ $stock['quantity'] }};
 
@@ -192,10 +192,12 @@
                             document.addEventListener('DOMContentLoaded', function() {
                                 let marketValueSum = 0; // Total Market Value
                                 let purchaseValueSum = 0; // Total Purchase Value
+                                let profitvalueSum=0; 
 
                                 const marketValueElements = document.querySelectorAll('#marketValueRaw');
                                 const purchasePriceElements = document.querySelectorAll('td:nth-child(3)'); // Purchase Price column
                                 const quantityElements = document.querySelectorAll('td:nth-child(4)'); // Quantity column
+                                const profitElements = document.querySelectorAll('td:nth-child(8)');
 
                                 // Calculate Market Value Sum
                                 marketValueElements.forEach(function(element) {
@@ -208,10 +210,15 @@
                                     const quantity = parseFloat(quantityElements[index].textContent.trim()); // Get quantity
                                     purchaseValueSum += purchasePrice * quantity; // Add to purchase value sum
                                 });
+                                profitElements.forEach(function(element,index){
+                                    const profit=parseFloat(element.textContent.trim());
+                                    profitvalueSum+=profit;
+                                });
 
                                 // Update Portfolio Value and Current Investment
                                 document.getElementById('portfolioVal').textContent = 'Rs. ' + marketValueSum.toFixed(2);
                                 document.getElementById('currentInvestment').textContent = 'Rs. ' + purchaseValueSum.toFixed(2);
+                                document.getElementById('dailyGains').textContent = 'Rs. ' + profitvalueSum.toFixed(2);
                             });
                         </script>
 
@@ -312,43 +319,81 @@
 
             </div>
         </div>
+
         <!-- Sell Stock Pop-Up Form -->
         <div id="sellStockPopup" class="popup">
             <div class="popup-content">
                 <span class="close">&times;</span>
-                <h2>Sell your stock</h2>
-                <form id="sellStockForm">
+                <h2>Sell Stock</h2>
+                <form id="sellStockForm" action="/sell-stock" method="POST">
+                    @csrf
+                    <label for="select" id="select" class="ok">Action</label>
+                    <select id="action" class="form-select" name="action">
+                        <option value="sell">Sell</option>
+                    </select>
                     <label for="stockName">Stock Name:</label>
-                    <input type="text" id="sName" name="stockName" required>
-
-                    <label for="sellingPrice">Selling Price:</label>
+                    <select id="stockName" name="stockName" required>
+                        <option value="" disabled selected>Select Stock</option>
+                        @foreach ($symbols as $symbol)
+                            <option value="{{ $symbol }}">{{ $symbol }}</option>
+                        @endforeach
+                    </select>
+                    <label for="select" id="select" class="ok">Capital Gain Tax</label>
+                    <select id="sel" class="form-select" name="type">
+                        <option value="5">5%</option>
+                        <option value="7.5">7.5%</option>
+                    </select> <br>
+                    <label for="purchasePrice">Selling Price:</label>
                     <input type="number" id="sellingPrice" name="sellingPrice" step="0.01" required>
-
                     <label for="quantity">Quantity:</label>
                     <input type="number" id="quantity" name="quantity" required>
 
-                    <label for="sel">Capital gain Tax</label>
-                    <select id="sel" class="form-select">
-                        <option value="1">7.5%</option>
-                        <option value="2">5%</option>
-                    </select>
-                    <br>
+                    <!-- Hidden Fields for Confirmation Data -->
+                    <input type="hidden" id="confirmTotalAmount" name="totalAmount">
+                    <input type="hidden" id="confirmSebonCommission" name="sebonCommission">
+                    <input type="hidden" id="confirmBrokerCommission" name="brokerCommission">
+                    <input type="hidden" id="confirmDpFee" name="dpFee">
+                    <input type="hidden" id="confirmWacc" name="wacc">
+                    <input type="hidden" id="confirmsellingprice" name="sellingprice">
+                    <input type="hidden" id="confirmTotalCost" name="totalCost">
+                    <input type="hidden" id="confirmtax" name="confirmtax">
+                    <input type="hidden" id="P\L" name="P\L">
+                    <input type="hidden" id="Receivable" name="Receivable">
+
+                    <input type="hidden" id="portfolio_id2" name="portfolio_id">
+                    <!-- Buttons -->
                     <button type="button" id="sellStockBtn">OK</button>
                     <button type="button" id="cancelSellStockBtn">Cancel</button>
-                </form>
             </div>
         </div>
 
-        <script>
-            // Automatically convert stock name to uppercase
-            document.getElementById('sName').addEventListener('input', function() {
-                this.value = this.value.toUpperCase();
-            })
-        </script>
+        <!-- Sell Confirmation Popup -->
+        <div id="confirmPopup" class="popup">
+            <div class="popup-content">
+                <span class="close">&times;</span>
+                <h2>Confirm Stock Details</h2>
+                <p>Total Amount: Rs. <span id="confirmTotalAmountDisplay"></span></p>
+                <p>SEBON Commission: Rs. <span id="confirmSebonCommissionDisplay"></span></p>
+                <p>Broker Commission: Rs. <span id="confirmBrokerCommissionDisplay"></span></p>
+                <p>DP Fee: Rs. <span id="confirmDpFeeDisplay"></span></p>
+                <p>WACC: Rs. <span id="confirmWaccDisplay"></span></p>
+                <p>Selling Price: Rs. <span id="confirmsellingpriceDisplay"></span></p>
+                <p>Total Cost: Rs. <span id="confirmTotalCostDisplay"></span></p>
+                <p>CGT: Rs. <span id="confirmtaxDisplay"></span></p>
+                <p>Profit/Loss: Rs. <span id="P\LDisplay"></span></p>
+                <p>Net Receivable: Rs. <span id="ReceivableDisplay"></span></p>
+                <!-- Buttons -->
+                <button type="submit" id="send">OK</button>
+                <button type="button" id="cancelSellStockBtn">Cancel</button>
+                </form>
+
+            </div>
+        </div>
+
 
 
         <!-- Add shareholder popup -->
-        <div id="addShareholderPopup" class="popup" >
+        <div id="addShareholderPopup" class="popup">
             <div class="popup-content">
                 <span class="close">&times;</span>
                 <h2>Add New Portfolio</h2>
@@ -363,23 +408,6 @@
         </div>
 
 
-
-        <!-- Sell  Confirmation Popup -->
-        <div id="sellconfirmPopup" class="popup" style="display: none;">
-            <div class="popup-content">
-                <span class="close">&times;</span>
-                <h2>Confirm Stock Details</h2>
-                <p>Total Amount: Rs. <span id="confirmTotalAmount"></span></p>
-                <p>SEBON Commission: Rs. <span id="confirmSebonCommission"></span></p>
-                <p>Broker Commission: Rs. <span id="confirmBrokerCommission"></span></p>
-                <p>DP Fee: Rs. <span id="confirmDpFee"></span></p>
-                <p>WACC: Rs. <span id="confirmWacc"></span></p>
-                <p>CGT:Rs. <span id="CGT"></span></p>
-                <p>Net Receivale:Rs. <span id="Net revceiavale"></span></p>
-                <button type="button" id="sellconfirmBtn">Confirm</button>
-                <button type="button" id="cancelConfirmBtn">Cancel</button>
-            </div>
-        </div>
         <!-- Edit Portfolio Modal -->
         <div id="editPortfolioPopup" class="popup">
             <div class="popup-content">

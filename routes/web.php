@@ -66,6 +66,11 @@ Route::get('otp-verification/{email}', [RegistrationController::class, 'showOtpF
 
 //portfolio controler
 use App\Http\Controllers\PortfolioController;
+Route::post('/update-portfolio', [PortfolioController::class, 'updatePortfolio'])->name('portfolio.update');
+Route::delete('/delete-portfolio/{id}', [PortfolioController::class, 'deletePortfolio'])->name('portfolio.delete');
+Route::get("/history",[PortfolioController::class,'hist'])->name('history');
+ 
+
 
 // For web routes (use api.php for APIs)
 //Route::get('/portfolios', [PortfolioController::class, 'getAllPortfolios']);
@@ -77,6 +82,7 @@ Route::post('/add-ph', [PortfolioController::class, 'store']);
 
 use App\Http\Controllers\StocksController;
 Route::post('/add-stock', [StocksController::class, 'store']);
+Route::delete('stock/delete/{stock}',[StocksController::class,'delete'])->name('stock.delete');
 
 
 
@@ -108,7 +114,7 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin');
  Route::get('/listedsecurities', [Dashboardcontroller::class, 'listed'])->name('listedsecurities');
  Route::get("/dash",[DashboardController::class,'index'])->name('dash');
  Route::get("/port",[DashboardController::class,'indexx'])->name('port');
- Route::get("/history",[DashboardController::class,'history'])->name('history');
+ Route::get("/ind-history",[DashboardController::class,'history'])->name('ind-history');
  
 
 
@@ -155,12 +161,8 @@ Route::get('/trader-analytics', function () {
 Route::get('/settings', function () {
     return view('settings');
 })->name('settings');
- 
- //Route::get('/dash', [DashboardController::class, 'index'])->name('dashboard');
- //Route::get('/events', [EventController::class, 'index'])->name('eventss');
- //Route::get('/listed-securities', [ListedSecurityController::class, 'index'])->name('listed-securities');
-// Route::get('/account-statement', [AccountStatementController::class, 'index'])->name('account-statement');
-// // Add more routes for other sections
+
+
 
 
 

@@ -3,112 +3,94 @@
 @section('title', 'Dashboard')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+<link rel="stylesheet" href="{{ asset('css/dash.css') }}">
 @endpush
 
 @section('content')
-    <h2>Dashboard</h2>
-    <!-- Dashboard content goes here -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <!-- Add/Edit Buttons -->
+        <div>
+            <button id="addShareholder" style="
+                padding: 8px 12px;
+                font-size: 14px;
+                cursor: pointer;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                margin-right: 10px;
+            ">Add Portfolio</button>
+            <button id="editShareholder" style="
+                padding: 8px 12px;
+                font-size: 14px;
+                cursor: pointer;
+                background-color: #6c757d;
+                color: white;
+                border: none;
+                border-radius: 8px;
+            ">Edit Portfolio</button>
+        </div>
 
-            <!-- Dashboard Section -->
-            <div id="dashboardSection" class="content">
-                <div class="shareholder-options">
-                   
+        <!-- Logout Button -->
+        <form id="logoutForm" action="{{ route('logout') }}" method="POST" style="margin: 0;">
+            @csrf
+            <button type="submit" style="
+                padding: 8px 12px;
+                font-size: 14px;
+                cursor: pointer;
+                background-color: #d9534f;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-weight: bold;
+            ">Logout</button>
+        </form>
+    </div>
+    
+    <!-- Table Section -->
+    <div class="table-container" style="text-align: center; margin: 0 auto; width: 80%; padding: 20px;">
+        <!-- Search and Table Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h3>Portfolios List</h3>
+            <input type="text" id="searchInput" class="form-control" style="width: 250px;" placeholder="Search Portfolio..." />
+        </div>
 
-                    <div style="
-                        display: flex;
-                        justify-content: start;
-                        align-items: center;
-                        margin-top: 20px;
-                    ">
-                     <select id="shareholderSelect">
-                        <option value="" disabled selected>Select Portfolio</option>
-                        @foreach($portfolios as $portfolio)
-                            <option value="{{$portfolio->id}}"> {{$portfolio->portfolio_name}}</option>
-                        @endforeach
-                    </select>
-
-
-                 
-
-                        <form id="searchStockForm" action="/port" method="GET">
-                            <input type="hidden" id="portfolio_id" name="portfolio_id">
-                            <button type="submit" style="padding: 8px;
-    font-size: 12px;
-    margin-left: 10px; /* Space between buttons */
-    cursor: pointer;
-    background-color: #ccc; /* Blue background for buttons */
-    color: black;
-    border: none;
-    border-radius: 8px;">Search</button>
+        <!-- Portfolio Table -->
+        <table class="table table-bordered table-striped" style="margin-top: 10px;">
+            <thead class="table-dark">
+                <tr>
+                    <th>S.N</th>
+                    <th>Portfolio-Name</th>
+                    <th>Market Value</th>
+                    <th>Investment</th>
+                    <th>Profit/Loss</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="portfolioTable">
+                @foreach($portfolios as $portfolio)
+                <tr>
+                    <td>{{ $portfolio->id }}</td>
+                    <td>{{ $portfolio->portfolio_name }}</td>
+                    <td>$10,000</td>
+                    <td>$8,000</td>
+                    <td>$00</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="/port?portfolio_id={{ $portfolio->id }}">View</a>
+                        <form action="{{route('portfolio.delete',$portfolio->id)}}" method="post">
+                            @csrf
+                            @method('delete')
+                        <button type="submit" id="deletePortfolioBtn">Delete Portfolio</button>
                         </form>
+                        
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
-                        <form id="clearStockForm" action="/portfolio" method="GET">
-                            <button type="submit" style="padding: 8px;
-    font-size: 12px;
-    margin-left: 10px; /* Space between buttons */
-    cursor: pointer;
-    background-color: #ccc; /* Blue background for buttons */
-    color: black;
-    border: none;
-    border-radius: 8px;">Clear</button>
-                        </form>
-
-                        <button id="addShareholder">Add Portfolio</button>
-                        <button id="editShareholder">Edit Portfolio</button>
-
-                    </div>
-
-
-
-
-                </div>
-          
-
-
-
-                <div class="table-container" style="text-align: center; margin: 0 auto; width: 80%; padding: 20px;">
-                    <!-- Search Box -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <h3>Portfolios List</h3>
-                        <input type="text" id="searchInput" class="form-control" style="width: 250px;" placeholder="Search Portfolio..." />
-                    </div>
-                
-                    <!-- Table -->
-                    <table class="table table-bordered table-striped" style="margin-top: 10px;">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>S.N</th>
-                                <th>Portfolio-Name</th>
-                                <th>Market Value</th>
-                                <th>Investment</th>
-                                <th>Profit/Loss</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="portfolioTable">
-                            @foreach($portfolios as $portfolio)
-                            <!-- Example Rows -->
-                            <tr>
-                                <td>{{$portfolio->id}}</td>
-                                <td>{{$portfolio->portfolio_name}}</td>
-                                <td>$10,000</td>
-                                <td>$8,000</td>
-                                <td>$00</td>
-                                <td>
-
-                                    <a class="btn btn-primary btn-sm" href="/port?portfolio_id={{$portfolio->id}}">View</a>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <!-- Dynamic Rows Here -->
-                        </tbody>
-                        @endforeach
-                    </table>
-                </div>
-                
-
-    <!-- Add shareholder popup -->
+    <!-- Add Portfolio Popup -->
     <div id="addShareholderPopup" class="popup" style="display: none;">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -123,31 +105,55 @@
         </div>
     </div>
 
-
     <!-- Edit Portfolio Modal -->
-    <div id="editPortfolioPopup" class="popup">
-        <div class="popup-content">
-            <input type="hidden" id="editPortfolioId">
-            <label for="editPortfolioName">Choose a portfolio</label>
-
-            <span class="close">&times;</span>
-            <h2>Edit Portfolio</h2>
-            <form id="editPortfolioForm">
+<div id="editPortfolioPopup" class="popup">
+    <div class="popup-content">
+        <input type="hidden" id="editPortfolioId">
+        <span class="close">&times;</span>
+        <h2>Edit Portfolio</h2>
+        <form id="editPortfolioForm" action="/update-portfolio" method="POST">
+            @csrf
+            <label for="portfolioSelect">Select Portfolio:</label>
+            <select name="portfolio_id" id="portfolioSelect" required>
+                <option value="" disabled selected>-- Select a Portfolio --</option>
                 @foreach($portfolios as $portfolio)
-                    <select name="portfolio" id="portfolio">
-                        <option value="{{$portfolio->id}}">{{$portfolio->portfolio_name}}</option>
-                    </select>
+                    <option value="{{ $portfolio->id }}">{{ $portfolio->portfolio_name }}</option>
                 @endforeach
-                <input type="text" id="editPortfolioName" required>
-                <button type="submit">Update portfolio</button>
-                <button type="Delete">Delete Portfolio</button>
-            </form>
-        </div>
-    </div>
-                
+            </select>
+            
+            <label for="editPortfolioName">New Portfolio Name:</label>
+            <input type="text" id="editPortfolioName" name="portfolio_name" placeholder="Enter new portfolio name" required>
+            
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <button type="submit" style="
+                    padding: 10px 15px;
+                    background-color: #007bff;
+                    color: white;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-weight: bold;
+                ">Update Portfolio</button>
+                <form action="{{route('portfolio.delete',$portfolio->id)}}" method="post">
+                    @csrf
+                    @method('delete')
+                <button type="submit" id="deletePortfolioBtn" style="
+                    padding: 10px 15px;
+                    background-color: #d9534f;
+                    color: white;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-weight: bold;
+                ">Delete Portfolio</button>
+                </form>
             </div>
+        </form>
+    </div>
+</div>
+
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/port.js.js') }}"></script>
+<script src="{{ asset('js/port.js') }}"></script>
 @endpush
