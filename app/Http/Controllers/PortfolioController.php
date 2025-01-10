@@ -37,5 +37,31 @@ class PortfolioController extends Controller
         $portfolios= Portfolio::all();
         return view('portfolio',compact("portfolios"));
     }
+    public function hist(){
+
+        $portfolios= Portfolio::all();
+        return view('history',compact("portfolios"));
+
+    }
+    public function updatePortfolio(Request $request)
+{
+    $portfolio = Portfolio::find($request->portfolio_id);
+    if ($portfolio) {
+        $portfolio->portfolio_name = $request->portfolio_name;
+        $portfolio->save();
+        return back()->with('success', 'Portfolio updated successfully.');
+    }
+    return back()->with('error', 'Portfolio not found.');
+}
+public function deletePortfolio($id)
+{
+    $portfolio = Portfolio::find($id);
+    if ($portfolio) {
+        $portfolio->delete();
+        return back()->with('success', 'Portfolio deleted successfully.');
+    }
+    return back()->with('error', 'Portfolio not found.');
+}
+
 
 }

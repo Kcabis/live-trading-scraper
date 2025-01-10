@@ -52,5 +52,9 @@ class StocksController extends Controller
        
         return view('portfolio', compact("stock"));
     }
+    public function delete(Stocks $stock){
+        $stock->delete();
+        return redirect()->back()->with("message","Stock deleted sucessfully");
+    }
     
 }
