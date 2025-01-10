@@ -29,12 +29,29 @@
                         align-items: center;
                         margin-top: 20px;
                     ">
-                    <select id="shareholderSelect">
-                        <option value="" disabled selected>Select Portfolio</option>
-                        @foreach ($portfolios as $portfolio)
-                            <option value="{{ $portfolio->id }}"> {{ $portfolio->portfolio_name }}</option>
-                        @endforeach
-                    </select>
+
+<select id="shareholderSelect">
+                       
+
+    <option value="" disabled selected>Select Portfolio</option>
+    @foreach ($portfolios as $portfolio)
+        <option value="{{ $portfolio->id }}"
+            {{ $portfolio->id == request()->get('portfolio_id') ? 'selected' : '' }}
+            >{{ $portfolio->portfolio_name }} </option>
+    @endforeach
+</select>
+
+
+<script>
+let queryPortfolioId = new URLSearchParams(window.location.search).get('portfolio_id');
+if (queryPortfolioId) {
+document.getElementById('portfolio_id').value = queryPortfolioId;
+}
+document.getElementById('shareholderSelect').addEventListener('change', function() {
+window.location.href = '/port?portfolio_id=' + this.value;  
+});
+
+</script>
 
 
 
@@ -155,9 +172,9 @@
 
                                         var profitLoss = marketValue - purchaseValue;
                                         if (profitLoss > 0) {
-                                            document.write('<span class="profit-badge">Profit</span> Rs. ' + profitLoss.toFixed(2));
+                                            document.write( profitLoss.toFixed(2));
                                         } else if (profitLoss < 0) {
-                                            document.write('<span class="loss-badge">Loss</span> Rs. ' + Math.abs(profitLoss).toFixed(2));
+                                            document.write('-' + Math.abs(profitLoss).toFixed(2));
                                         } else {
                                             document.write('Rs. 0.00');
                                         }
@@ -327,48 +344,123 @@
                 <h2>Sell Stock</h2>
                 <form id="sellStockForm" action="/sell-stock" method="POST">
                     @csrf
-                    <label for="select" id="select" class="ok">Action</label>
-                    <select id="action" class="form-select" name="action">
+                    <label for="actionSelect" class="ok">Action</label>
+                    <select id="actionSelect" class="form-select" name="action">
                         <option value="sell">Sell</option>
                     </select>
-                    <label for="stockName">Stock Name:</label>
-                    <select id="stockName" name="stockName" required>
+        
+                    <label for="stockSelect">Stock Name:</label>
+                    <select id="stockSelect" name="stockName" required>
                         <option value="" disabled selected>Select Stock</option>
-                        @foreach ($symbols as $symbol)
-                            <option value="{{ $symbol }}">{{ $symbol }}</option>
+                        @foreach ($portfolioStocks as $portstock)
+                            <option value="{{ $portstock->stock_name }}" 
+                                data-wacc="{{ $portstock->wacc }}" 
+                                data-purchaseprice="{{ $portstock->purchase_price }}">
+                                {{ $portstock->stock_name }}
+                            </option>
                         @endforeach
                     </select>
-                    <label for="select" id="select" class="ok">Capital Gain Tax</label>
-                    <select id="sel" class="form-select" name="type">
+        
+                    <label for="taxSelect" class="ok">Capital Gain Tax</label>
+                    <select id="taxSelect" class="form-select" name="type">
                         <option value="5">5%</option>
                         <option value="7.5">7.5%</option>
                     </select> <br>
-                    <label for="purchasePrice">Selling Price:</label>
-                    <input type="number" id="sellingPrice" name="sellingPrice" step="0.01" required>
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" required>
-
-                    <!-- Hidden Fields for Confirmation Data -->
-                    <input type="hidden" id="confirmTotalAmount" name="totalAmount">
-                    <input type="hidden" id="confirmSebonCommission" name="sebonCommission">
-                    <input type="hidden" id="confirmBrokerCommission" name="brokerCommission">
-                    <input type="hidden" id="confirmDpFee" name="dpFee">
-                    <input type="hidden" id="confirmWacc" name="wacc">
-                    <input type="hidden" id="confirmsellingprice" name="sellingprice">
-                    <input type="hidden" id="confirmTotalCost" name="totalCost">
-                    <input type="hidden" id="confirmtax" name="confirmtax">
-                    <input type="hidden" id="P\L" name="P\L">
-                    <input type="hidden" id="Receivable" name="Receivable">
-
-                    <input type="hidden" id="portfolio_id2" name="portfolio_id">
+        
+                    <label for="sellingPriceInput">Selling Price:</label>
+                    <input type="number" id="sellingPriceInput" name="sellingPrice" step="0.01" required>
+        
+                    <label for="quantityInput">Quantity:</label>
+                    <input type="number" id="quantityInput" name="quantity" required>
+        
+                    <!-- Calculated Fields -->
+                    <p>Total Amount: Rs. <span id="totalAmountDisplay">0.00</span></p>
+                    <p>SEBON Commission: Rs. <span id="sebonCommissionDisplay">0.00</span></p>
+                    <p>Broker Commission: Rs. <span id="brokerCommissionDisplay">0.00</span></p>
+                    <p>DP Fee: Rs. <span id="dpFeeDisplay">25.00</span></p>
+                    <p>WACC: Rs. <span id="waccDisplay">0.00</span></p>
+                    <p>Selling Price: Rs. <span id="sellingPriceDisplay">0.00</span></p>
+                    <p>Total Cost: Rs. <span id="totalCostDisplay">0.00</span></p>
+                    <p>CGT (Tax): Rs. <span id="taxDisplay">0.00</span></p>
+                    <p>Profit/Loss: Rs. <span id="profitLossDisplay">0.00</span></p>
+                    <p>Net Receivable: Rs. <span id="receivableDisplay">0.00</span></p>
+        
                     <!-- Buttons -->
                     <button type="button" id="sellStockBtn">OK</button>
                     <button type="button" id="cancelSellStockBtn">Cancel</button>
+                </form>
             </div>
         </div>
+        
+        <script>
+            function calculateValues() {
+                const sellingPrice = parseFloat(document.getElementById('sellingPriceInput').value) || 0;
+                const quantity = parseFloat(document.getElementById('quantityInput').value) || 0;
+                const taxRate = parseFloat(document.getElementById('taxSelect').value) / 100 || 0;
+                const dpFee = 25; // Constant DP Fee
+        
+                // Fetch the selected stock's data
+                const stockSelect = document.getElementById('stockSelect');
+                const selectedStock = stockSelect.options[stockSelect.selectedIndex];
+                const wacc = parseFloat(selectedStock.getAttribute('data-wacc')) || 0;
+                const purchasePrice = parseFloat(selectedStock.getAttribute('data-purchaseprice')) || 0;
+        
+                if (sellingPrice <= 0 || quantity <= 0) {
+                    return;
+                }
+        
+                const totalAmount = sellingPrice * quantity; // Total amount from selling price and quantity
+                const sebonCommission = totalAmount * 0.00015; // SEBON Commission
+                const brokerCommission = calculateBrokerCommission(totalAmount); // Broker Commission
+                const totalCost = wacc * quantity; // Total Cost
+                const profitLoss = totalAmount - totalCost; // Profit or Loss
+                const cgt = profitLoss > 0 ? profitLoss * taxRate : 0;
+
+                const receivable = totalAmount - cgt - dpFee - sebonCommission - brokerCommission; // Net Receivable Amount
+
+                
+        
+                // Displaying calculated values
+                document.getElementById('totalAmountDisplay').textContent = totalAmount.toFixed(2);
+                document.getElementById('sebonCommissionDisplay').textContent = sebonCommission.toFixed(2);
+                document.getElementById('brokerCommissionDisplay').textContent = brokerCommission.toFixed(2);
+                document.getElementById('dpFeeDisplay').textContent = dpFee.toFixed(2);
+                document.getElementById('waccDisplay').textContent = wacc.toFixed(2);
+                document.getElementById('sellingPriceDisplay').textContent = sellingPrice.toFixed(2);
+                document.getElementById('totalCostDisplay').textContent = totalCost.toFixed(2);
+                document.getElementById('taxDisplay').textContent = cgt.toFixed(2);
+                document.getElementById('profitLossDisplay').textContent = profitLoss.toFixed(2);
+                document.getElementById('receivableDisplay').textContent = receivable.toFixed(2);
+            }
+        
+            // Attach event listeners to form inputs
+            document.getElementById('sellingPriceInput').addEventListener('input', calculateValues);
+            document.getElementById('quantityInput').addEventListener('input', calculateValues);
+            document.getElementById('taxSelect').addEventListener('change', calculateValues);
+            document.getElementById('stockSelect').addEventListener('change', calculateValues);
+
+
+            function calculateBrokerCommission(totalAmount) {
+        if (totalAmount <= 2500) {
+            return 10;
+        } else if (totalAmount <= 50000) {
+            return totalAmount * 0.36 / 100;
+        } else if (totalAmount <= 500000) {
+            return totalAmount * 0.33 / 100;
+        } else if (totalAmount <= 2000000) {
+            return totalAmount * 0.31 / 100;
+        } else {
+            return totalAmount * 0.27 / 100;
+        }
+    }
+        </script>
+        
+        
+        
+        
 
         <!-- Sell Confirmation Popup -->
-        <div id="confirmPopup" class="popup">
+        <div id="confirmSalePopup" class="popup">
             <div class="popup-content">
                 <span class="close">&times;</span>
                 <h2>Confirm Stock Details</h2>

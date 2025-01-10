@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const shareholderSelect = document.getElementById('shareholderSelect');
     const portfolioBody = document.getElementById('portfolioBody');
     const addStockPopup = document.getElementById('addStockPopup');
-    const confirmPopup = document.getElementById('confirmPopup');
+    const confirmPopup = document.getElementById('confirmSalePopup');
     const sellStockPopup = document.getElementById('sellStockPopup');
     const addShareholderPopup = document.getElementById('addShareholderPopup');
     const newShareholderBtn = document.getElementById('addShareholder');
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to display portfolio with updated values
     function displayPortfolio(shareholderName) {
         const portfolio = shareholders[shareholderName];
-        portfolioBody.innerHTML = "";
+        // portfolioBody.innerHTML = "";
 
         let totalMarketValue = 0;
         let totalPurchaseValue = 0;
@@ -279,6 +279,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     //sell stock logic
     sellStockBtn.addEventListener('click', function (event) {
+        console.log("sell stock button clicked");
         event.preventDefault();
     
         const stockName = document.getElementById('stockName').value;
@@ -335,6 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('confirmDpFee').value = dpFee.toFixed(2);
         document.getElementById('confirmtax').value = cgt.toFixed(2);
         document.getElementById('Receivable').value = netReceivable.toFixed(2);
+        
     
         // Display the confirmation popup
         confirmPopup.style.display = 'flex';

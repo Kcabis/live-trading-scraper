@@ -49,8 +49,12 @@ class Dashboardcontroller extends Controller
    // $events=Event::all();
     $stocks= $this->getStocksWithLTPfromMerolagani($portfolio_id);
     $symbols = $this->scrape();
+
+    $portfolioStocks = Stocks::where('portfolio_id', $portfolio_id)->get();
+    
+
     // $securities = ListedSecurity::all()  ;
-    return view('port', compact('portfolios', 'symbols' , 'stocks')); // Pass data to the view
+    return view('port', compact('portfolios', 'symbols' , 'stocks' , 'portfolioStocks')); // Pass data to the view
    }
 
     public function scrape()
