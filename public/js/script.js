@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const sellStockBtn = document.getElementById('sellStockBtn');
     const cancelSellStockBtn = document.getElementById('cancelSellStockBtn');
     const closeBtn = document.querySelector('#sellStockPopup .close');
+    const sellButtons = document.querySelectorAll('.sellStock');
 
 
     let shareholders = {}; // Stores all shareholders and their stock portfolios
@@ -258,88 +259,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-
-    // document.querySelectorAll('#sellStockPopup, #cancelsellStockBtn,#sellStockBtn').forEach(function(btn) {
-    //     btn.addEventListener('click', function () {
-    //         sellStockPopup.style.display = 'none'; // Hide the popup
-    //     });
-    // });
-
-
-    // Theme Toggle
-    document.getElementById('themeToggle').addEventListener('click', function () {
-        document.body.classList.toggle('dark-mode');
-    });
-
     // Close any other popup when clicking the 'x' or Cancel buttons for other popups
     document.querySelectorAll('.popup .close, #cancelBtn,#addStockPopup, #cancelShareholderBtn, #cancelConfirmBtn').forEach(function (btn) {
         btn.addEventListener('click', function () {
             btn.closest('.popup').style.display = 'none';
         });
     });
-    //sell stock logic
-    sellStockBtn.addEventListener('click', function (event) {
-        event.preventDefault();
-    
-        const stockName = document.getElementById('stockName').value;
-        const sellingPrice = parseFloat(document.getElementById('sellingPrice').value);
-        const quantity = parseInt(document.getElementById('quantity').value);
-        const cgtRate = parseFloat(document.getElementById('sel').value);
-        
-        if (!stockName || isNaN(sellingPrice) || isNaN(quantity)) {
-            alert("Please fill in all the required fields.");
-            return;
-        }
-    
-        // Retrieve the stock from the portfolio
-        const shareholderName = shareholderSelect.value;
-        const portfolio = shareholders[shareholderName];
-        const stock = portfolio.stocks.find(stock => stock.stockName === stockName);
-    
-        if (!stock) {
-            alert("Stock not found in portfolio.");
-            return;
-        }
-    
-        // Calculate values
-        const sellingValue = sellingPrice * quantity; // Selling value
-        const purchaseValue = stock.purchasePrice * quantity; // Purchase value
-        const profitAmount = sellingValue - purchaseValue; // Profit/Loss amount
-    
-        // Calculate fees
-        const sebonCommission = sellingValue * 0.015 / 100; // SEBON commission
-        const brokerCommission = calculateBrokerCommission(sellingValue); // Broker commission
-        const dpFee = 25; // DP Fee is fixed
-        let cgt = 0;
-    
-        // Calculate CGT if profitAmount > 0
-        if (profitAmount > 0) {
-            cgt = (cgtRate / 100) * profitAmount;
-        }
-    
-        // Net receivable amount
-        const netReceivable = sellingValue - (sebonCommission + brokerCommission + dpFee + cgt);
-    
-        // Display calculated values in the confirmation popup
-        document.getElementById('confirmTotalAmountDisplay').textContent = sellingValue.toFixed(2);
-        document.getElementById('confirmSebonCommissionDisplay').textContent = sebonCommission.toFixed(2);
-        document.getElementById('confirmBrokerCommissionDisplay').textContent = brokerCommission.toFixed(2);
-        document.getElementById('confirmDpFeeDisplay').textContent = dpFee.toFixed(2);
-        document.getElementById('confirmtaxDisplay').textContent = cgt.toFixed(2);
-        document.getElementById('ReceivableDisplay').textContent = netReceivable.toFixed(2);
-    
-        // Set hidden inputs for submission
-        document.getElementById('confirmTotalAmount').value = sellingValue.toFixed(2);
-        document.getElementById('confirmSebonCommission').value = sebonCommission.toFixed(2);
-        document.getElementById('confirmBrokerCommission').value = brokerCommission.toFixed(2);
-        document.getElementById('confirmDpFee').value = dpFee.toFixed(2);
-        document.getElementById('confirmtax').value = cgt.toFixed(2);
-        document.getElementById('Receivable').value = netReceivable.toFixed(2);
-    
-        // Display the confirmation popup
-        confirmPopup.style.display = 'flex';
-        sellStockPopup.style.display = 'none';
-    });
+
     
 
 

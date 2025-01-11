@@ -425,7 +425,7 @@ header .profile-icon img {
     color: #333;
 }
 
-#dailyGains, #marketValue ,#currentInvestment {
+#dailyGains, #portfolioval ,#currentInvestment {
     display: inline-block; /* To keep the text inside a box-like element */
     padding: 10px 15px; /* Adjust the padding to control box size */
     border: 2px solid #ccc; /* Define the border for the box */

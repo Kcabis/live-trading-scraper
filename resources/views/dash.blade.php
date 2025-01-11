@@ -134,19 +134,6 @@
                     cursor: pointer;
                     font-weight: bold;
                 ">Update Portfolio</button>
-                <form action="{{route('portfolio.delete',$portfolio->id)}}" method="post">
-                    @csrf
-                    @method('delete')
-                <button type="submit" id="deletePortfolioBtn" style="
-                    padding: 10px 15px;
-                    background-color: #d9534f;
-                    color: white;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    font-weight: bold;
-                ">Delete Portfolio</button>
-                </form>
             </div>
         </form>
     </div>

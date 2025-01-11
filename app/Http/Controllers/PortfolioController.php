@@ -38,7 +38,6 @@ class PortfolioController extends Controller
         return view('portfolio',compact("portfolios"));
     }
     public function hist(){
-
         $portfolios= Portfolio::all();
         return view('history',compact("portfolios"));
 

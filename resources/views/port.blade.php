@@ -155,40 +155,21 @@
 
                                         var profitLoss = marketValue - purchaseValue;
                                         if (profitLoss > 0) {
-                                            document.write('<span class="profit-badge">Profit</span> Rs. ' + profitLoss.toFixed(2));
+                                            document.write(  + profitLoss.toFixed(2));
                                         } else if (profitLoss < 0) {
-                                            document.write('<span class="loss-badge">Loss</span> Rs. ' + Math.abs(profitLoss).toFixed(2));
+                                            document.write( - Math.abs(profitLoss).toFixed(2));
                                         } else {
                                             document.write('Rs. 0.00');
                                         }
                                     </script>
                                 </td>
                                 <td>
-                                    <button class="editStockBtn">Edit</button>
-                                    <button class="deleteStockBtn">Delete</button>
+                                    <button class="sellStock" id="sellStock">Sell</button>
                                 </td>
                             </tr>
                         @endforeach
 
                         <script>
-                            // // calculate all market value sum and append to portfolioVal
-                            // var marketValueSum = 0
-                            // var marketValueElements = document.querySelectorAll('#marketValueRaw');
-                            // marketValueElements.forEach(function (element) {
-                            //     marketValueSum += parseFloat(element.value);
-
-                            // });  
-                            // document.getElementById('portfolioVal').textContent = 'Rs. ' + marketValueSum.toFixed(2);
-                            // //for current investment
-                            // var purchaseValueSum=0;
-                            // var purchasePriceElements = document.querySelectorAll('td:nth-child(3)'); 
-                            // var purchasePrice = parseFloat(purchasePriceElements[index].textContent.trim());
-                            // purchaseValueSum += purchaseValue;
-                            // document.getElementById('curentInvestment').textContent = 'Rs. ' + purchaseValue.toFixed(2); 
-
-
-                            // Calculate Portfolio Value and Current Investment
-                            // Calculate Portfolio Value and Current Investment
                             document.addEventListener('DOMContentLoaded', function() {
                                 let marketValueSum = 0; // Total Market Value
                                 let purchaseValueSum = 0; // Total Purchase Value
@@ -210,11 +191,9 @@
                                     const quantity = parseFloat(quantityElements[index].textContent.trim()); // Get quantity
                                     purchaseValueSum += purchasePrice * quantity; // Add to purchase value sum
                                 });
-                                profitElements.forEach(function(element,index){
-                                    const profit=parseFloat(element.textContent.trim());
-                                    profitvalueSum+=profit;
+                                profitElements.forEach(function(element){
+                                    profitvalueSum+=profitElements; 
                                 });
-
                                 // Update Portfolio Value and Current Investment
                                 document.getElementById('portfolioVal').textContent = 'Rs. ' + marketValueSum.toFixed(2);
                                 document.getElementById('currentInvestment').textContent = 'Rs. ' + purchaseValueSum.toFixed(2);

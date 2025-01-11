@@ -58,6 +58,7 @@
                 <h2>Admin Dashboard</h2>
                 <div class="overview">
                     <div class="card">
+                        @foreach($portfolios as $portfolio)
                         <h3>Total Users</h3>
                         <p id="totalUsers">0</p>
                     </div>
