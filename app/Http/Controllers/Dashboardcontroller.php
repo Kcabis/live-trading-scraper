@@ -22,11 +22,14 @@ class Dashboardcontroller extends Controller
         return view('dash', compact('portfolios', 'symbols' , 'stocks')); // Pass data to the view
         
     }
+  
     //sending stocks to history
     public function history(Request $request)
     {
         $stocks=Stocks::all();
-        return view('ind-history',compact('stocks'));
+    $portfolio_id = $request->query('portfolio_id');
+    $portfolios= Portfolio::all(); 
+        return view('ind-history',compact('stocks','portfolios'));
     }
 
    public function listed( Request $request)

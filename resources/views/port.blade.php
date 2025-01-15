@@ -192,12 +192,13 @@
                                     purchaseValueSum += purchasePrice * quantity; // Add to purchase value sum
                                 });
                                 profitElements.forEach(function(element){
-                                    profitvalueSum+=profitElements; 
+                                    const Profit=parseFloat(element.textContent.trim());
+                                    profitvalueSum+=Profit; 
                                 });
                                 // Update Portfolio Value and Current Investment
                                 document.getElementById('portfolioVal').textContent = 'Rs. ' + marketValueSum.toFixed(2);
                                 document.getElementById('currentInvestment').textContent = 'Rs. ' + purchaseValueSum.toFixed(2);
-                                document.getElementById('dailyGains').textContent = 'Rs. ' + profitvalueSum.toFixed(2);
+                                document.getElementById('dailyGains').textContent = 'Rs. ' +profitvalueSum.toFixed(2);
                             });
                         </script>
 

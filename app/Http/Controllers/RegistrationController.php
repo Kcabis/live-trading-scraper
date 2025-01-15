@@ -18,7 +18,7 @@ class RegistrationController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:members,email', // Adjusted for 'members' table
             'mobile' => 'required|digits:10',
-            'password' => 'required|min:6|confirmed', // Ensures password and password_confirmation match
+            'password' => 'required|min:8|confirmed', // Ensures password and password_confirmation match
         ]);
 
         // Save data into the database

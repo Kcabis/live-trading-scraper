@@ -23,6 +23,7 @@ class StocksController extends Controller
             'totalCost' => 'required|numeric',
             'action' => 'required|string',
         ]);
+
         
        
         
@@ -45,6 +46,33 @@ class StocksController extends Controller
 
         return redirect()->back()->with("message", "Stock Added Successfully.");
     }
+    // Update stock
+    public function update(Request $request, $id)
+    {
+        $stock = Stocks::findOrFail($id);
+
+        // Validate and update stock data
+        $validated = $request->validate([
+            'stock_name' => 'required|string|max:255',
+            'action' => 'required|string',
+            'type' => 'required|string',
+            'quantity' => 'required|numeric|min:0',
+            'purchase_price' => 'required|numeric',
+            'total_cost' => 'required|numeric',
+        ]);
+
+        $stock->update([
+            'stock_name' => $validated['stock_name'],
+            'action' => $validated['action'],
+            'type' => $validated['type'],
+            'quantity' => $validated['quantity'],
+            'purchase_price' => $validated['purchase_price'],
+            'total_cost' => $validated['total_cost'],
+        ]);
+
+        return redirect()->route('stocks.index')->with('success', 'Stock updated successfully!');
+    }
+
 
     public function index()
     {
@@ -56,5 +84,12 @@ class StocksController extends Controller
         $stock->delete();
         return redirect()->back()->with("message","Stock deleted sucessfully");
     }
+    public function account()
+    {
+        $stocks = Stocks::all();
+        return view('account-statement', compact("stocks"));
+    }
+   
+    
     
 }

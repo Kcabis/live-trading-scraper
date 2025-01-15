@@ -1,127 +1,160 @@
-
 /* General Styling */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;
     color: #333;
+    line-height: 1.6;
 }
 
-/* Listed Securities Section */
-.listed-section {
+.container {
     width: 90%;
-    margin: 20px auto;
-    background: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
+    max-width: 1200px;
+    margin: 30px auto;
     padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-.listed-section h2 {
-    margin-bottom: 20px;
-    color: #4A90E2;
-    font-size: 24px;
+/* Profile Section */
+.profile-section {
     text-align: center;
-    font-weight: bold;
+    margin-bottom: 30px;
+    padding: 20px;
+    border-bottom: 1px solid #eaeaea;
 }
 
-/* Live Market Button */
-.Live {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+.profile-section img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid #007bff;
+    transition: transform 0.3s ease-in-out;
 }
 
-.Live button {
-    background-color: #4A90E2;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
+.profile-section img:hover {
+    transform: scale(1.1);
+}
+
+.file-upload {
+    margin-top: 10px;
+    display: inline-block;
     cursor: pointer;
     font-size: 14px;
-    text-transform: uppercase;
-    transition: background-color 0.3s;
+    color: #007bff;
+    text-decoration: underline;
 }
 
-.Live button:hover {
-    background-color: #357ABD;
+.profile-section h2 {
+    font-size: 24px;
+    color: #007bff;
+    margin-top: 10px;
 }
 
-.Live button a {
-    text-decoration: none;
-    color: #fff;
+/* Forms Section */
+.form-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
-/* Search Container */
-.search-container {
-    text-align: right;
-    margin-bottom: 15px;
-}
-
-.search-container input {
-    padding: 10px;
-    width: 250px;
+.box {
+    flex: 1;
+    min-width: 300px;
+    background: #f8f9fa;
+    padding: 20px;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    outline: none;
-    transition: border-color 0.3s;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.search-container input:focus {
-    border-color: #4A90E2;
+.box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Table Container */
-.table-container {
-    overflow-x: auto;
+.box h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+.form-group {
+    margin-bottom: 15px;
     text-align: left;
-    background: #fff;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
     border-radius: 5px;
+    background-color: #fff;
+    transition: border 0.3s ease;
 }
 
-table th, table td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-    font-size: 14px;
+.form-group input:focus {
+    border-color: #007bff;
+    outline: none;
 }
 
-table th {
-    background-color: #4A90E2;
+.form-group button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
     color: #fff;
+    border: none;
+    border-radius: 5px;
     font-weight: bold;
     text-transform: uppercase;
-}
-
-table tbody tr:hover {
-    background-color: #f2f2f2;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-table tbody tr td {
-    color: #555;
+.form-group button:hover {
+    background-color: #0056b3;
 }
 
-/* Sort and Reset Buttons */
-.sort-button {
-    background-color: #ddd;
-    color: #333;
-    border: none;
-    padding: 5px 10px;
-    font-size: 12px;
-    cursor: pointer;
-    margin-left: 5px;
-    border-radius: 3px;
-    transition: background-color 0.3s;
+/* Link Options */
+.link-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 14px;
 }
 
-.sort-button:hover {
-    background-color: #bbb;
+.link-options a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.link-options a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }

@@ -83,7 +83,7 @@ Route::post('/add-ph', [PortfolioController::class, 'store']);
 use App\Http\Controllers\StocksController;
 Route::post('/add-stock', [StocksController::class, 'store']);
 Route::delete('stock/delete/{stock}',[StocksController::class,'delete'])->name('stock.delete');
-
+Route::post('/update-stock', [StocksController::class, 'update'])->name('stock.update');
 
 
 
@@ -115,6 +115,8 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin');
  Route::get("/dash",[DashboardController::class,'index'])->name('dash');
  Route::get("/port",[DashboardController::class,'indexx'])->name('port');
  Route::get("/ind-history",[DashboardController::class,'history'])->name('ind-history');
+Route::get('/account-statement', [StocksController::class, 'account'])->name('account-statement');
+
  
 
 
@@ -149,9 +151,9 @@ Route::get('/layout', function () {
 //     return view('listed-securities');
 // })->name('listed-securities');
 
-Route::get('/account-statement', function () {
-    return view('account-statement');
-})->name('account-statement');
+// Route::get('/account-statement', function () {
+//     return view('account-statement');
+// })->name('account-statement');
 
 
 Route::get('/trader-analytics', function () {

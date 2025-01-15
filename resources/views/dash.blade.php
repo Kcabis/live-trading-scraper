@@ -72,9 +72,9 @@
                 <tr>
                     <td>{{ $portfolio->id }}</td>
                     <td>{{ $portfolio->portfolio_name }}</td>
-                    <td>$10,000</td>
-                    <td>$8,000</td>
-                    <td>$00</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>
                         <a class="btn btn-primary btn-sm" href="/port?portfolio_id={{ $portfolio->id }}">View</a>
                         <form action="{{route('portfolio.delete',$portfolio->id)}}" method="post">

@@ -5,246 +5,285 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart-Folio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         /* Global Styles */
-        * {
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
+            background-color: #f7f8fc;
             color: #333;
             overflow-x: hidden;
         }
 
-        /* Navbar Styles */
+        /* Navbar */
         nav {
             position: fixed;
             top: 0;
-            left: 0;
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 10px 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-100%);
+            animation: slideIn 0.8s forwards;
         }
 
-        nav .nav-links a {
+        @keyframes slideIn {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        nav a {
             color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            margin-right: 10px;
-            font-weight: bold;
             font-size: 16px;
+            font-weight: 500;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: color 0.3s;
         }
 
-        nav .nav-links a:hover {
-            background-color: #5E35B1;
-            border-radius: 4px;
+        nav a:hover {
+            color: #FFD700;
         }
 
-        nav .search-box {
-            position: relative;
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FFD700;
         }
 
-        nav .search-box input {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 4px;
-            outline: none;
+        .nav-buttons a {
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-left: 10px;
+            font-weight: bold;
+            transition: all 0.3s;
         }
 
-        nav .search-box button {
-            position: absolute;
-            right: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #333;
+        .nav-buttons a.login-btn {
+            background-color: transparent;
+            border: 2px solid #FFD700;
+            color: #FFD700;
+        }
+
+        .nav-buttons a.login-btn:hover {
+            background-color: #FFD700;
+            color: black;
+            transform: scale(1.1);
+        }
+
+        .nav-buttons a.signup-btn {
+            background-color: #FFD700;
+            color: black;
+        }
+
+        .nav-buttons a.signup-btn:hover {
+            background-color: #FFC107;
+            transform: scale(1.1);
         }
 
         /* Hero Section */
         .hero {
-            position: relative;
-            background-image: url('/images/home.jpg');
-            background-size: cover;
-            background-position: center;
-            width: 100%;
-            height: 100%;
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('/images/home.jpg') no-repeat center center / cover;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            align-text: center;
-            overflow: hidden;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-        }
-
-        .hero img {
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-
-        /* Apply blur effect only to the background */
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: inherit;
-            background-size: inherit;
-            background-position: inherit;
-            filter: blur(1px);
-            z-index: -1;
-        }
-
-        /* Hero content */
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            animation: fadeIn 5s ease-in-out;
             color: white;
+            text-align: center;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         .hero h1 {
-            font-size: 70px;
-            font-weight: 800;
+            font-size: 64px;
+            font-weight: 700;
             margin-bottom: 20px;
-            color: aqua;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-            animation: colorChange 5s infinite linear;
+            color: #FFD700;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
+            animation: scaleUp 1s forwards;
         }
 
-        @keyframes colorChange {
-            0% { color: aqua; }
-            25% { color: gold; }
-            50% { color: red; }
-            75% { color: lime; }
-            100% { color: aqua; }
+        @keyframes scaleUp {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
         }
 
         .hero p {
-            font-size: 28px;
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+            animation: fadeInText 1.5s ease-out;
+        }
+
+        @keyframes fadeInText {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .cta-buttons a {
+            padding: 15px 30px;
+            margin: 0 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            text-decoration: none;
             font-weight: bold;
-            color: white;
-            margin-bottom: 40px;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
-            animation: colorChange 5s infinite linear;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .cta-buttons a.login-btn {
+            background-color: transparent;
+            border: 2px solid #FFD700;
+            color: #FFD700;
+        }
+
+        .cta-buttons a.login-btn:hover {
+            background-color: #FFD700;
+            color: black;
+            transform: scale(1.1);
+        }
+
+        .cta-buttons a.signup-btn {
+            background-color: #FFD700;
+            color: black;
+        }
+
+        .cta-buttons a.signup-btn:hover {
+            background-color: #FFC107;
+            transform: scale(1.1);
         }
 
         /* Quote Section */
         .quote {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px;
-            font-size: 20px;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 215, 0, 0.8);
+            padding: 10px 30px;
+            border-radius: 8px;
             font-style: italic;
-            color: #FFD700;
+            font-size: 18px;
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background to make text readable */
+            color: black;
+            animation: bounceIn 1s ease-in-out;
         }
 
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
+        @keyframes bounceIn {
+            0% {
+                transform: translateY(200px);
+            }
+            60% {
+                transform: translateY(-20px);
+            }
+            80% {
+                transform: translateY(10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
         }
 
-        .cta-buttons a {
-            text-decoration: none;
-            padding: 15px 30px;
-            background-color: #673AB7;
-            color: white;
-            font-weight: bold;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        .cta-buttons a:hover {
-            background-color: #5E35B1;
-        }
-
-        /* Footer Section */
+        /* Footer */
         footer {
             background-color: #333;
             color: white;
-            padding: 20px 0;
             text-align: center;
+            padding: 20px 0;
+            opacity: 0;
+            animation: fadeInFooter 1.5s forwards;
         }
 
-        footer p {
-            font-size: 14px;
+        @keyframes fadeInFooter {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         footer a {
             color: #FFD700;
             text-decoration: none;
+            transition: color 0.3s;
         }
 
         footer a:hover {
-            text-decoration: underline;
+            color: #FFC107;
         }
 
+        footer p {
+            margin: 5px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .cta-buttons a {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav>
+    <nav class="d-flex justify-content-between align-items-center">
+        <a href="#" class="navbar-brand">Smart-Folio</a>
         <div class="nav-links">
-            <a href="{{url('login')}}">User Login</a>
-            <a href="{{url('loginad')}}">Admin Login</a>
-            <a href="{{url('register')}}">Signup</a>
             <a href="#about">About</a>
-            <a href="#">Contact Us</a>
+            <a href="#contact">Contact</a>
         </div>
-        <div class="search-box">
-            <input type="text" placeholder="Search...">
-            <button><img src="https://img.icons8.com/material-outlined/24/search.png" alt="Search"></button>
+        <div class="nav-buttons">
+            <a href="{{url('login')}}" class="login-btn">Login</a>
+            <a href="{{url('register')}}" class="signup-btn">Sign Up</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <div class="hero">
-        <div class="hero-content">
+        <div>
             <h1>Smart-Folio</h1>
-            <p>Your Investment Tracker</p>
+            <p>Track. Manage. Grow Your Investments.</p>
             <div class="cta-buttons">
-                <a href="{{url('login')}}">Login</a>
-                <a href="{{url('register')}}">Sign Up</a>
+                <a href="{{url('login')}}" class="login-btn">Login</a>
+                <a href="{{url('register')}}" class="signup-btn">Sign Up</a>
             </div>
         </div>
-        <!-- Quote Section in Front of the Image -->
-        <div class="quote">
-            "Every Loss is a lesson and every gain is the <br>
-            The market doesn't reward greed but teaches patience"
-        </div>
+        <div class="quote">"The market reward greed but teaches patience"</div>
     </div>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Smart-Folio. All Rights Reserved.</p>
-        <p>For more information, visit our <a href="#about">About</a> section.</p>
+        <p>&copy; 2025 Smart-Folio. All Rights Reserved.</p>
+        <p><a href="#about">About</a> | <a href="#contact">Contact</a></p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
