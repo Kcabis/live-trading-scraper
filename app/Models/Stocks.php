@@ -28,4 +28,4 @@ class Stocks extends Model
     {
         return $this->belongsTo(Portfolio::class);
     }
-}
+} 

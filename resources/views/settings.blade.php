@@ -1,3 +1,4 @@
+<!-- filepath: /Applications/XAMPP/xamppfiles/htdocs/live-trading-scraper-1/resources/views/settings.blade.php -->
 @extends('portfolio')
 
 @section('title', 'Dashboard')
@@ -9,8 +10,12 @@
     <div class="container">
         <!-- Profile Section -->
         <div class="profile-section">
-            <img src="profile-pic.jpg" alt="User Profile" id="profile-img">
-            <input type="file" class="file-upload" id="upload-profile" accept="image/*">
+            <img src="{{ asset('storage/profile_images/' . (auth()->user()->profile_image ?? 'default.png')) }}" alt="User Profile" id="profile-img">
+            <form action="{{ route('settings.uploadProfile') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="file" class="file-upload" id="upload-profile" name="profile-image" accept="image/*">
+                <button type="submit">Upload Profile Image</button>
+            </form>
             <h2>User Profile</h2>
         </div>
 
@@ -19,41 +24,47 @@
             <!-- User Details Form -->
             <div class="box">
                 <h2>User Details</h2>
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" value="JohnDoe">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="johndoe@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input type="tel" id="phone" name="phone" value="1234567890">
-                </div>
-                <div class="form-group">
-                    <button type="submit">Update Details</button>
-                </div>
+                <form action="{{ route('settings.updateDetails') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="username">Hello {{ auth()->user()->first_name ?? 'Guest' }}</label>
+                        <input type="text" id="username" name="username" value="{{ auth()->user()->name }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="{{ auth()->user()->email }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" value="{{ auth()->user()->phone }}">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Update Details</button>
+                    </div>
+                </form>
             </div>
 
             <!-- Change Password Form -->
             <div class="box">
                 <h2>Change Password</h2>
-                <div class="form-group">
-                    <label for="current-password">Current Password</label>
-                    <input type="password" id="current-password" name="current-password">
-                </div>
-                <div class="form-group">
-                    <label for="new-password">New Password</label>
-                    <input type="password" id="new-password" name="new-password">
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Confirm New Password</label>
-                    <input type="password" id="confirm-password" name="confirm-password">
-                </div>
-                <div class="form-group">
-                    <button type="submit">Change Password</button>
-                </div>
+                <form action="{{ route('settings.changePassword') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" id="current-password" name="current-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">New Password</label>
+                        <input type="password" id="new-password" name="new-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm New Password</label>
+                        <input type="password" id="confirm-password" name="new-password_confirmation">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Change Password</button>
+                    </div>
+                </form>
 
                 <!-- Forgot & Logout Links -->
                 <div class="link-options">
@@ -67,7 +78,7 @@
 
 @push('scripts')
     <script>
-        // JavaScript to handle the profile image upload
+        // JavaScript to handle the profile image upload preview
         document.getElementById('upload-profile').addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {

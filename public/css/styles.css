@@ -54,6 +54,27 @@ width: 150px; /* Default width of the sidebar */
     top: 20px;
     left: 20px; /* Positioned to the top left inside the sidebar */
 }
+/* Portfolio Container */
+.portfolio-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between elements */
+    margin-top: 20px;
+}
+
+/* Buttons Styling */
+.portfolio-button {
+    padding: 8px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: #ccc; /* Light grey background */
+    color: black;
+    border: none;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+
 
 /* Main content area styling */
 .main-content {
@@ -168,11 +189,10 @@ header .profile-icon img {
 }
 
 #shareholderSelect {
-    padding: 7px;
-    font-size: 12px;
-    border-radius: 8px;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
     border: 1px solid #ccc;
-    width: 100px;
 }
 
 #addShareholder, #editShareholder {
@@ -290,27 +310,46 @@ header .profile-icon img {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+.portfolio-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between search & clear buttons */
+}
 
 .portfolio-table table {
     width: 100%;
-    border-collapse: collapse; /* Removes space between table borders */
+    border-collapse: collapse;
 }
 
-.portfolio-table table th, .portfolio-table table td {
+.portfolio-table table th,
+.portfolio-table table td {
     padding: 15px;
-    border-radius:0px;
-    border-bottom: 1px solid #5e72bbe2; /* Light grey border under each cell */
-    text-align: left; /* Left-aligned text */
-    color: #090808;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
 .portfolio-table table th {
-    background-color: #7a74ea; /* Light grey background for table headers */
+    background: #264653;
+    color: white;
 }
-.portfolio-table table tr{
-    background-color:rgba(136, 177, 186, 0.827);
-    color: #0f0707;
 
+.portfolio-table table tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+/* Buttons */
+button {
+    background: linear-gradient(to right, #2a9d8f, #264653);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(to right, #264653, #2a9d8f);
 }
 /* Styling for the table search box */
 .table-search-container {
@@ -502,6 +541,21 @@ header .profile-icon img {
     width: 100vw;
 }
 
+.back-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s;
+}
 
 
 

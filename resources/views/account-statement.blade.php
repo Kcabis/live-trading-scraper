@@ -24,33 +24,33 @@
                 </tr>
             </thead>
             <tbody id="stockTableBody">
-                @if($stocks->isEmpty())
+                @if($transactions->isEmpty())
                     <tr>
-                        <td colspan="6">No stocks available</td>
+                        <td colspan="6">No transactions available</td>
                     </tr>
                 @else
                     <?php
                     $amount = 0; // Initialize amount to 0
                     ?>
-                    @foreach($stocks as $stock)
+                    @foreach($transactions as $transaction)
                         <tr class="stock-row">
-                            <td>{{$stock->id}}</td>
-                            <td>{{$stock->stock_name}}</td>
-                            <td>{{$stock->action}}</td>
+                            <td>{{$transaction->id}}</td>
+                            <td>{{$transaction->stock_name}}</td>
+                            <td>{{$transaction->action}}</td>
     
                             <!-- Display Buy amount and set Sell amount to 0 if action is buy -->
                             <td>
-                                @if($stock->action == 'buy')
+                                @if($transaction->action == 'buy')
                                     <?php
-                                    $buyAmount = $stock->total_cost;
+                                    $buyAmount = $transaction->total_cost;
                                     $sellAmount = 0; // Set sell amount to 0 when action is buy
                                     $amount -= $buyAmount; // Subtract buy amount from total amount
                                     ?>
                                     {{$buyAmount}} <!-- Display Buy amount -->
-                                @elseif($stock->action == 'sell')
+                                @elseif($transaction->action == 'sell')
                                     <?php
                                     $buyAmount = 0; // Set buy amount to 0 when action is sell
-                                    $sellAmount = $stock->cost;
+                                    $sellAmount = $transaction->total_amount;
                                     $amount += $sellAmount; // Add sell amount to total amount
                                     ?>
                                     {{$buyAmount}} <!-- Display Buy amount as 0 for sell action -->
@@ -65,7 +65,7 @@
     
                             <!-- Display Sell amount and set Buy amount to 0 if action is sell -->
                             <td>
-                                @if($stock->action == 'sell')
+                                @if($transaction->action == 'sell')
                                     {{$sellAmount}} <!-- Display Sell amount -->
                                 @else
                                     0 <!-- Display Sell amount as 0 when action is buy -->
@@ -107,6 +107,5 @@
         }
     }
 }
-
 </script>
 @endpush

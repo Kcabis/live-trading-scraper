@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Otp; // Use the Otp model
 use Illuminate\Support\Facades\Mail;
 
+use Illuminate\Support\Facades\Auth;
+
+
 class RegistrationController extends Controller
 {
     public function store(Request $request)
@@ -70,5 +73,64 @@ class RegistrationController extends Controller
     public function showOtpForm($email)
     {
         return view('otp', compact('email'));
+    }
+    public function updateDetails(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'nullable|string|max:15',
+        ]);
+
+        $user = Auth::user();
+        $user->first_name = $request->username;
+        $user->email = $request->email;
+        $user->mobile = $request->phone;
+        $user->save();
+
+        return back()->with('success', 'Details updated successfully.');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current-password' => 'required',
+            'new-password' => 'required|string|min:8|confirmed',
+        ]);
+        //dd($request);
+
+        $user = Auth::user();
+        if (!Hash::check($request->input('current-password'), $user->password)) {
+            return back()->withErrors(['current-password' => 'Current password is incorrect']);
+        }
+
+        $user->password = Hash::make($request->input('new-password'));
+        $user->save();
+
+        return back()->with('success', 'Password changed successfully.');
+    }
+
+    public function uploadProfile(Request $request)
+    {
+        $request->validate([
+            'profile-image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = Auth::user();
+        if ($request->hasFile('profile-image')) {
+            $image = $request->file('profile-image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/profile_images', $imageName);
+
+            // Delete old profile image if exists
+            if ($user->profile_image) {
+                Storage::delete('public/profile_images/' . $user->profile_image);
+            }
+
+            $user->profile_image = $imageName;
+            $user->save();
+        }
+
+        return back()->with('success', 'Profile image uploaded successfully.');
     }
 }

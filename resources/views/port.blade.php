@@ -3,72 +3,45 @@
 @section('content')
     @push('styles')
         <link rel="stylesheet" href="{{ asset('css\styles.css') }}">
+        <!-- Include Select2 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<!-- Include jQuery (Required for Select2) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include Select2 JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
     @endpush
 
     <div class="main-content">
-        <header>
-            <div class="header-content">
-                <div class="search-container">
-                    <p class="blinking-text">Welcome to Smart folio</p>
-                </div>
-                <div class="profile-icon">
-                    <img src="/image/bull.jpg" alt="Profile">
-                </div>
-            </div>
-        </header>
 
         <!-- Dashboard Section -->
         <div id="dashboardSection" class="content-section">
             <div class="shareholder-options">
 
-
-                <div
-                    style="
-                        display: flex;
-                        justify-content: start;
-                        align-items: center;
-                        margin-top: 20px;
-                    ">
-                    <select id="shareholderSelect">
-                        <option value="" disabled selected>Select Portfolio</option>
-                        @foreach ($portfolios as $portfolio)
-                            <option value="{{ $portfolio->id }}"> {{ $portfolio->portfolio_name }}</option>
-                        @endforeach
-                    </select>
-
-
-
-
-                    <form id="searchStockForm" action="/port" method="GET">
-                        <input type="hidden" id="portfolio_id" name="portfolio_id">
-                        <button type="submit"
-                            style="padding: 8px;
-    font-size: 12px;
-    margin-left: 10px; /* Space between buttons */
-    cursor: pointer;
-    background-color: #ccc; /* Blue background for buttons */
-    color: black;
-    border: none;
-    border-radius: 8px;">Search</button>
-                    </form>
-
-                    <form id="clearStockForm" action="/port" method="GET">
-                        <button type="submit"
-                            style="padding: 8px;
-    font-size: 12px;
-    margin-left: 10px; /* Space between buttons */
-    cursor: pointer;
-    background-color: #ccc; /* Blue background for buttons */
-    color: black;
-    border: none;
-    border-radius: 8px;">Clear</button>
-                    </form>
-
-                    <button id="addShareholder">Add Portfolio</button>
-                    <button id="editShareholder">Edit Portfolio</button>
-
-                </div>
-
+    <!-- Back button -->
+    <a href="{{ route('dashboard') }}" class="back-button">Back</a>
+    <div class="portfolio-container">
+        <select id="shareholderSelect">
+            <option value="" disabled selected>Select Portfolio</option>
+            @foreach ($portfolios as $portfolio)
+                <option value="{{ $portfolio->id }}">{{ $portfolio->portfolio_name }}</option>
+            @endforeach
+        </select>
+    
+        <div class="portfolio-actions">
+            <form id="searchStockForm" action="/port" method="GET">
+                <input type="hidden" id="portfolio_id" name="portfolio_id">
+                <button type="submit" class="portfolio-button">Search</button>
+            </form>
+    
+            <form id="clearStockForm" action="/port" method="GET">
+                <button type="submit" class="portfolio-button">Clear</button>
+            </form>
+        </div>
+     
+        <button id="addShareholder" class="portfolio-button">Add Portfolio</button>
+        <button id="editShareholder" class="portfolio-button">Edit Portfolio</button> 
+    </div>
 
 
 
@@ -76,6 +49,7 @@
             <div class="overview">
                 <div class="card1">
                     <h3>Portfolio Value</h3>
+                    {{-- {{ $portfoliovalue }} --}}
                     <p id="portfolioVal">Rs 0.00</p>
                 </div>
                 <div class="card2">
@@ -101,6 +75,8 @@
                     <p id="dailyGains">Rs 0.00</p>
                 </div>
             </div>
+
+            <button id="addStock">Add Stock</button>
             <div class="portfolio-table">
                 <!-- Search box above the table -->
                 <div class="table-search-container">
@@ -123,83 +99,89 @@
                     </thead>
                     <tbody>
                         @foreach ($stocks as $stock)
-                            <tr>
-                                <td>{{ $stock['id'] }}</td>
-                                <td>{{ $stock['stock_name'] }}</td>
-                                <td>{{ $stock['wacc'] }}</td>
-                                <td>{{ $stock['quantity'] }}</td>
-                                <td>
-                                    <script>
-                                        var purchasePrice = {{ $stock['wacc'] }};
-                                        var quantity = {{ $stock['quantity'] }};
-                                        var purchaseValue = purchasePrice * quantity;
-                                        document.write(purchaseValue);
-                                    </script>
-                                </td>
-                                <td>{{ $stock['ltp'] }}</td>
-                                <td>
-                                    <script>
-                                        var ltpRaw = '{{ $stock['ltp'] }}'.replace(/,/g, '');
-                                        var ltp = parseFloat(ltpRaw);
-                                        var marketValue = ltp * quantity;
-                                        document.write('<p id="marketValue">' + marketValue + '</p>' +
-                                            '<input type="hidden" id="marketValueRaw" value="' + marketValue + '">');
-                                    </script>
-                                </td>
-                                <td>
-                                    <script>
-                                        var purchaseValue = {{ $stock['wacc'] }} * {{ $stock['quantity'] }};
-                                        var ltpRaw = '{{ $stock['ltp'] }}'.replace(/,/g, '');
-                                        var ltp = parseFloat(ltpRaw);
-                                        var marketValue = ltp * {{ $stock['quantity'] }};
-
-                                        var profitLoss = marketValue - purchaseValue;
-                                        if (profitLoss > 0) {
-                                            document.write(  + profitLoss.toFixed(2));
-                                        } else if (profitLoss < 0) {
-                                            document.write( - Math.abs(profitLoss).toFixed(2));
-                                        } else {
-                                            document.write('Rs. 0.00');
-                                        }
-                                    </script>
-                                </td>
-                                <td>
-                                    <button class="sellStock" id="sellStock">Sell</button>
-                                </td>
-                            </tr>
+                            @if($stock['quantity'] > 0) <!-- Only show stock if quantity > 0 -->
+                                <tr>
+                                    <td>{{ $stock['id'] }}</td>
+                                    <td>{{ $stock['stock_name'] }}</td>
+                                    <td>{{ $stock['wacc'] }}</td>
+                                    <td>{{ $stock['quantity'] }}</td>
+                                    <td>
+                                        <script>
+                                            var purchasePrice = {{ $stock['wacc'] }};
+                                            var quantity = {{ $stock['quantity'] }};
+                                            var purchaseValue = purchasePrice * quantity;
+                                            document.write(purchaseValue);
+                                        </script>
+                                    </td>
+                                    <td>{{ $stock['ltp'] }}</td>
+                                    <td>
+                                        <script>
+                                            var ltpRaw = '{{ $stock['ltp'] }}'.replace(/,/g, '');
+                                            var ltp = parseFloat(ltpRaw);
+                                            var marketValue = ltp * quantity;
+                                            document.write('<p id="marketValue">' + marketValue + '</p>' +
+                                                '<input type="hidden" id="marketValueRaw" value="' + marketValue + '">');
+                                        </script>
+                                    </td>
+                                    <td>
+                                        <script>
+                                            var purchaseValue = {{ $stock['wacc'] }} * {{ $stock['quantity'] }};
+                                            var ltpRaw = '{{ $stock['ltp'] }}'.replace(/,/g, '');
+                                            var ltp = parseFloat(ltpRaw);
+                                            var marketValue = ltp * {{ $stock['quantity'] }};
+                    
+                                            var profitLoss = marketValue - purchaseValue;
+                        if (profitLoss > 0) {
+                            document.write('<span class="profit">' + profitLoss.toFixed(2) + '</span>');
+                        } else if (profitLoss < 0) {
+                            document.write('<span class="loss">' + (-Math.abs(profitLoss)).toFixed(2) + '</span>');
+                        } else {
+                            document.write('Rs. 0.00');
+                        }
+                                        </script>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('sell', $stock['id']) }}"
+                                            class="btn btn-warning btn-sm sellStock"><button>Sell</button></a>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
+    
+                    
 
                         <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                let marketValueSum = 0; // Total Market Value
-                                let purchaseValueSum = 0; // Total Purchase Value
-                                let profitvalueSum=0; 
-
-                                const marketValueElements = document.querySelectorAll('#marketValueRaw');
-                                const purchasePriceElements = document.querySelectorAll('td:nth-child(3)'); // Purchase Price column
-                                const quantityElements = document.querySelectorAll('td:nth-child(4)'); // Quantity column
-                                const profitElements = document.querySelectorAll('td:nth-child(8)');
-
-                                // Calculate Market Value Sum
-                                marketValueElements.forEach(function(element) {
-                                    marketValueSum += parseFloat(element.value);
-                                });
-
-                                // Calculate Purchase Value Sum
-                                purchasePriceElements.forEach(function(element, index) {
-                                    const purchasePrice = parseFloat(element.textContent.trim()); // Get purchase price
-                                    const quantity = parseFloat(quantityElements[index].textContent.trim()); // Get quantity
-                                    purchaseValueSum += purchasePrice * quantity; // Add to purchase value sum
-                                });
-                                profitElements.forEach(function(element){
-                                    const Profit=parseFloat(element.textContent.trim());
-                                    profitvalueSum+=Profit; 
-                                });
-                                // Update Portfolio Value and Current Investment
-                                document.getElementById('portfolioVal').textContent = 'Rs. ' + marketValueSum.toFixed(2);
-                                document.getElementById('currentInvestment').textContent = 'Rs. ' + purchaseValueSum.toFixed(2);
-                                document.getElementById('dailyGains').textContent = 'Rs. ' +profitvalueSum.toFixed(2);
+                        document.addEventListener('DOMContentLoaded', function () {
+                            let marketValueSum = 0; // Total Market Value
+                            let purchaseValueSum = 0; // Total Purchase Value
+                            let profitValueSum = 0; // Total Profit/Loss (Unrealized Gain)
+                        
+                            const marketValueElements = document.querySelectorAll('#marketValueRaw');
+                            const purchasePriceElements = document.querySelectorAll('td:nth-child(3)'); // Purchase Price column
+                            const quantityElements = document.querySelectorAll('td:nth-child(4)'); // Quantity column
+                        
+                            // Calculate Total Profit/Loss (Unrealized Gain)
+                            marketValueElements.forEach(function (element, index) {
+                                const marketValue = parseFloat(element.value.trim()); // Get Market Value from hidden input
+                                const purchasePrice = parseFloat(purchasePriceElements[index].textContent.trim().replace(/,/g, '')); // Parse Purchase Price
+                                const quantity = parseFloat(quantityElements[index].textContent.trim().replace(/,/g, '')); // Parse Quantity
+                        
+                                if (!isNaN(marketValue) && !isNaN(purchasePrice) && !isNaN(quantity)) {
+                                    const purchaseValue = purchasePrice * quantity; // Calculate Purchase Value
+                                    const profitLoss = marketValue - purchaseValue; // Calculate Profit/Loss
+                                    profitValueSum += profitLoss; // Add to Total Profit/Loss
+                                    purchaseValueSum += purchaseValue; // Add to Total Purchase Value
+                                    marketValueSum += marketValue; // Add to Total Market Value
+                                }
                             });
+                        
+                            // Update Portfolio Value, Current Investment, Unrealized Gain, and Daily Gains
+                            document.getElementById('portfolioVal').textContent = 'Rs. ' + marketValueSum.toFixed(2);
+                            document.getElementById('currentInvestment').textContent = 'Rs. ' + purchaseValueSum.toFixed(2);
+                            document.getElementById('UnrealizedGain').textContent = 'Rs. ' + profitValueSum.toFixed(2);
+                            document.getElementById('dailyGains').textContent = 'Rs. ' + profitValueSum.toFixed(2);
+                        });
+                        
                         </script>
 
                         <style>
@@ -224,8 +206,6 @@
                     </tbody>
 
                 </table>
-                <button id="addStock">Add Stock</button>
-                <button id="sellStock"> Sell stock</button>
             </div>
         </div>
 
@@ -244,7 +224,7 @@
                         <option value="buy">Buy</option>
                     </select>
                     <label for="stockName">Stock Name:</label>
-                    <select id="stockName" name="stockName" required>
+                    <select id="stockName" name="stockName" class="stock-dropdown"required>
                         <option value="" disabled selected>Select Stock</option>
                         @foreach ($symbols as $symbol)
                             <option value="{{ $symbol }}">{{ $symbol }}</option>
@@ -278,6 +258,16 @@
                     <button type="button" id="cancelStockBtn">Cancel</button>
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
+                // Activate Select2 on the stock dropdown
+                $('.stock-dropdown').select2({
+                    placeholder: "Search Stock...",
+                    allowClear: true
+                });
+            });
+        </script>
+        
 
 
         <!-- Buy Confirmation Popup -->

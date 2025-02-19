@@ -14,9 +14,9 @@
                 <tr>
                     <th>S.N</th>
                     <th>Portfolio-Name</th>
-                    <th>Market Value</th>
-                    <th>Investment</th>
-                    <th>Profit/Loss</th>
+                    <th>Total Buys</th>
+                    <th>Total sold</th>
+                    <th>Total transactions</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -25,9 +25,9 @@
                 <tr>
                     <td>{{ $portfolio->id }}</td>
                     <td>{{ $portfolio->portfolio_name }}</td>
-                    <td>$10,000</td>
-                    <td>$8,000</td>
-                    <td>$00</td>
+                    <td>{{$totalbuy}}</td>
+                    <td>{{$totalsell}}</td>
+                    <td>{{$totaltransactions}}</td>
                     <td>
                         <a class="btn btn-primary btn-sm" href="/ind-history?portfolio_id={{ $portfolio->id }}">View</a>
         

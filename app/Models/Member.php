@@ -26,7 +26,9 @@ class Member extends Authenticatable implements MustVerifyEmail // Add MustVerif
     {
         return $this->hasOne(Otp::class);
     }
-
-    
-
+   // Define the relationship with Portfolios
+   public function portfolios()
+   {
+       return $this->hasMany(Portfolio::class);
+   }
 }

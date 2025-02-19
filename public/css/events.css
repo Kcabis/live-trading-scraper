@@ -38,7 +38,7 @@
 }
 
 .animated-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-10px) scale(1.05);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
@@ -49,6 +49,7 @@
     margin-bottom: 10px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    transition: color 0.3s ease-in-out;
 }
 
 .card-data {
@@ -90,4 +91,13 @@
 
 .animated-card:hover .card-title {
     color: #e76f51;
+}
+
+/* Additional Hover Effects */
+.animated-card:hover .card-data .data-left {
+    color: #264653;
+}
+
+.animated-card:hover .card-data .data-right {
+    color: #2a9d8f;
 }

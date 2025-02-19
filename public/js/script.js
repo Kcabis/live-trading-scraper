@@ -38,14 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
     editShareholder.addEventListener('click', function () {
         editPortfolioPopup.style.display = "flex";
     });
-    // Open Sell Stock Popup
-    document.getElementById('sellStock').addEventListener('click', function () {
-        if (!shareholderSelect.value) {
-            alert("Please select a shareholder first.");
-        } else {
-            sellStockPopup.style.display = 'flex';
-        }
-    });
+   
 
     // Handle adding new shareholder
     document.getElementById('addShareholderBtn').addEventListener('click', function () {
@@ -359,5 +352,9 @@ document.getElementById('searchInput').addEventListener('input', function () {
         row.style.display = portfolioName.includes(searchValue) ? '' : 'none';
     });
 });
+
+
+
+
 
 
