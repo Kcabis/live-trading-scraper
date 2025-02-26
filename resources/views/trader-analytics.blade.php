@@ -17,7 +17,7 @@
 
             <!-- Portfolio Weight -->
             <div class="chart-container">
-                <h2>Portfolio Weight of Individual Stocks (Market Value in %)</h2>
+                <h3>Realized Profit of Individual Stocks ( In Rs)</h3>
                 <canvas id="portfolioWeightChart"></canvas>
             </div>
         </div>

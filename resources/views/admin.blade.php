@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Portfolio Management</title>
@@ -9,8 +10,9 @@
     <link rel="stylesheet" href="{{ url('css/admin.css') }}">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
-<div class="dashboard">
+    <div class="dashboard">
         <!-- Sidebar Section -->
         <div class="sidebar">
             <button id="sidebarToggle">☰</button> <br>
@@ -21,7 +23,7 @@
                 <li><a href="#" data-target="listedSecuritiesSection" class="menu-item">Listed Securities</a></li>
                 <li><a href="#" data-target="eventManagementSection" class="menu-item">Event Management</a></li>
                 <li><a href="#" data-target="systemSettingsSection" class="menu-item">System Settings</a></li>
-                <li><button id="back"><a href="{{url('home')}}">Logout</a></button></li>
+                <li><button id="back"><a href="{{ url('home') }}">Logout</a></button></li>
             </ul>
         </div>
 
@@ -31,21 +33,21 @@
 
         <!-- Main Content Section -->
         <div class="main-content">
-        @if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>  
-@endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <header>
                 <div class="header-content">
                     <div class="search-container">
                         <p class="blinking-text">Hello Welcome to smart folio</p>
                     </div>
-                    
+
                     <!-- Profile Icon -->
                     <div class="profile-icon">
                         <img src="{{ asset('images/admin.png') }}" alt="Admin Profile">
@@ -80,8 +82,8 @@
                 <button id="addUser">Add New User</button>
                 <table>
                     <thead>
-                    
-                        
+
+
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
@@ -93,23 +95,23 @@
                     </thead>
                     <tbody id="userBody">
                         <!-- Dynamic rows will be added here -->
-                        @foreach($folioadmins as $folioadmin)
-                        <tr>
-                        <td>{{$folioadmin->id}}</td>
-                        <td>{{$folioadmin->user_name}}</td>
-                        <td>{{$folioadmin->email}}</td>
-                        <td>{{$folioadmin->password}}</td>
-                        <td>{{$folioadmin->role}}</td>
-                        <td>
-                            <button type="button"> Edit</button>
-                            <form action="{{route('folioadmin.delete',$folioadmin->id)}}" method="post">
-                                @csrf
-                                @method('delete')
-                                <button type="submit">Delete</button>
+                        @foreach ($folioadmins as $folioadmin)
+                            <tr>
+                                <td>{{ $folioadmin->id }}</td>
+                                <td>{{ $folioadmin->user_name }}</td>
+                                <td>{{ $folioadmin->email }}</td>
+                                <td>{{ $folioadmin->password }}</td>
+                                <td>{{ $folioadmin->role }}</td>
+                                <td>
+                                    <button type="button"> Edit</button>
+                                    <form action="{{ route('folioadmin.delete', $folioadmin->id) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit">Delete</button>
 
-                            </form>
-</td>
-                        </tr>
+                                    </form>
+                                </td>
+                            </tr>
 
                     </tbody>
                     @endforeach
@@ -136,135 +138,141 @@
                 </table>
             </div>
 
-    <div id="listedSecuritiesSection" class="content-section" style="display: none;">
-    <h2>Listed Securities</h2>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <label for="showEntries">Show
-                    <select id="showEntries" class="form-select form-select-sm" style="width:auto; display:inline-block;">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select> entries
-                </label>
+            <div id="listedSecuritiesSection" class="content-section" style="display: none;">
+                <h2>Listed Securities</h2>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="showEntries">Show
+                                <select id="showEntries" class="form-select form-select-sm"
+                                    style="width:auto; display:inline-block;">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select> entries
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <form action="{{ route('uploadCsv') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="csvFileInput" id="csvFileInput" accept=".csv"
+                        class="form-control my-3" />
+                    <button type="submit" class="btn btn-primary">Upload CSV</button>
+                </form>
+
+
+                <!-- Scrollable Table Container -->
+                <div class="table-container"
+                    style="overflow-y: auto; max-height: 400px; border: 1px solid #ddd; margin-top: 20px;">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Table data will be populated dynamically -->
+                            @foreach ($securities as $security)
+                                <tr>
+                                    <td>{{ $security->stock_id }}</td>
+                                    <td>{{ $security->Date }}</td>
+                                    <td>{{ $security->S_ID }}</td>
+                                    <td>{{ $security->symbol }}</td>
+                                    <td>{{ $security->Name }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </div>
-    <form action="{{ route('uploadCsv') }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    <input type="file" name="csvFileInput" id="csvFileInput" accept=".csv" class="form-control my-3" />
-    <button type="submit" class="btn btn-primary">Upload CSV</button>
-</form>
 
-    
-    <!-- Scrollable Table Container -->
-    <div class="table-container" style="overflow-y: auto; max-height: 400px; border: 1px solid #ddd; margin-top: 20px;">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                <!-- Table data will be populated dynamically -->
-                @foreach ($securities as $security)
-                <tr>
-                    <td>{{ $security->stock_id }}</td>
-                    <td>{{ $security->Date }}</td>
-                    <td>{{ $security->S_ID }}</td>
-                    <td>{{ $security->symbol }}</td>
-                    <td>{{$security->Name}}</td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
+            <style>
+                /* Responsive Design */
+                .table-container {
+                    max-width: 100%;
+                    margin: 0 auto;
+                }
 
-<style>
-    /* Responsive Design */
-    .table-container {
-        max-width: 100%;
-        margin: 0 auto;
-    }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+                th,
+                td {
+                    text-align: left;
+                    padding: 8px;
+                }
 
-    th, td {
-        text-align: left;
-        padding: 8px;
-    }
+                th {
+                    background-color: #f4f4f4;
+                }
 
-    th {
-        background-color: #f4f4f4;
-    }
+                /* Adjust table font size for small screens */
+                @media (max-width: 768px) {
 
-    /* Adjust table font size for small screens */
-    @media (max-width: 768px) {
-        th, td {
-            font-size: 12px;
-        }
-    }
-</style>
+                    th,
+                    td {
+                        font-size: 12px;
+                    }
+                }
+            </style>
 
-  <script>
-    // Function to parse CSV content
-    function parseCSV(csvText) {
-        const rows = csvText.split('\n');
-        return rows.map(row => row.split(','));
-    }
+            <script>
+                // Function to parse CSV content
+                function parseCSV(csvText) {
+                    const rows = csvText.split('\n');
+                    return rows.map(row => row.split(','));
+                }
 
-    // Function to populate the table with CSV data
-    function populateTable(data) {
-        const tableBody = document.getElementById('tableBody');
-        tableBody.innerHTML = ''; // Clear existing table rows
+                // Function to populate the table with CSV data
+                function populateTable(data) {
+                    const tableBody = document.getElementById('tableBody');
+                    tableBody.innerHTML = ''; // Clear existing table rows
 
-        data.forEach((row, index) => {
-            // Skip empty rows
-            if (row.length === 1 && row[0].trim() === '') return;
+                    data.forEach((row, index) => {
+                        // Skip empty rows
+                        if (row.length === 1 && row[0].trim() === '') return;
 
-            const tr = document.createElement('tr');
-            row.forEach(col => {
-                const td = document.createElement('td'); // Correct tag for table cells
-                td.textContent = col.trim(); // Add trimmed cell content
-                tr.appendChild(td);
-            });
-            tableBody.appendChild(tr);
-        });
-    }
+                        const tr = document.createElement('tr');
+                        row.forEach(col => {
+                            const td = document.createElement('td'); // Correct tag for table cells
+                            td.textContent = col.trim(); // Add trimmed cell content
+                            tr.appendChild(td);
+                        });
+                        tableBody.appendChild(tr);
+                    });
+                }
 
-    // Event listener for the Upload button
-    document.getElementById('uploadBtn').addEventListener('click', () => {
-        const fileInput = document.getElementById('csvFileInput');
-        const file = fileInput.files[0];
+                // Event listener for the Upload button
+                document.getElementById('uploadBtn').addEventListener('click', () => {
+                    const fileInput = document.getElementById('csvFileInput');
+                    const file = fileInput.files[0];
 
-        // Check if a file is selected
-        if (!file) {
-            alert('Please select a CSV file');
-            return;
-        }
+                    // Check if a file is selected
+                    if (!file) {
+                        alert('Please select a CSV file');
+                        return;
+                    }
 
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const csvText = e.target.result;
-            const parsedData = parseCSV(csvText);
-            populateTable(parsedData);
-        };
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const csvText = e.target.result;
+                        const parsedData = parseCSV(csvText);
+                        populateTable(parsedData);
+                    };
 
-        reader.readAsText(file);
-    });
-</script>
+                    reader.readAsText(file);
+                });
+            </script>
 
             <!-- Event Management Section -->
             <div id="eventManagementSection" class="content-section" style="display: none;">
                 <h2>Event Management</h2>
                 <button id="addEvent">Add New Event</button>
-                
+
                 <table>
                     <thead>
                         <tr>
@@ -277,24 +285,27 @@
                         </tr>
                     </thead>
                     <tbody id="eventBody">
-                        @foreach($events as $event)
-                        <tr>
-                        <td>{{$event->event_name}}</td>
-                        <td>{{$event->stock_name}}</td>
-                        <td>{{$event->event_type}}</td>
-                        <td>{{$event->price}}</td>
-                        <td>{{$event->event_date}}</td>
-                        <td>
-                        
-                            <button type="button" >Edit</button>
-                            <form action="{{route('event.delete',$event->id)}}" method="post">
-                                @csrf
-                                @method('delete')
-                            <button type="submit" >Delete</button>
-                            </form>
-                        </td>
-                        </tr>
+                        @foreach ($events as $event)
+                            <tr>
+                                <td>{{ $event->event_name }}</td>
+                                <td>{{ $event->stock_name }}</td>
+                                <td>{{ $event->event_type }}</td>
+                                <td>{{ $event->price }}</td>
+                                <td>{{ $event->event_date }}</td>
+                                <td>
 
+                                    <button type="button" id="edit-btn">Edit</button>
+
+                                    <!-- DELETE BUTTON FORM (Fixed) -->
+                                    <form action="{{ route('event.delete', $event->id) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this event?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit">Delete</button>
+                                    </form>
+
+                                </td>
+                            </tr>
                         @endforeach
                         <!-- Dynamic rows will be added here -->
                     </tbody>
@@ -337,38 +348,77 @@
         </div>
     </div>
 
-<!-- Add Event  -->
+    <!-- Add Event  -->
     <div id="addEventPopup" class="popup" style="display: none;">
-    <div class="popup-content">
-        <h2>Add New Event</h2>
-        <form id="addEventForm" action="/add-event" method="POST">
-            @csrf
-            <label for="eventName">Event Name:</label>
-            <input type="text" name="event_name"id="eventName" required>
+        <div class="popup-content">
+            <h2>Add New Event</h2>
+            <form id="addEventForm" action="/add-event" method="POST">
+                @csrf
+                <label for="eventName">Event Name:</label>
+                <input type="text" name="event_name" id="eventName" required>
 
-            <label for="stockName">Stock Name:</label>
-            <input type="text" name="stock_name" id="stockName" required>
+                <label for="stockName">Stock Name:</label>
+                <input type="text" name="stock_name" id="stockName" required>
 
-            <label for="eventType">Event Type:</label>
-            <select id="eventType" name="event_type">
-                <option value="IPO">IPO</option>
-                <option value="Right">Right</option>
-                <option value="Bonus">Bonus</option>
-                <option value="Auction">Auction</option>
-            </select>
-   
-            <label for="eventPrice">Price:</label>
-            <input type="number" name="price" id="eventPrice" required>
+                <label for="eventType">Event Type:</label>
+                <select id="eventType" name="event_type">
+                    <option value="IPO">IPO</option>
+                    <option value="Right">Right</option>
+                    <option value="Bonus">Bonus</option>
+                    <option value="Auction">Auction</option>
+                    <option value="FPO">FPO</option>
+                    <option value="Debenture">Debenture</option>
+                    <option value="Foreign Employment">Foreign Employment</option>
+                </select>
 
-            <label for="eventDate">Event Date:</label>
-            <input type="date" name="event_date" id="eventDate" required>
+                <label for="eventPrice">Price:</label>
+                <input type="number" name="price" id="eventPrice" required>
 
-            <button type="submit" id="saveEvent">Save</button>
-            <button type="button" id="cancelEvent">Cancel</button>
-        </form>
+                <label for="eventDate">Event Date:</label>
+                <input type="date" name="event_date" id="eventDate" required>
+
+                <button type="submit" id="saveEvent">Save</button>
+                <button type="button" id="cancelEvent">Cancel</button>
+            </form>
+        </div>
     </div>
-</div>
+
+    <div id="editEventPopup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <h2>Add New Event</h2>
+            <form id="addEventForm" action="/add-event" method="POST">
+                @csrf
+                <label for="eventName">Event Name:</label>
+                <input type="text" name="event_name"id="eventName" required>
+
+                <label for="stockName">Stock Name:</label>
+                <input type="text" name="stock_name" id="stockName" required>
+
+                <label for="eventType">Event Type:</label>
+                <select id="eventType" name="event_type">
+                    <option value="IPO">IPO</option>
+                    <option value="Right">Right</option>
+                    <option value="Bonus">Bonus</option>
+                    <option value="Auction">Auction</option>
+                    <option value="FPO">FPO</option>
+                    <option value="Debenture">Debenture</option>
+                    <option value="Foreign Employement">Foreign Employement</option>
+                    <option value="Foreign Employement">Foreign Employement</option>
+                </select>
+
+                <label for="eventPrice">Price:</label>
+                <input type="number" name="price" id="eventPrice" required>
+
+                <label for="eventDate">Event Date:</label>
+                <input type="date" name="event_date" id="eventDate" required>
+
+                <button type="submit" id="saveEvent">Save</button>
+                <button type="button" id="canceleditEvent">Cancel</button>
+            </form>
+        </div>
+    </div>
     <!-- JavaScript -->
-    <script src="{{ asset('js/admin.js') }}"> </script>
+    <script src="{{ asset('js/admin.js') }}"></script>
 </body>
+
 </html>

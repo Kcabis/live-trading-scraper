@@ -34,24 +34,31 @@ class StocksController extends Controller
                                ->where('stock_name', $validated['stockName'])
                                ->first();
     
-        if ($existingStock) {
-            // Update the existing stock
-            $existingStock->quantity += $validated['quantity'];
-    
-            // Recalculate the weighted average cost (WACC)
-            $existingStock->wacc = 
-                (($existingStock->wacc * ($existingStock->quantity - $validated['quantity'])) 
-                + ($validated['wacc'] * $validated['quantity'])) 
-                / $existingStock->quantity;
-    
-            // Update other fields
-            $existingStock->total_amount += $validated['totalAmount'];
-            $existingStock->total_cost += $validated['totalCost'];
-            $existingStock->sebon_commission += $validated['sebonCommission'];
-            $existingStock->broker_commission += $validated['brokerCommission'];
-            $existingStock->dp_fee += $validated['dpFee'];
-            $existingStock->save();
-        } else {
+                               if ($existingStock) {
+                                // Update the existing stock quantity
+                                $existingStock->quantity += $validated['quantity'];
+                            
+                                // Recalculate the weighted average cost (WACC) only if the existing quantity is greater than 0
+                                if ($existingStock->quantity > 0) {
+                                    $existingStock->wacc = 
+                                        (($existingStock->wacc * ($existingStock->quantity - $validated['quantity'])) 
+                                        + ($validated['wacc'] * $validated['quantity'])) 
+                                        / $existingStock->quantity;
+                                } else {
+                                    // If quantity is 0 or negative, just assign the new WACC
+                                    $existingStock->wacc = $validated['wacc'];
+                                }
+                            
+                                // Update other fields
+                                $existingStock->total_amount += $validated['totalAmount'];
+                                $existingStock->total_cost += $validated['totalCost'];
+                                $existingStock->sebon_commission += $validated['sebonCommission'];
+                                $existingStock->broker_commission += $validated['brokerCommission'];
+                                $existingStock->dp_fee += $validated['dpFee'];
+                                $existingStock->save();
+                            }
+                            
+         else {
             // Create a new stock record in the correct portfolio
             Stocks::create([
                 'portfolio_id' => $validated['portfolio_id'],
@@ -279,7 +286,15 @@ private function calculateBrokerCommission($totalAmount)
     // Return the data as JSON
     return response()->json($stocks);
 }
+public function getTransactionsData()
+{
+    // Fetch the stock names and total amounts from the Stocks table
+    $transactions = Transaction::select('stock_name', 'profit_loss')->get();
+
+    // Return the data as JSON
+    return response()->json($transactions);
    
     
     
 }
+};

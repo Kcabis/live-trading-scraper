@@ -33,7 +33,7 @@ Route::post('/logout', function () {
 
 
  //Registration and OTP routes
-Route::get('/register', function () {
+Route::get('/registration', function () {
     return view('registration');
 });
 Route::post('/register', [RegistrationController::class, 'store']);
@@ -86,7 +86,7 @@ Route::put('/stocks/{id}', [StocksController::class, 'update'])->name('stocks.up
 Route::get('/sell/{id}', [StocksController::class, 'sell'])->name('sell');
 Route::post('/sell-stock', [StocksController::class, 'sellStock'])->name('sell.stock');
 Route::get('/stocks/data', [StocksController::class, 'getStocksData']);
-
+Route::get('/transactions/data', [StocksController::class, 'getTransactionsData']);
 
 
 //Events route

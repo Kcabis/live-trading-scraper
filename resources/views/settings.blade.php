@@ -1,4 +1,3 @@
-<!-- filepath: /Applications/XAMPP/xamppfiles/htdocs/live-trading-scraper-1/resources/views/settings.blade.php -->
 @extends('portfolio')
 
 @section('title', 'Dashboard')
@@ -47,19 +46,22 @@
             <!-- Change Password Form -->
             <div class="box">
                 <h2>Change Password</h2>
-                <form action="{{ route('settings.changePassword') }}" method="POST">
+                <form id="password-form" action="{{ route('settings.changePassword') }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label for="current-password">Current Password</label>
                         <input type="password" id="current-password" name="current-password">
+                        <small class="error-message" id="current-password-error"></small>
                     </div>
                     <div class="form-group">
                         <label for="new-password">New Password</label>
                         <input type="password" id="new-password" name="new-password">
+                        <small class="error-message" id="new-password-error"></small>
                     </div>
                     <div class="form-group">
                         <label for="confirm-password">Confirm New Password</label>
                         <input type="password" id="confirm-password" name="new-password_confirmation">
+                        <small class="error-message" id="confirm-password-error"></small>
                     </div>
                     <div class="form-group">
                         <button type="submit">Change Password</button>
@@ -78,7 +80,7 @@
 
 @push('scripts')
     <script>
-        // JavaScript to handle the profile image upload preview
+        // Profile image preview
         document.getElementById('upload-profile').addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
@@ -87,6 +89,48 @@
                     document.getElementById('profile-img').src = event.target.result;
                 };
                 reader.readAsDataURL(file);
+            }
+        });
+
+        // Password validation
+        document.getElementById('password-form').addEventListener('submit', function (e) {
+            let isValid = true;
+
+            // Get input values
+            const currentPassword = document.getElementById('current-password').value.trim();
+            const newPassword = document.getElementById('new-password').value.trim();
+            const confirmPassword = document.getElementById('confirm-password').value.trim();
+
+            // Clear previous error messages
+            document.getElementById('current-password-error').innerText = "";
+            document.getElementById('new-password-error').innerText = "";
+            document.getElementById('confirm-password-error').innerText = "";
+
+            // Check if current password is provided
+            if (currentPassword === "") {
+                document.getElementById('current-password-error').innerText = "Current password is required.";
+                isValid = false;
+            }
+            if(currentPassword!=Auth::user()->password){
+                document.getElementById('current-password-error').innerText = "Current password is incorrect.";
+                isValid = false;
+            }
+
+            // Check if new password meets criteria
+            if (newPassword.length < 6) {
+                document.getElementById('new-password-error').innerText = "New password must be at least 6 characters long.";
+                isValid = false;
+            }
+
+            // Check if passwords match
+            if (newPassword !== confirmPassword) {
+                document.getElementById('confirm-password-error').innerText = "Passwords do not match.";
+                isValid = false;
+            }
+
+            // Prevent form submission if validation fails
+            if (!isValid) {
+                e.preventDefault();
             }
         });
     </script>

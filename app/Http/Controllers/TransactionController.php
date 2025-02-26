@@ -74,8 +74,12 @@ class TransactionController extends Controller
             'netPayable' => 'required|numeric',
         ]);
     
-
         $transaction = Transaction::findOrFail($id);
+        
+        // Store portfolio ID before updating
+        $portfolio_id = $transaction->portfolio_id;
+    
+        // Update transaction details
         $transaction->action = $request->action;
         $transaction->stock_name = $request->stockName;
         $transaction->type = $request->type;
@@ -88,26 +92,35 @@ class TransactionController extends Controller
         $transaction->wacc = $request->wacc;
         $transaction->total_cost = $request->netPayable;
         $transaction->save();
-        //dd($transaction);
-
-        // Update stock details if necessary
-        $stock = Stocks::where('stock_name', $request->stockName)->first();
-        
+    
+        // Fetch total buy and sell quantities for this stock within the given portfolio
+        $total_bought = Transaction::where('portfolio_id', $portfolio_id)
+                                   ->where('stock_name', $request->stockName)
+                                   ->where('action', 'buy')
+                                   ->sum('quantity');
+    
+        $total_sold = Transaction::where('portfolio_id', $portfolio_id)
+                                 ->where('stock_name', $request->stockName)
+                                 ->where('action', 'sell')
+                                 ->sum('quantity');
+    
+        // Calculate current stock quantity
+        $current_quantity =  $total_bought - $total_sold; // Ensure quantity doesn't go negative
+    
+        // Update stock quantity in the stocks table
+        $stock = Stocks::where('portfolio_id', $portfolio_id)
+                       ->where('stock_name', $request->stockName)
+                       ->first();
+    
         if ($stock) {
-            // Update stock details based on the transaction
-            // Example: Update stock quantity
-            if ($request->action == 'buy') {
-                $stock->quantity += $request->quantity;
-            } else {
-                $stock->quantity -= $request->quantity;
-            }
+            $stock->quantity = $current_quantity;
             $stock->save();
         }
-        
-
+    
         return redirect()->route('history')->with('success', 'Transaction updated successfully.');
     }
-
+    
+    
 
 
 
@@ -137,7 +150,7 @@ class TransactionController extends Controller
     
                 // Reset WACC if no stock left
                 if ($stock->quantity == 0) {
-                    $stock->wacc = 0;
+                    $stock->delete();
                 }
     
                 $stock->save(); // Save the updated stock details

@@ -44,9 +44,8 @@ class PortfolioController extends Controller
 
 public function account()
 {
-    $portfolios = Portfolio::where('member_id', Auth::id())->pluck('id'); // Get portfolio IDs for the user
-
-    $transactions = Transaction::whereIn('portfolio_id', $portfolios)->get(); // Fetch transactions for those portfolios
+    $portfolios = Portfolio::where('member_id', Auth::id())->get(); // Get portfolio objects
+    $transactions = Transaction::whereIn('portfolio_id', $portfolios->pluck('id'))->get(); // Fetch transactions for those portfolios
 
     return view('account-statement', compact('transactions', 'portfolios'));
 }

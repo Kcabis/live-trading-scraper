@@ -13,6 +13,34 @@
                 <li><a href="#" data-target="traderAnalyticsSection" class="menu-item">Trader Analytics</a></li>
                 <li><a href="#" data-target="settingsSection" class="menu-item">Settings</a></li>
 
+<<<<<<< HEAD
+=======
+            <!-- Financials Section -->
+            <div id="eventsSection" class="content-section events-section" style="display: none;">
+    <h2>Events</h2>
+    @foreach($events as $event)
+    <!-- Container for cards -->
+     <div class="boxes">
+    <div class="cards-container">
+        <!-- Card 1 -->
+        <div class="animated-card">
+            
+            <h3 class="card-title">{{$event->event_name}}</h3>
+            <div class="card-data">
+                <div class="data-left">
+                    <p>{{$event->event_type}}</p>
+                    <p>{{$event->stock_name}}</p>
+                </div>
+                <div class="data-right">
+                    <p>{{$event->price}}</p>
+                    <p>{{$event->event_date}}</p>
+                </div>
+            </div>
+        </div>
+</div>
+        @endforeach
+</div>
+>>>>>>> 4e900b59cf30ca227797b8203fa1bb88e37405ad
 
             </ul>
 
