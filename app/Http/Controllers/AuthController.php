@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Member; // Use your Member model for credentials
+use App\Models\Member;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
-    {
-        // Validate the input
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
         // Fetch user data from the database
         $member = Member::where('email', $request->email)->first();
@@ -36,7 +35,7 @@ class AuthController extends Controller
             session(['user' => $member]);
 
             // Redirect to portfolio page
-            return redirect()->route('dashboard')->with('success', 'Login successful!');
+            return redirect()->route('portfolio')->with('success', 'Login successful!');
         }
 
         // If authentication fails

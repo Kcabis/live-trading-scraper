@@ -1,41 +1,105 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
+
 
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
+use App\Models\Transaction;
 
 class PortfolioController extends Controller
 {
-    // Store a new portfolio
     public function store(Request $request)
     {
-        
-        
-        $validated=$request->validate([
+        $request->validate([
             'portfolio_name' => 'required|string|max:255',
         ]);
-        
-        $existingPortfolio = Portfolio::where('portfolio_name', $validated['portfolio_name'])->first();
+    
 
-        if ($existingPortfolio) {
-            // If the portfolio already exists, redirect with an error message
-            return redirect()->back()->with("message", "Portfolio already exists.");
+        if (!Auth::check()) {
+            return redirect()->back()->withErrors(['error' => 'User not authenticated']);
         }
-
-        
-
-            // Save to the database
-        Portfolio::create($validated); 
-        return redirect()->back()->with("message","portfolio Added Successfully.");
-        
-        
-
+    
+     
+        Portfolio::create([
+            'member_id' => Auth::id(),  
+            'portfolio_name' => $request->portfolio_name,
+        ]);
+    
+        return redirect()->back()->with('success', 'Portfolio added successfully!');
     }
-    public function index(){
-            
-        $portfolios= Portfolio::all();
-        return view('portfolio',compact("portfolios"));
+
+
+    
+    
+
+    
+   
+    public function index()
+{
+   $portfolios = Portfolio::where('member_id', Auth::id())->get();
+    return view('dash', compact('portfolios'));
+}
+
+public function account()
+{
+    $portfolios = Portfolio::where('member_id', Auth::id())->pluck('id'); 
+
+    $transactions = Transaction::whereIn('portfolio_id', $portfolios)->get();
+
+    return view('account-statement', compact('transactions', 'portfolios'));
+}
+
+    
+
+public function hist()
+{
+    $portfolios = Portfolio::where('member_id', Auth::id())->get();
+
+
+    $portfolioIds = $portfolios->pluck('id')->toArray();
+
+  
+    $transactions = Transaction::whereIn('portfolio_id', $portfolioIds)->get();
+
+   
+    $totalbuy = Transaction::whereIn('portfolio_id', $portfolioIds)
+                           ->where('action', 'buy')
+                           ->sum('total_amount');
+
+    $totalsell = Transaction::whereIn('portfolio_id', $portfolioIds)
+                            ->where('action', 'sell')
+                            ->sum('total_amount');
+
+    $totaltransactions = $totalbuy + $totalsell;
+
+    return view('history', compact("portfolios", "transactions", "totalbuy", "totalsell", "totaltransactions"));
+}
+
+
+    public function updatePortfolio(Request $request)
+{
+    $portfolio = Portfolio::find($request->portfolio_id);
+    if ($portfolio) {
+        $portfolio->portfolio_name = $request->portfolio_name;
+        $portfolio->save();
+        return back()->with('success', 'Portfolio updated successfully.');
     }
+    return back()->with('error', 'Portfolio not found.');
+}
+public function deletePortfolio($id)
+{
+    $portfolio = Portfolio::findOrFail($id);
+
+    $portfolio->stocks()->delete();
+
+    $portfolio->delete();
+
+    return redirect()->back()->with('success', 'Portfolio deleted successfully!');
+}
+
+
+
 
 }

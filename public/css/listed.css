@@ -1,0 +1,122 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.listed-section {
+    width: 90%;
+    margin: 20px auto;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.listed-section h2 {
+    margin-bottom: 20px;
+    color: #4A90E2;
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.Live {
+    position: absolute;
+    top: 30px;
+    left: 220px;
+}
+
+.Live button {
+    background-color: #4A90E2;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+
+.Live button:hover {
+    background-color: #357ABD;
+}
+
+.Live button a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.search-container {
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.search-container input {
+    padding: 10px;
+    width: 250px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.search-container input:focus {
+    border-color: #4A90E2;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background: #fff;
+    border-radius: 5px;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+table th {
+    background-color: #4A90E2;
+    color:darkblue;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+table tbody tr:hover {
+    background-color: #f2f2f2;
+    transition: background-color 0.3s ease;
+}
+
+table tbody tr td {
+    color: #555;
+}
+
+.sort-button {
+    background-color: #ddd;
+    color: #333;
+    border: none;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 5px;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+
+.sort-button:hover {
+    background-color: #bbb;
+}
+

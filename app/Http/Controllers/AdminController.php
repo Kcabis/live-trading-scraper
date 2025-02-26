@@ -10,10 +10,10 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $events = Event::all(); // Fetch events from EventController logic
-        $folioadmins = Folioadmin::all(); // Fetch data from FolioadminController logic
+        $events = Event::all(); 
+        $folioadmins = Folioadmin::all();
         $securities = ListedSecurity::all();
 
-        return view('admin', compact('events', 'folioadmins','securities')); // Pass data to the view
+        return view('admin', compact('events', 'folioadmins','securities')); 
     }
 }

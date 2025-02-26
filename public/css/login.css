@@ -1,4 +1,3 @@
-/* General Body Styling */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #616c82;
@@ -9,21 +8,19 @@ body {
     margin: 0;
 }
 
-/* Full Background Image Styling */
 .background-image {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background-image: url('/images/login.JPG'); /* Replace with your image path */
+  background-image: url('/images/login.JPG');
     background-size: cover;
     background-position: center;
     z-index: -1;
     filter: blur(5px);
 }
 
-/* Login Container Styling */
 .login-container {
     background-color: rgba(36, 47, 73, 0.8);
     padding: 30px;
@@ -33,7 +30,6 @@ body {
     width: 400px;
 }
 
-/* Logo Styling */
 .logo h2 {
     color: #00d084;
     font-size: 28px;
@@ -41,7 +37,6 @@ body {
     font-weight: 600;
 }
 
-/* Subheading */
 h4 {
     font-size: 18px;
     color: #ddd;
@@ -49,7 +44,6 @@ h4 {
     font-weight: 300;
 }
 
-/* Success and Error Messages */
 .alert {
     margin-bottom: 20px;
     padding: 10px;
@@ -70,7 +64,6 @@ h4 {
     border: 1px solid #f5c6cb;
 }
 
-/* Input Group Styling */
 .input-group {
     display: flex;
     align-items: center;
@@ -100,7 +93,6 @@ h4 {
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* Show Password Button */
 .show-password {
     background: none;
     border: none;
@@ -118,7 +110,6 @@ h4 {
     opacity: 1;
 }
 
-/* Remember Me Checkbox */
 .remember-me {
     display: flex;
     align-items: center;
@@ -136,7 +127,6 @@ h4 {
     font-size: 14px;
 }
 
-/* Primary Button */
 .btn-primary {
     width: 100%;
     padding: 12px;
@@ -155,7 +145,6 @@ h4 {
     transform: scale(1.05);
 }
 
-/* Additional Options */
 .additional-options {
     margin: 20px 0;
 }
@@ -171,14 +160,12 @@ h4 {
     text-decoration: underline;
 }
 
-/* Horizontal Rule */
 hr {
     border: none;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     margin: 20px 0;
 }
 
-/* Paragraph for Registration Link */
 p {
     font-size: 14px;
     color: #bbb;
@@ -194,7 +181,6 @@ p a:hover {
     text-decoration: underline;
 }
 
-/* Back Button Styling */
 #back {
     position: fixed;
     top: 20px;

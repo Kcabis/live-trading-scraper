@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart-Folio - Login</title>
     <style>
-        /* General styles */
         * {
             margin: 0;
             padding: 0;
@@ -22,7 +21,6 @@
             background-color: #f4f4f4;
         }
 
-        /* Full-width background image */
         .background-image {
             position: absolute;
             top: 0;
@@ -33,7 +31,6 @@
             z-index: -1;
         }
 
-        /* Back button */
         #back {
             position: fixed;
             top: 20px;
@@ -59,7 +56,6 @@
             background-color: #5E35B1;
         }
 
-        /* Login container */
         .login-container {
             background: rgba(255, 255, 255, 0.9);
             padding: 30px;
@@ -188,7 +184,7 @@
                 </div>
             @endif
 
-            <form action="{{ url('/login') }}" method="POST">
+            <form action="{{ url('/loginad') }}" method="POST">
                 @csrf
                 <div class="input-group">
                     <label for="email"><img src="https://img.icons8.com/material-outlined/24/000000/secured-letter.png"/></label>
@@ -209,7 +205,6 @@
     </div>
 
     <script>
-        // Toggle password visibility
         function togglePassword() {
             const passwordInput = document.getElementById('password');
             const type = passwordInput.type === 'password' ? 'text' : 'password';

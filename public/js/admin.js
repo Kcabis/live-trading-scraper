@@ -1,11 +1,11 @@
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-// Sidebar Toggle
+
 document.getElementById('sidebarToggle').addEventListener('click', function () {
     const sidebar = document.querySelector('.sidebar');
     sidebar.classList.toggle('collapsed');
 });
 
-// Show/Hide Sections based on Menu Click
+
 const menuItems = document.querySelectorAll('.menu-item');
 menuItems.forEach(item => {
     item.addEventListener('click', function () {
@@ -19,12 +19,10 @@ menuItems.forEach(item => {
 });
 
 
-// Show Popup for Adding User
 document.getElementById('addUser').addEventListener('click', function () {
     document.getElementById('addUserPopup').style.display = 'block';
 });
 
-// Show Popup for Adding Event
 document.getElementById('addEvent').addEventListener('click', function () {
     document.getElementById('addEventPopup').style.display = 'block';
 });
@@ -33,12 +31,14 @@ document.getElementById('edit-btn').addEventListener('click', function () {
     document.getElementById('editEventPopup').style.display = 'flex';
 });
 
-// Hide Popup (User)
 document.getElementById('cancelUser').addEventListener('click', function () {
     document.getElementById('addUserPopup').style.display = 'none';
 });
 
+<<<<<<< HEAD
 // Hide Popup (Event)
+=======
+>>>>>>> 9d969e033887cb9409564c4b2685dadf35f1f522
 document.getElementById('cancelEvent').addEventListener('click', function () {
     document.getElementById('addEventPopup').style.display = 'none';
 });
@@ -48,6 +48,7 @@ document.getElementById('canceleditEvent').addEventListener('click', function ()
 });
 
 
+<<<<<<< HEAD
 // // Save User Data Dynamically into the Table
 // document.getElementById('saveUser').addEventListener('click', function () {
 //     const userName = document.getElementById('userName').value;
@@ -154,3 +155,5 @@ document.getElementById('canceleditEvent').addEventListener('click', function ()
 //     }
     
 // });
+=======
+>>>>>>> 9d969e033887cb9409564c4b2685dadf35f1f522

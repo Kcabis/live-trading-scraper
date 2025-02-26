@@ -2,116 +2,126 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScrapeController;
-//use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegistrationController;
-
-Route::get('/register', function () {
-    return view('registration');
-});
-Route::post('/register', [RegistrationController::class, 'store']);
-
-
-
-Route::get('/scrape', [ScrapeController::class, 'scrape']);
-
-
-
-
-Route::get('/', function () {
-    return redirect('/home');
-});
-
-Route::get('/login', function () {
-    return view('login');
-});
-Route::get('/registration', function () {
-    return view('registration'); // This refers to registration.blade.php
-});
-// Route::get('/admin', function () {
-//     return view('admin'); // This refers to registration.blade.php
-// });
-Route::get('/home', function () {
-    return view('home');
-});
-Route::get('/loginad', function () {
-    return view('loginad'); // This refers to registration.blade.php
-});
-
-
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FolioadminController;
+use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\StocksController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ListedSecurityController;
+use App\Http\Controllers\TransactionController;
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+
+
+
+
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 Route::post('/login', [AuthController::class, 'login']);
-
 Route::post('/logout', function () {
     session()->forget('user');
     return redirect()->route('login')->with('success', 'Logged out successfully.');
 })->name('logout');
 
+
+
+
+
+Route::get('/register', function () {
+    return view('registration');
+});
+Route::post('/register', [RegistrationController::class, 'store']);
 Route::post('otp-verification', [RegistrationController::class, 'verifyOtp']);
 Route::get('otp-verification/{email}', [RegistrationController::class, 'showOtpForm']);
 
 
+Route::middleware(['auth'])->group(function () {
 
-//portfolio controler
-use App\Http\Controllers\PortfolioController;
+    Route::get('/portfolio', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/events', [DashboardController::class, 'events'])->name('events');
+    Route::get('/listedsecurities', [DashboardController::class, 'listed'])->name('listedsecurities');
+    Route::get('/dash', [DashboardController::class, 'index'])->name('dash');
+    Route::get('/port', [DashboardController::class, 'indexx'])->name('port');
+    Route::get('/trader-analytics', [DashboardController::class, 'analytics'])->name('trader-analytics');
+    Route::get('/settings', [DashboardController::class, 'settings'])->name('settings');
 
-// For web routes (use api.php for APIs)
-//Route::get('/portfolios', [PortfolioController::class, 'getAllPortfolios']);
-//Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio');
-//Route::post('/add-ph',[PortfolioController::class,'save']);
-//Route::get('/portfolio/{id}', [PortfolioController::class, 'getPortfolio']);
-Route::post('/add-ph', [PortfolioController::class, 'store']);
+    Route::post('/update-portfolio', [PortfolioController::class, 'updatePortfolio'])->name('portfolio.update');
+    Route::delete('/delete-portfolio/{id}', [PortfolioController::class, 'deletePortfolio'])->name('portfolio.delete');
+    Route::get('/history', [PortfolioController::class, 'hist'])->name('history');
+    Route::post('/add-portfolio', [PortfolioController::class, 'store'])->name('portfolio.store');
+    Route::get('/dash',[PortfolioController::class,'index'])->name('dash.port');
+    
+Route::post('/settings/update-details', [RegistrationController::class, 'updateDetails'])->name('settings.updateDetails');
+Route::post('/settings/change-password', [RegistrationController::class, 'changePassword'])->name('settings.changePassword');
+Route::post('/settings/upload-profile', [RegistrationController::class, 'uploadProfile'])->name('settings.uploadProfile');
+
+    Route::get('/account-statement', [PortfolioController::class, 'account'])->name('account-statement');
+    Route::post('/add-ph', [PortfolioController::class, 'store'])->name('add-ph');
 
 
-use App\Http\Controllers\StocksController;
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+
+
 Route::post('/add-stock', [StocksController::class, 'store']);
+Route::delete('stock/delete/{stock}',[StocksController::class,'delete'])->name('stock.delete');
+Route::post('/update-stock', [StocksController::class, 'update'])->name('stock.update');
+Route::get('/stocks/{id}/edit', [StocksController::class, 'edit'])->name('stocks.edit');
+Route::put('/stocks/{id}', [StocksController::class, 'update'])->name('stocks.update');
+Route::get('/sell/{id}', [StocksController::class, 'sell'])->name('sell');
+Route::post('/sell-stock', [StocksController::class, 'sellStock'])->name('sell.stock');
+Route::get('/stocks/data', [StocksController::class, 'getStocksData']);
 
 
 
-//event controller
- use App\Http\Controllers\EventController;
- use App\Http\Controllers\FolioadminController;
-
-// Route::get('/admin', [EventController::class, 'index'])->name('admin');
- Route::post('/add-event', [EventController::class, 'store']);
-
-// Route::get('/admin',[FolioadminController::class,'index']);
- Route::post('/add-ad', [FolioadminController::class, 'store']);
-
-
-// Route::get('/folioadmins', [FolioadminController::class, 'index'])->name('folioadmins');
-
-//use App\Http\Controllers\FolioadminController;
-
-// Route::get('/admin', [FolioadminController::class, 'index'])->name('admin.index');
-//Route::post('/add-ad', [FolioadminController::class, 'store'])->name('admin.store');
-
-
-use App\Http\Controllers\AdminController;
-Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-
- use App\Http\Controllers\Dashboardcontroller;
- Route::get('/portfolio', [Dashboardcontroller::class, 'index'])->name('dashboard');
-
- // routes/web.php
-
- use App\Http\Controllers\ListedSecurityController;
-
-// Route::get('/securities', [ListedSecurityController::class, 'index']);
-Route::post('/upload-csv', [ListedSecurityController::class, 'uploadCsv'])->name('uploadCsv');
-
-//event deletion
+Route::post('/add-event', [EventController::class, 'store']);
+Route::post('/add-ad', [FolioadminController::class, 'store']);
 Route::delete('event/delete/{event}',[EventController::class,'delete'])->name('event.delete');
+
+
+
+Route::post('/loginad', [FolioadminController::class, 'loginad']);
+Route::post('/add-ad', [FolioadminController::class, 'store']);
 Route::delete('folioadmin/delete/{folioadmin}',[FolioadminController::class,'delete'])->name('folioadmin.delete');
 
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+
+
+
+Route::get('/portfolio/{portfolioId}/transactions', [TransactionController::class, 'transactionHistory'])->name('transactions.history');
+Route::get('/transactions/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
+Route::put('/transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');
+Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->name('transactions.delete');
+Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+Route::get('/ind-history', [TransactionController::class, 'index'])->name('transactions.history');
+
+
+
+
+Route::post('/upload-csv', [ListedSecurityController::class, 'uploadCsv'])->name('uploadCsv');
 
 
 
 
 
+Route::view('/layout', 'layout')->name('layout');
+Route::view('/home','home')->name('home');
+Route::get('/dash', function () {
+    return view('dash');
+})->name('dash');
+Route::view('/', 'login');
+
+
+
+
+
+
+
+Route::get('/scrape', [ScrapeController::class, 'scrape'])->name('scrape');
 
 

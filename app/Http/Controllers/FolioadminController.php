@@ -4,35 +4,75 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Folioadmin;
+use Illuminate\Support\Facades\Hash;
 
 class FolioadminController extends Controller
 {
-    //
     public function store(Request $request)
-
     {
-        // Validate incoming data
+      
         $validated = $request->validate([
             'user_name' => 'required|string|max:255',
             'email' => 'required|email|unique:members,email',
-           'password' => 'required|min:6',
+            'password' => 'required|min:6',
             'role' => 'required|string',
         ]);
 
-        // Save to the database
-        $validated['password']=bcrypt($validated['password']);
+      
+        $validated['password'] = bcrypt($validated['password']);
         Folioadmin::create($validated);
-        return redirect()->back()->with("message","admin Added Successfully.");
-
+        return redirect()->back()->with("message", "Admin added successfully.");
     }
-    public function index(){
+
+    public function index()
+    {
         $folioadmins = Folioadmin::all();
-        return view('admin',compact("folioadmins"));
-    }
-    public function delete(Folioadmin $folioadmin){
-        $folioadmin->delete();
-        return redirect()->back()->with("message","User deleted sucessfully.");
-    
+        return view('admin', compact("folioadmins"));
     }
 
+    public function delete(Folioadmin $folioadmin)
+    {
+        $folioadmin->delete();
+        return redirect()->back()->with("message", "User deleted successfully.");
+    }
+
+    public function loginad(Request $request)
+    {
+   
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+       
+        $specialAdminEmail = 'admin@gmail.com';
+        $specialAdminPassword = 'Admin234';
+
+       
+        if ($request->email === $specialAdminEmail && $request->password === $specialAdminPassword) {
+           
+            session(['user' => ['email' => $specialAdminEmail, 'role' => 'super-admin']]);
+
+        
+            return redirect()->route('admin')->with('success', 'Login successful!');
+        }
+
+      
+        $folioadmins = Folioadmin::where('email', $request->email)->first();
+
+        if (!$folioadmins) {
+            return back()->withErrors(['email' => 'User does not exist'])->withInput();
+        }
+
+       
+        if ($folioadmins && Hash::check($request->password, $folioadmins->password)) {
+            session(['user' => $folioadmins]);
+
+           
+            return redirect()->route('admin')->with('success', 'Login successful!');
+        }
+
+        
+        return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+    }
 }

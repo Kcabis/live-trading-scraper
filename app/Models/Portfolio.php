@@ -8,6 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Portfolio extends Model
 {
     use HasFactory;
-    // Allow mass assignment for these fields
-    protected $fillable = ['portfolio_name'];
+    protected $fillable = [ 'member_id','portfolio_name'];
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
+
+
+
+    public function stocks()
+    {
+        return $this->hasMany(Stocks::class,'portfolio_id');
+    }
 }
+
+
+

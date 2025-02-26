@@ -1,80 +1,155 @@
-.content-section {
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-.profilee-container {
+.profile-section {
     text-align: center;
-    margin: 20px 0;
+    margin-bottom: 30px;
+    padding: 20px;
+    border-bottom: 1px solid #eaeaea;
 }
 
-.profile-img {
-    width: 150px;
-    height: 150px;
+.profile-section img {
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    border: 2px solid #ccc;
     object-fit: cover;
-    cursor: pointer;
+    margin-bottom: 15px;
+    border: 3px solid #007bff;
+    transition: transform 0.3s ease-in-out;
 }
 
-.edit-profile-btn {
+.profile-section img:hover {
+    transform: scale(1.1);
+}
+
+.file-upload {
     margin-top: 10px;
-    padding: 8px 15px;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.profile-section h2 {
+    font-size: 24px;
+    color: #007bff;
+    margin-top: 10px;
+}
+
+.form-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.box {
+    flex: 1;
+    min-width: 300px;
+    background: #f8f9fa;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.box h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: border 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.form-group button {
+    width: 100%;
+    padding: 12px;
     background-color: #007bff;
     color: #fff;
     border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
     cursor: pointer;
-    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
-.user-details, .change-password {
-    margin: 20px 0;
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 5px;
+.form-group button:hover {
+    background-color: #0056b3;
 }
 
-.user-details h3, .change-password h3 {
-    margin-bottom: 10px;
-}
-
-label {
-    display: block;
-    margin: 10px 0 5px;
-}
-
-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Modal Styling */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
+.link-options {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    margin-top: 20px;
+    font-size: 14px;
 }
 
-.modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    width: 300px;
-    text-align: center;
+.link-options a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-.close {
-    float: right;
-    cursor: pointer;
-    color: #aaa;
-    font-size: 20px;
+.link-options a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .form-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }

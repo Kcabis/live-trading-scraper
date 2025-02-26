@@ -1,18 +1,17 @@
-/* General Styles */
 .cards-container {
     display: flex;
-    gap: 20px;
-    justify-content: space-between; /* Distributes cards evenly */
-    flex-wrap: wrap; /* Allows wrapping to the next row */
+    flex-wrap: wrap; 
+    gap: 20px; 
+    justify-content: space-between; 
     margin-top: 20px;
-    max-width: 1080px; /* Adjust based on your layout needs */
+    max-width: 1080px; 
     margin-left: auto;
-    margin-right: auto; /* Center align the container */
+    margin-right: auto; 
 }
 
 .animated-card {
-     /* Adjust width to fit 4 cards per row */
-    max-width: 250px; /* Ensure consistent width */
+    flex: 1 1 calc(33.33% - 20px);
+    max-width: calc(33.33% - 20px); 
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -25,13 +24,20 @@
 
 @media (max-width: 768px) {
     .animated-card {
-        flex: 0 0 calc(50% - 20px); /* 2 cards per row for smaller screens */
+        flex: 1 1 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .animated-card {
+        flex: 1 1 100%;
         max-width: 100%;
     }
 }
 
 .animated-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-10px) scale(1.05);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
@@ -42,6 +48,7 @@
     margin-bottom: 10px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    transition: color 0.3s ease-in-out;
 }
 
 .card-data {
@@ -67,7 +74,6 @@
     text-align: right;
 }
 
-/* Hover Effects */
 .animated-card:hover::before {
     content: "";
     position: absolute;
@@ -85,4 +91,10 @@
     color: #e76f51;
 }
 
+.animated-card:hover .card-data .data-left {
+    color: #264653;
+}
 
+.animated-card:hover .card-data .data-right {
+    color: #2a9d8f;
+}
