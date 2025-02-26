@@ -1,4 +1,3 @@
-<!-- filepath: /Applications/XAMPP/xamppfiles/htdocs/live-trading-scraper-1/resources/views/settings.blade.php -->
 @extends('portfolio')
 
 @section('title', 'Dashboard')
@@ -8,7 +7,6 @@
 
 @section('content')
     <div class="container">
-        <!-- Profile Section -->
         <div class="profile-section">
             <img src="{{ asset('storage/profile_images/' . (auth()->user()->profile_image ?? 'default.png')) }}" alt="User Profile" id="profile-img">
             <form action="{{ route('settings.uploadProfile') }}" method="POST" enctype="multipart/form-data">
@@ -19,9 +17,7 @@
             <h2>User Profile</h2>
         </div>
 
-        <!-- Forms Section -->
         <div class="form-box">
-            <!-- User Details Form -->
             <div class="box">
                 <h2>User Details</h2>
                 <form action="{{ route('settings.updateDetails') }}" method="POST">
@@ -44,7 +40,6 @@
                 </form>
             </div>
 
-            <!-- Change Password Form -->
             <div class="box">
                 <h2>Change Password</h2>
                 <form action="{{ route('settings.changePassword') }}" method="POST">
@@ -66,7 +61,6 @@
                     </div>
                 </form>
 
-                <!-- Forgot & Logout Links -->
                 <div class="link-options">
                     <a href="#">Forgot Password?</a>
                     <a href="#">Logout</a>
@@ -78,7 +72,6 @@
 
 @push('scripts')
     <script>
-        // JavaScript to handle the profile image upload preview
         document.getElementById('upload-profile').addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {

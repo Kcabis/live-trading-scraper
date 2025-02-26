@@ -12,8 +12,8 @@
 }
 
 .chart-container {
-    width: 45%; /* Ensures both bar and pie charts occupy the same space */
-    height: 400px; /* Standard height for both */
+    width: 45%;
+    height: 400px; 
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Member; // Use your Member model for credentials
+use App\Models\Member;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -35,7 +35,7 @@ public function logout(Request $request)
 }
 public function showLoginForm()
 {
-    return view('login'); // Ensure you have a login.blade.php view in resources/views/auth/
+    return view('login'); 
 }
 
 }

@@ -1,5 +1,4 @@
 
-/* General Styling */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -8,7 +7,6 @@ body {
     color: #333;
 }
 
-/* Listed Securities Section */
 .listed-section {
     width: 90%;
     margin: 20px auto;
@@ -27,7 +25,6 @@ body {
     font-weight: bold;
 }
 
-/* Live Market Button */
 .Live {
     position: absolute;
     top: 30px;
@@ -55,7 +52,6 @@ body {
     color: #fff;
 }
 
-/* Search Container */
 .search-container {
     text-align: right;
     margin-bottom: 15px;
@@ -74,7 +70,6 @@ body {
     border-color: #4A90E2;
 }
 
-/* Table Container */
 .table-container {
     overflow-x: auto;
 }
@@ -109,7 +104,6 @@ table tbody tr td {
     color: #555;
 }
 
-/* Sort and Reset Buttons */
 .sort-button {
     background-color: #ddd;
     color: #333;

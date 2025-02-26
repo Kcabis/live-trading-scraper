@@ -1,4 +1,3 @@
-/* General Styles */
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f8f9fa;
@@ -16,13 +15,11 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Table Container */
 .table-container {
     margin-top: 20px;
     overflow-x: auto;
 }
 
-/* Table Styles */
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -53,7 +50,6 @@ body {
     cursor: pointer;
 }
 
-/* Button Styles */
 button {
     padding: 8px 15px;
     font-size: 14px;
@@ -63,7 +59,6 @@ button {
     transition: all 0.3s ease;
 }
 
-/* Edit Button */
 button#editStockBtn {
     background-color: #28a745;
     color: rgb(57, 14, 198);
@@ -73,7 +68,6 @@ button#editStockBtn:hover {
     background-color: #218838;
 }
 
-/* Delete Button */
 button#deleteStockBtn {
     background-color: #dc3545;
     color: white;
@@ -84,7 +78,6 @@ button#deleteStockBtn:hover {
     background-color: #c82333;
 }
 
-/* Profit and Loss Column Color */
 .table td:nth-child(11) {
     font-weight: bold;
     color: #333;
@@ -92,14 +85,14 @@ button#deleteStockBtn:hover {
 }
 
 .table td:nth-child(11).profit {
-    color: #28a745; /* Green for profit */
+    color: #28a745; 
 }
 
 .table td:nth-child(11).loss {
-    color: #dc3545; /* Red for loss */
+    color: #dc3545;
 }
 
-/* Action Buttons */
+
 button[type="submit"] {
     padding: 6px 12px;
     font-size: 14px;
@@ -119,7 +112,7 @@ button[type="button"]:hover {
     color: white;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .table th, .table td {
         padding: 10px 12px;
@@ -137,7 +130,7 @@ button[type="button"]:hover {
     }
 }
 
-/* Small Screen Tweaks */
+
 @media (max-width: 480px) {
     .container {
         padding: 15px;

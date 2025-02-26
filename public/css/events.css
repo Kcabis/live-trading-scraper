@@ -1,18 +1,17 @@
-/* General Styles */
 .cards-container {
     display: flex;
-    flex-wrap: wrap; /* Allows wrapping to the next row */
-    gap: 20px; /* Adds space between the cards */
-    justify-content: space-between; /* Evenly distributes cards */
+    flex-wrap: wrap; 
+    gap: 20px; 
+    justify-content: space-between; 
     margin-top: 20px;
-    max-width: 1080px; /* Adjust based on your layout needs */
+    max-width: 1080px; 
     margin-left: auto;
-    margin-right: auto; /* Center align the container */
+    margin-right: auto; 
 }
 
 .animated-card {
-    flex: 1 1 calc(33.33% - 20px); /* Allows 3 cards per row with space */
-    max-width: calc(33.33% - 20px); /* Ensure the cards fit within the row */
+    flex: 1 1 calc(33.33% - 20px);
+    max-width: calc(33.33% - 20px); 
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -25,14 +24,14 @@
 
 @media (max-width: 768px) {
     .animated-card {
-        flex: 1 1 calc(50% - 20px); /* 2 cards per row for smaller screens */
+        flex: 1 1 calc(50% - 20px);
         max-width: calc(50% - 20px);
     }
 }
 
 @media (max-width: 480px) {
     .animated-card {
-        flex: 1 1 100%; /* 1 card per row for very small screens */
+        flex: 1 1 100%;
         max-width: 100%;
     }
 }
@@ -75,7 +74,6 @@
     text-align: right;
 }
 
-/* Hover Effects */
 .animated-card:hover::before {
     content: "";
     position: absolute;
@@ -93,7 +91,6 @@
     color: #e76f51;
 }
 
-/* Additional Hover Effects */
 .animated-card:hover .card-data .data-left {
     color: #264653;
 }

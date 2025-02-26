@@ -1,7 +1,6 @@
 document.getElementById('sellStockBtn').addEventListener('click', function (e) {
     e.preventDefault();
 
-    // Fetch input values
     const sellingPrice = parseFloat(document.getElementById('sellingPrice').value);
     const quantity = parseInt(document.getElementById('quantity').value);
     const wacc = parseFloat(document.getElementById('wacc').value);
@@ -18,9 +17,8 @@ document.getElementById('sellStockBtn').addEventListener('click', function (e) {
         return;
     }
 
-    // Perform calculations
     const totalAmount = sellingPrice * quantity;
-    const sebonCommission = (totalAmount * 0.015) / 100; // 0.015% of total amount
+    const sebonCommission = (totalAmount * 0.015) / 100; 
     const brokerCommission = calculateBrokerCommission(totalAmount);
     const dpFee = 25; 
     const profit = totalAmount - (wacc * quantity);
@@ -28,7 +26,6 @@ document.getElementById('sellStockBtn').addEventListener('click', function (e) {
     const netProfit = profit - tax;
     const netReceivable = totalAmount - (sebonCommission + brokerCommission + dpFee + tax);
 
-    // Update confirmation popup fields
     document.getElementById('confirmTotalAmountDisplay').textContent = totalAmount.toFixed(2);
     document.getElementById('confirmSebonCommissionDisplay').textContent = sebonCommission.toFixed(2);
     document.getElementById('confirmBrokerCommissionDisplay').textContent = brokerCommission.toFixed(2);
@@ -38,12 +35,10 @@ document.getElementById('sellStockBtn').addEventListener('click', function (e) {
     document.getElementById('confirmWaccDisplay').textContent = wacc.toFixed(2);
     document.getElementById('ReceivableDisplay').textContent = netReceivable.toFixed(2);
 
-    // Update profit/loss display
     const profitLossDisplay = document.getElementById('PLDisplay');
     profitLossDisplay.textContent = netProfit.toFixed(2);
     profitLossDisplay.style.color = netProfit > 0 ? "green" : "red";
 
-    // Show confirmation popup
     document.getElementById('confirmPopup').style.display = 'block';
 });
 
@@ -56,7 +51,6 @@ document.getElementById('send').addEventListener('click', function () {
     document.getElementById('hiddenBrokerCommission').value = parseFloat(document.getElementById('confirmBrokerCommissionDisplay').textContent.trim());
     document.getElementById('hiddenDpFee').value = parseFloat(document.getElementById('confirmDpFeeDisplay').textContent.trim());
 
-    // Ensure type field is correctly sent
     document.getElementById('hiddenType').value = document.getElementById('type').value;
 
     document.getElementById('confirmPopup').style.display = 'none';
@@ -67,7 +61,6 @@ document.getElementById('cancelSellStockBtn').addEventListener('click', function
     document.getElementById('confirmPopup').style.display = 'none';
 });
 
-// Function to Calculate Broker Commission
 function calculateBrokerCommission(totalAmount) {
     if (totalAmount <= 2500) {
         return 10;

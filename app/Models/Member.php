@@ -1,11 +1,11 @@
 <?php
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail; // Add this
+use Illuminate\Contracts\Auth\MustVerifyEmail; 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Member extends Authenticatable implements MustVerifyEmail // Add MustVerifyEmail
+class Member extends Authenticatable implements MustVerifyEmail 
 {
     use Notifiable;
 
@@ -26,7 +26,6 @@ class Member extends Authenticatable implements MustVerifyEmail // Add MustVerif
     {
         return $this->hasOne(Otp::class);
     }
-   // Define the relationship with Portfolios
    public function portfolios()
    {
        return $this->hasMany(Portfolio::class);

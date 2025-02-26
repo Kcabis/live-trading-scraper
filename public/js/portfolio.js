@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // DOM Elements
     const menuItems = document.querySelectorAll('.menu-item');
     const contentSections = document.querySelectorAll('.content-section');
     const shareholderSelect = document.getElementById('shareholderSelect');
@@ -14,15 +13,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmBtn = document.getElementById('confirmBtn');
     const sellStockBtn = document.getElementById('sellStockBtn');
 
-    let shareholders = {}; // Object to store shareholders and their stocks
+    let shareholders = {};
     let currentStock = null;
 
-    // Sidebar Toggle
+
     sidebarToggle.addEventListener('click', () => {
         document.querySelector('.sidebar').classList.toggle('collapsed');
     });
 
-    // Menu Navigation
     menuItems.forEach(item => {
         item.addEventListener('click', function (e) {
             e.preventDefault();
@@ -32,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Adding a New Shareholder
     newShareholderBtn.addEventListener('click', () => {
         addShareholderPopup.style.display = 'flex';
     });
@@ -58,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function () {
         addShareholderPopup.style.display = 'none';
     });
 
-    // Adding a Stock
     document.getElementById('addStock').addEventListener('click', function () {
         if (!shareholderSelect.value) {
             alert('Please select a shareholder first.');
@@ -91,7 +87,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         currentStock.purchasePrice = wacc;
 
-        // Populate confirmation popup
         document.getElementById('confirmTotalAmount').textContent = totalAmount.toFixed(2);
         document.getElementById('confirmSebonCommission').textContent = sebonCommission.toFixed(2);
         document.getElementById('confirmBrokerCommission').textContent = brokerCommission.toFixed(2);
@@ -123,7 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
         currentStock = null;
     });
 
-    // Display Portfolio
     function displayPortfolio(shareholderName) {
         const portfolio = shareholders[shareholderName];
         portfolioBody.innerHTML = '';
@@ -145,7 +139,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Function to Calculate Broker Commission
     function calculateBrokerCommission(totalAmount) {
         if (totalAmount <= 2500) return 10;
         if (totalAmount <= 50000) return totalAmount * 0.36 / 100;

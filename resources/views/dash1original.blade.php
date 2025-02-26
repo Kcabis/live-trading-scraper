@@ -8,9 +8,7 @@
 
 @section('content')
     <h2>Dashboard</h2>
-    <!-- Dashboard content goes here -->
 
-            <!-- Dashboard Section -->
             <div id="dashboardSection" class="content">
                 <div class="shareholder-options">
                    
@@ -34,25 +32,25 @@
                         <form id="searchStockForm" action="/portfolio" method="GET">
                             <input type="hidden" id="portfolio_id" name="portfolio_id">
                             <button type="submit" style="padding: 8px;
-    font-size: 12px;
-    margin-left: 10px; /* Space between buttons */
-    cursor: pointer;
-    background-color: #ccc; /* Blue background for buttons */
-    color: black;
-    border: none;
-    border-radius: 8px;">Search</button>
-                        </form>
+                             font-size: 12px;
+                             margin-left: 10px; /* Space between buttons */
+                            cursor: pointer;
+                            background-color: #ccc; /* Blue background for buttons */
+                            color: black;
+                            border: none;
+                            border-radius: 8px;">Search</button>
+                         </form>
 
                         <form id="clearStockForm" action="/portfolio" method="GET">
                             <button type="submit" style="padding: 8px;
-    font-size: 12px;
-    margin-left: 10px; /* Space between buttons */
-    cursor: pointer;
-    background-color: #ccc; /* Blue background for buttons */
-    color: black;
-    border: none;
-    border-radius: 8px;">Clear</button>
-                        </form>
+                                font-size: 12px;
+                                margin-left: 10px; /* Space between buttons */
+                                cursor: pointer;
+                                background-color: #ccc; /* Blue background for buttons */
+                                color: black;
+                                border: none;
+                                border-radius: 8px;">Clear</button>
+                         </form>
 
                         <button id="addShareholder">Add Portfolio</button>
                         <button id="editShareholder">Edit Portfolio</button>
@@ -92,7 +90,6 @@
                     </div>
                 </div>
                 <div class="portfolio-table">
-                    <!-- Search box above the table -->
                     <div class="table-search-container">
                         <input type="text" id="tableSearchBox" placeholder="Search Stock Name...">
                     </div>
@@ -100,7 +97,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>SN</th> <!-- New SN column header -->
+                                <th>SN</th> 
                                 <th>Stock</th>
                                 <th>Purchase Price</th>
                                 <th>Quantity</th>
@@ -163,7 +160,6 @@
                             @endforeach
 
                             <script>
-                                // calculate all market value sum and append to portfolioVal
                                 var marketValueSum = 0;
                                 var marketValueElements = document.querySelectorAll('#marketValueRaw');
                                 marketValueElements.forEach(function (element) {
@@ -199,7 +195,6 @@
                     <button id="addStock">Add Stock</button>
                     <button id="sellStock"> Sell stock</button>
                 </div>
-                 <!-- Add Stock Pop-Up Form -->
     <div id="addStockPopup" class="popup">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -225,7 +220,6 @@
                 <label for="quantity">Quantity:</label>
                 <input type="number" id="quantity" name="quantity" required>
 
-                <!-- Hidden Fields for Confirmation Data -->
                 <input type="hidden" id="confirmTotalAmount" name="totalAmount">
                 <input type="hidden" id="confirmSebonCommission" name="sebonCommission">
                 <input type="hidden" id="confirmBrokerCommission" name="brokerCommission">
@@ -236,14 +230,12 @@
 
 
 
-                <!-- Buttons -->
                 <button type="button" id="addStockBtn">OK</button>
                 <button type="button" id="cancelStockBtn">Cancel</button>
         </div>
     </div>
 
 
-    <!-- Buy Confirmation Popup -->
     <div id="confirmPopup" class="popup">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -255,7 +247,6 @@
             <p>WACC: Rs. <span id="confirmWaccDisplay"></span></p>
             <p>Total Cost: Rs. <span id="confirmTotalCostDisplay"></span></p>
 
-            <!-- Buttons -->
             <button type="submit" id="send">OK</button>
             <button type="button" id="cancelConfirmBtn">Cancel</button>
             </form>
@@ -263,7 +254,6 @@
         </div>
     </div>
 
-    <!-- Sell Stock Pop-Up Form -->
     <div id="sellStockPopup" class="popup">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -291,14 +281,12 @@
     </div>
 
     <script>
-        // Automatically convert stock name to uppercase
         document.getElementById('sName').addEventListener('input', function () {
             this.value = this.value.toUpperCase();
         })
     </script>
 
 
-    <!-- Add shareholder popup -->
     <div id="addShareholderPopup" class="popup" style="display: none;">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -315,7 +303,6 @@
 
 
 
-    <!-- Sell  Confirmation Popup -->
     <div id="sellconfirmPopup" class="popup">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -331,7 +318,6 @@
             <button type="button" id="cancelConfirmBtn">Cancel</button>
         </div>
     </div>
-    <!-- Edit Portfolio Modal -->
     <div id="editPortfolioPopup" class="popup">
         <div class="popup-content">
             <input type="hidden" id="editPortfolioId">

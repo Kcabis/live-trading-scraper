@@ -29,22 +29,19 @@ class StocksController extends Controller
         ]);
         
     
-        // Check if the stock already exists in the same portfolio
         $existingStock = Stocks::where('portfolio_id', $validated['portfolio_id'])
                                ->where('stock_name', $validated['stockName'])
                                ->first();
     
         if ($existingStock) {
-            // Update the existing stock
             $existingStock->quantity += $validated['quantity'];
     
-            // Recalculate the weighted average cost (WACC)
             $existingStock->wacc = 
                 (($existingStock->wacc * ($existingStock->quantity - $validated['quantity'])) 
                 + ($validated['wacc'] * $validated['quantity'])) 
                 / $existingStock->quantity;
     
-            // Update other fields
+            
             $existingStock->total_amount += $validated['totalAmount'];
             $existingStock->total_cost += $validated['totalCost'];
             $existingStock->sebon_commission += $validated['sebonCommission'];
@@ -52,7 +49,6 @@ class StocksController extends Controller
             $existingStock->dp_fee += $validated['dpFee'];
             $existingStock->save();
         } else {
-            // Create a new stock record in the correct portfolio
             Stocks::create([
                 'portfolio_id' => $validated['portfolio_id'],
                 'stock_name' => $validated['stockName'],
@@ -69,7 +65,6 @@ class StocksController extends Controller
             ]);
         }
     
-        // Create a transaction for logging
         Transaction::create([
             'portfolio_id' => $validated['portfolio_id'],
             'stock_name' => $validated['stockName'],
@@ -101,9 +96,7 @@ class StocksController extends Controller
             'type' => 'required|numeric',
             'portfolio_id' => 'required|numeric',
         ]);
-        //dd($validatedData);
     
-        // Find the stock by stock name and portfolio ID
         $stock = Stocks::where('portfolio_id', $validatedData['portfolio_id'])
                        ->where('stock_name', $validatedData['stockName'])
                        ->first();
@@ -112,7 +105,6 @@ class StocksController extends Controller
             return back()->with('error', 'Not enough quantity available to sell or stock not found in this portfolio.');
         }
     
-        // Calculate selling amount and profit/loss
         $sellingPrice = $validatedData['sellingPrice'];
         $quantity = $validatedData['quantity'];
         $totalAmount = $sellingPrice * $quantity;
@@ -121,21 +113,14 @@ class StocksController extends Controller
         $seboncomission=($totalAmount*0.015)/100;
         $brokercomission=$this->calculateBrokerCommission($totalAmount);
     
-        // Capital Gains Tax (CGT)
         $cgt = $profitLoss > 0 ? $profitLoss * ($validatedData['type'] / 100) : 0;
         $netReceivable = $totalAmount - $cgt;
     
-        // Reduce stock quantity and adjust total cost
         $stock->quantity -= $quantity;
         $stock->total_cost -= $totalCost;
     
-        // Reset WACC if no stock left
-        // if ($stock->quantity == 0) {
-        //     $stock->wacc = 0;
-        // }
         $stock->save();
     
-        // Ensure transaction data is correctly saved
         $transaction = Transaction::create([
             'portfolio_id' => $stock->portfolio_id,
             'stock_name' => $validatedData['stockName'],
@@ -144,7 +129,7 @@ class StocksController extends Controller
             'quantity' => $quantity,
             'price' => $sellingPrice,
             'total_amount' => $totalAmount,
-            'cgt' => $cgt,  // Corrected field name
+            'cgt' => $cgt, 
             'net_receivable' => $netReceivable,
             'profit_loss' => $profitLoss,
             'sebon_commission' => $seboncomission,
@@ -161,11 +146,10 @@ class StocksController extends Controller
         return redirect()->route('dashboard')->with('success', 'Stock sold successfully!');
     }
 
-    // Function to Calculate Broker Commission
 private function calculateBrokerCommission($totalAmount)
 {
     if ($totalAmount <= 2500) {
-        return 10; // Fixed fee
+        return 10;
     } elseif ($totalAmount <= 50000) {
         return $totalAmount * 0.36 / 100;
     } elseif ($totalAmount <= 500000) {
@@ -182,8 +166,8 @@ private function calculateBrokerCommission($totalAmount)
 
     public function sell($id)
     {
-        $stock = Stocks::findOrFail($id); // Fetch stock details by ID
-        $symbols = Stocks::pluck('stock_name'); // Fetch all stock names (if needed)
+        $stock = Stocks::findOrFail($id); 
+        $symbols = Stocks::pluck('stock_name'); 
         
         return view('sell', compact('stock', 'symbols'));
     }
@@ -200,17 +184,14 @@ private function calculateBrokerCommission($totalAmount)
     }
  
 
-       // Edit Stock
     public function edit($id)
     {
         $stock = Stocks::findOrFail($id);
         return view('edit', compact('stock'));
     }
 
-    // Update Stock
     public function update(Request $request, $id)
     {
-        // Validate the request
         $validated = $request->validate([
             'action' => 'required|string',
             'stockName' => 'required|string',
@@ -227,10 +208,8 @@ private function calculateBrokerCommission($totalAmount)
             'netReceivable' => 'nullable|numeric',
         ]);
 
-        // Find the stock by ID
         $stock = Stocks::findOrFail($id);
 
-        // Update stock details
         $stock->action = $validated['action'];
         $stock->stock_name = $validated['stockName'];
         $stock->type = $validated['type'];
@@ -242,16 +221,14 @@ private function calculateBrokerCommission($totalAmount)
         $stock->dp_fee = $validated['dpFee'];
         $stock->total_cost = $validated['totalCost'];
 
-        // Calculate additional fields
         if ($validated['action'] === 'buy') {
             $stock->net_payable = $validated['netPayable'] ?? ($validated['totalAmount'] + $validated['sebonCommission'] + $validated['brokerCommission'] + $validated['dpFee']);
         } elseif ($validated['action'] === 'sell') {
-            $stock->net_receivable = $validated['netReceivable'] ?? ($validated['totalAmount'] - ($validated['totalAmount'] * 0.05)); // Assuming 5% tax
+            $stock->net_receivable = $validated['netReceivable'] ?? ($validated['totalAmount'] - ($validated['totalAmount'] * 0.05)); 
         }
 
         $stock->save();
 
-        // Update Transactions Table
         $transaction = Transactions::where('stock_name', $validated['stockName'])->first();
         if ($transaction) {
             $transaction->action = $validated['action'];
@@ -270,13 +247,10 @@ private function calculateBrokerCommission($totalAmount)
 
 
 
-      //trader analytics section data
       public function getStocksData()
 {
-    // Fetch the stock names and total amounts from the Stocks table
     $stocks = Stocks::select('stock_name', 'total_amount')->get();
 
-    // Return the data as JSON
     return response()->json($stocks);
 }
    

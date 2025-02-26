@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Member; // Use the Member model
+use App\Models\Member; 
 use Illuminate\Support\Facades\Hash;
-use App\Models\Otp; // Use the Otp model
+use App\Models\Otp; 
 use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\Auth;
@@ -15,26 +15,26 @@ class RegistrationController extends Controller
 {
     public function store(Request $request)
     {
-        // Validate input
+      
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:members,email', // Adjusted for 'members' table
+            'email' => 'required|email|unique:members,email', 
             'mobile' => 'required|digits:10',
-            'password' => 'required|min:8|confirmed', // Ensures password and password_confirmation match
+            'password' => 'required|min:8|confirmed',
         ]);
 
-        // Save data into the database
+        
         $member = Member::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'mobile' => $request->mobile,
-            'password' => Hash::make($request->password), // Securely hash the password
+            'password' => Hash::make($request->password),
         ]);
 
         $randomOtp = mt_rand(100000, 999999);
-        $expiresAt = now()->addMinutes(5); // Set the OTP expiration time to 5 minutes from now
+        $expiresAt = now()->addMinutes(5);
 
         Otp::create([
             'otp' => $randomOtp,
@@ -97,7 +97,7 @@ class RegistrationController extends Controller
             'current-password' => 'required',
             'new-password' => 'required|string|min:8|confirmed',
         ]);
-        //dd($request);
+      
 
         $user = Auth::user();
         if (!Hash::check($request->input('current-password'), $user->password)) {
@@ -122,7 +122,7 @@ class RegistrationController extends Controller
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('public/profile_images', $imageName);
 
-            // Delete old profile image if exists
+           
             if ($user->profile_image) {
                 Storage::delete('public/profile_images/' . $user->profile_image);
             }

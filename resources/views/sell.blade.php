@@ -31,7 +31,6 @@
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" max="{{ $stock->quantity }}" required>
 
-            <!-- Hidden Fields -->
             <input type="hidden" id="hiddenType" name="type" value="">
             <input type="hidden" id="wacc" name="wacc" value="{{ $stock->wacc }}">
             <input type="hidden" id="portfolio_id" name="portfolio_id" value="{{ $stock->portfolio_id }}">
@@ -59,7 +58,6 @@
             <p>Net Receivable: Rs. <span id="ReceivableDisplay"></span></p>
             <p>Profit/Loss: <span id="PLDisplay" style="font-weight: bold;"></span></p>
 
-            <!-- Buttons -->
             <button type="button" id="send" class="btn btn-primary">OK</button>
             <button type="button" id="cancelSellStockBtn" class="btn btn-secondary">Cancel</button>
         </div>

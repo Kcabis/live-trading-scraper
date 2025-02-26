@@ -16,7 +16,6 @@ class ListedSecurityController extends Controller
         $file = $request->file('csvFileInput');
         $data = array_map('str_getcsv', file($file->getRealPath()));
 
-        // Skip the header row
         $header = array_shift($data);
 
         foreach ($data as $row) {

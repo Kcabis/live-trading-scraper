@@ -3,22 +3,17 @@
 @section('content')
     @push('styles')
         <link rel="stylesheet" href="{{ asset('css\styles.css') }}">
-        <!-- Include Select2 CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-<!-- Include jQuery (Required for Select2) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Include Select2 JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
     @endpush
 
     <div class="main-content">
 
-        <!-- Dashboard Section -->
         <div id="dashboardSection" class="content-section">
             <div class="shareholder-options">
 
-    <!-- Back button -->
     <a href="{{ route('dashboard') }}" class="back-button">Back</a>
     <div class="portfolio-container">
         <select id="shareholderSelect">
@@ -78,7 +73,6 @@
 
             <button id="addStock">Add Stock</button>
             <div class="portfolio-table">
-                <!-- Search box above the table -->
                 <div class="table-search-container">
                     <input type="text" id="tableSearchBox" placeholder="Search Stock Name...">
                 </div>
@@ -86,7 +80,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>SN</th> <!-- New SN column header -->
+                            <th>SN</th> 
                             <th>Stock</th>
                             <th>Purchase Price</th>
                             <th>Quantity</th>
@@ -99,7 +93,7 @@
                     </thead>
                     <tbody>
                         @foreach ($stocks as $stock)
-                            @if($stock['quantity'] > 0) <!-- Only show stock if quantity > 0 -->
+                            @if($stock['quantity'] > 0) 
                                 <tr>
                                     <td>{{ $stock['id'] }}</td>
                                     <td>{{ $stock['stock_name'] }}</td>
@@ -152,30 +146,28 @@
 
                         <script>
                         document.addEventListener('DOMContentLoaded', function () {
-                            let marketValueSum = 0; // Total Market Value
-                            let purchaseValueSum = 0; // Total Purchase Value
-                            let profitValueSum = 0; // Total Profit/Loss (Unrealized Gain)
+                            let marketValueSum = 0; 
+                            let purchaseValueSum = 0;
+                            let profitValueSum = 0; 
                         
                             const marketValueElements = document.querySelectorAll('#marketValueRaw');
-                            const purchasePriceElements = document.querySelectorAll('td:nth-child(3)'); // Purchase Price column
-                            const quantityElements = document.querySelectorAll('td:nth-child(4)'); // Quantity column
+                            const purchasePriceElements = document.querySelectorAll('td:nth-child(3)'); 
+                            const quantityElements = document.querySelectorAll('td:nth-child(4)');
                         
-                            // Calculate Total Profit/Loss (Unrealized Gain)
                             marketValueElements.forEach(function (element, index) {
-                                const marketValue = parseFloat(element.value.trim()); // Get Market Value from hidden input
-                                const purchasePrice = parseFloat(purchasePriceElements[index].textContent.trim().replace(/,/g, '')); // Parse Purchase Price
-                                const quantity = parseFloat(quantityElements[index].textContent.trim().replace(/,/g, '')); // Parse Quantity
+                                const marketValue = parseFloat(element.value.trim());
+                                const purchasePrice = parseFloat(purchasePriceElements[index].textContent.trim().replace(/,/g, '')); 
+                                const quantity = parseFloat(quantityElements[index].textContent.trim().replace(/,/g, ''));
                         
                                 if (!isNaN(marketValue) && !isNaN(purchasePrice) && !isNaN(quantity)) {
-                                    const purchaseValue = purchasePrice * quantity; // Calculate Purchase Value
-                                    const profitLoss = marketValue - purchaseValue; // Calculate Profit/Loss
-                                    profitValueSum += profitLoss; // Add to Total Profit/Loss
-                                    purchaseValueSum += purchaseValue; // Add to Total Purchase Value
-                                    marketValueSum += marketValue; // Add to Total Market Value
+                                    const purchaseValue = purchasePrice * quantity;
+                                    const profitLoss = marketValue - purchaseValue; 
+                                    profitValueSum += profitLoss; 
+                                    purchaseValueSum += purchaseValue;
+                                    marketValueSum += marketValue; 
                                 }
                             });
                         
-                            // Update Portfolio Value, Current Investment, Unrealized Gain, and Daily Gains
                             document.getElementById('portfolioVal').textContent = 'Rs. ' + marketValueSum.toFixed(2);
                             document.getElementById('currentInvestment').textContent = 'Rs. ' + purchaseValueSum.toFixed(2);
                             document.getElementById('UnrealizedGain').textContent = 'Rs. ' + profitValueSum.toFixed(2);
@@ -212,7 +204,6 @@
 
 
 
-        <!-- Add Stock Pop-Up Form -->
         <div id="addStockPopup" class="popup">
             <div class="popup-content">
                 <span class="close">&times;</span>
@@ -242,7 +233,6 @@
                     <label for="quantity">Quantity:</label>
                     <input type="number" id="quantity" name="quantity" required>
 
-                    <!-- Hidden Fields for Confirmation Data -->
                     <input type="hidden" id="confirmTotalAmount" name="totalAmount">
                     <input type="hidden" id="confirmSebonCommission" name="sebonCommission">
                     <input type="hidden" id="confirmBrokerCommission" name="brokerCommission">
@@ -253,14 +243,12 @@
 
 
 
-                    <!-- Buttons -->
                     <button type="button" id="addStockBtn">OK</button>
                     <button type="button" id="cancelStockBtn">Cancel</button>
             </div>
         </div>
         <script>
             $(document).ready(function() {
-                // Activate Select2 on the stock dropdown
                 $('.stock-dropdown').select2({
                     placeholder: "Search Stock...",
                     allowClear: true
@@ -270,7 +258,6 @@
         
 
 
-        <!-- Buy Confirmation Popup -->
         <div id="confirmPopup" class="popup">
             <div class="popup-content">
                 <span class="close">&times;</span>
@@ -282,15 +269,12 @@
                 <p>WACC: Rs. <span id="confirmWaccDisplay"></span></p>
                 <p>Total Cost: Rs. <span id="confirmTotalCostDisplay"></span></p>
 
-                <!-- Buttons -->
                 <button type="submit" id="send">OK</button>
                 <button type="button" id="cancelConfirmBtn">Cancel</button>
                 </form>
 
             </div>
         </div>
-
-        <!-- Sell Stock Pop-Up Form -->
         <div id="sellStockPopup" class="popup">
             <div class="popup-content">
                 <span class="close">&times;</span>
@@ -317,8 +301,6 @@
                     <input type="number" id="sellingPrice" name="sellingPrice" step="0.01" required>
                     <label for="quantity">Quantity:</label>
                     <input type="number" id="quantity" name="quantity" required>
-
-                    <!-- Hidden Fields for Confirmation Data -->
                     <input type="hidden" id="confirmTotalAmount" name="totalAmount">
                     <input type="hidden" id="confirmSebonCommission" name="sebonCommission">
                     <input type="hidden" id="confirmBrokerCommission" name="brokerCommission">
@@ -331,13 +313,11 @@
                     <input type="hidden" id="Receivable" name="Receivable">
 
                     <input type="hidden" id="portfolio_id2" name="portfolio_id">
-                    <!-- Buttons -->
                     <button type="button" id="sellStockBtn">OK</button>
                     <button type="button" id="cancelSellStockBtn">Cancel</button>
             </div>
         </div>
 
-        <!-- Sell Confirmation Popup -->
         <div id="confirmPopup" class="popup">
             <div class="popup-content">
                 <span class="close">&times;</span>
@@ -352,7 +332,6 @@
                 <p>CGT: Rs. <span id="confirmtaxDisplay"></span></p>
                 <p>Profit/Loss: Rs. <span id="P\LDisplay"></span></p>
                 <p>Net Receivable: Rs. <span id="ReceivableDisplay"></span></p>
-                <!-- Buttons -->
                 <button type="submit" id="send">OK</button>
                 <button type="button" id="cancelSellStockBtn">Cancel</button>
                 </form>
@@ -362,7 +341,6 @@
 
 
 
-        <!-- Add shareholder popup -->
         <div id="addShareholderPopup" class="popup">
             <div class="popup-content">
                 <span class="close">&times;</span>
@@ -378,7 +356,6 @@
         </div>
 
 
-        <!-- Edit Portfolio Modal -->
         <div id="editPortfolioPopup" class="popup">
             <div class="popup-content">
                 <input type="hidden" id="editPortfolioId">

@@ -16,14 +16,14 @@ class PortfolioController extends Controller
             'portfolio_name' => 'required|string|max:255',
         ]);
     
-        // Check if the user is authenticated
+
         if (!Auth::check()) {
             return redirect()->back()->withErrors(['error' => 'User not authenticated']);
         }
     
-        // Create the portfolio with the authenticated user's ID
+     
         Portfolio::create([
-            'member_id' => Auth::id(),  // Ensure the member_id is correctly assigned
+            'member_id' => Auth::id(),  
             'portfolio_name' => $request->portfolio_name,
         ]);
     
@@ -44,9 +44,9 @@ class PortfolioController extends Controller
 
 public function account()
 {
-    $portfolios = Portfolio::where('member_id', Auth::id())->pluck('id'); // Get portfolio IDs for the user
+    $portfolios = Portfolio::where('member_id', Auth::id())->pluck('id'); 
 
-    $transactions = Transaction::whereIn('portfolio_id', $portfolios)->get(); // Fetch transactions for those portfolios
+    $transactions = Transaction::whereIn('portfolio_id', $portfolios)->get();
 
     return view('account-statement', compact('transactions', 'portfolios'));
 }
@@ -57,13 +57,13 @@ public function hist()
 {
     $portfolios = Portfolio::where('member_id', Auth::id())->get();
 
-    // Extract portfolio IDs as an array
+
     $portfolioIds = $portfolios->pluck('id')->toArray();
 
-    // Fetch transactions related to these portfolios
+  
     $transactions = Transaction::whereIn('portfolio_id', $portfolioIds)->get();
 
-    // Use database aggregation to get total buy and sell amounts
+   
     $totalbuy = Transaction::whereIn('portfolio_id', $portfolioIds)
                            ->where('action', 'buy')
                            ->sum('total_amount');
@@ -92,10 +92,8 @@ public function deletePortfolio($id)
 {
     $portfolio = Portfolio::findOrFail($id);
 
-    // Delete related stocks first
     $portfolio->stocks()->delete();
 
-    // Now delete the portfolio
     $portfolio->delete();
 
     return redirect()->back()->with('success', 'Portfolio deleted successfully!');

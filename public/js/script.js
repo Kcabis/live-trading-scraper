@@ -23,33 +23,28 @@ document.addEventListener('DOMContentLoaded', function () {
     const sellButtons = document.querySelectorAll('.sellStock');
 
 
-    let shareholders = {}; // Stores all shareholders and their stock portfolios
+    let shareholders = {};
     let currentStock = null;
 
-    // Sidebar Toggle
     sidebarToggle.addEventListener('click', function () {
         document.querySelector('.sidebar').classList.toggle('collapsed');
     });
-    // Open Add Shareholder Popup
     newShareholderBtn.addEventListener('click', function () {
         addShareholderPopup.style.display = 'flex';
     });
-    //open edit shareholder popup
     editShareholder.addEventListener('click', function () {
         editPortfolioPopup.style.display = "flex";
     });
    
 
-    // Handle adding new shareholder
     document.getElementById('addShareholderBtn').addEventListener('click', function () {
         const shareholderName = document.getElementById('shareholderName').value.trim();
 
     });
 
-    // Close the Add Shareholder Popup when clicking the 'x' or cancel button
     document.querySelectorAll('#addShareholderPopup .close, #cancelShareholderBtn').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            addShareholderPopup.style.display = 'none'; // Hide the popup
+            addShareholderPopup.style.display = 'none'; 
         });
     });
     document.querySelectorAll('#editPortfolioPopup .close').forEach(function (btn) {
@@ -60,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    // Menu item click events
     menuItems.forEach(item => {
         item.addEventListener('click', function (e) {
             e.preventDefault();
@@ -72,15 +66,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Handle Shareholder Selection: Load the data for selected shareholder
     shareholderSelect.addEventListener('change', function () {
         const shareholderName = this.value;
         if (shareholderName) {
-            displayPortfolio(shareholderName); // Display portfolio when shareholder selected
+            displayPortfolio(shareholderName);
         }
     });
 
-    // Open Add Stock Popup
     document.getElementById('addStock').addEventListener('click', function () {
         if (!shareholderSelect.value) {
             alert("Please select a shareholder first.");
@@ -89,22 +81,19 @@ document.addEventListener('DOMContentLoaded', function () {
             confirmPopup.style.display = 'none';
         }
     });
-    // Close Add Stock Popup
     document.querySelectorAll('#addStockPopup .close, #cancelStockBtn').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            addStockPopup.style.display = 'none'; // Hide the popup
+            addStockPopup.style.display = 'none'; 
         });
     });
-        // Close sell Stock Popup
         document.querySelectorAll('#sellStockPopup .close, #cancelSellStockBtn').forEach(function (btn) {
             btn.addEventListener('click', function () {
-                sellStockPopup.style.display = 'none'; // Hide the popup
+                sellStockPopup.style.display = 'none'; 
             });
         });
 
-    // Prevent form submission and handle logic manually
     addStockBtn.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent form submission
+        event.preventDefault();
 
         const stockName = document.getElementById('stockName').value.trim();
         const purchasePrice = parseFloat(document.getElementById('purchasePrice').value);
@@ -117,24 +106,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Function to calculate fees and show confirmation popup
     function calculateFees(stock) {
         const totalAmount = stock.purchasePrice * stock.quantity;
         let dpFee = 0;
         let sebonCommission = 0;
         let brokerCommission = 0;
 
-        // Commission charges only apply for secondary type buys
-        if (stock.buyType === "Secondary") { // Secondary type
-            sebonCommission = totalAmount * 0.015 / 100; // Sebon commission is 0.015%
-            brokerCommission = calculateBrokerCommission(totalAmount); // Calculate broker commission based on total amount
+        if (stock.buyType === "Secondary") { 
+            sebonCommission = totalAmount * 0.015 / 100; 
+            brokerCommission = calculateBrokerCommission(totalAmount);
             dpFee = 25;
         }
 
         const totalCost = totalAmount + dpFee + sebonCommission + brokerCommission;
         const wacc = totalCost / stock.quantity;
 
-        // Set the hidden fields in the form with the calculated data
         document.getElementById('confirmTotalAmountDisplay').textContent = totalAmount.toFixed(2);
         document.getElementById('confirmSebonCommissionDisplay').textContent = sebonCommission.toFixed(2);
         document.getElementById('confirmBrokerCommissionDisplay').textContent = brokerCommission.toFixed(2);
@@ -142,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('confirmWaccDisplay').textContent = wacc.toFixed(2);
         document.getElementById('confirmTotalCostDisplay').textContent = totalCost.toFixed(2);
 
-        // Fill hidden form inputs with calculated values
         document.getElementById('confirmTotalAmount').value = totalAmount.toFixed(2);
         document.getElementById('confirmSebonCommission').value = sebonCommission.toFixed(2);
         document.getElementById('confirmBrokerCommission').value = brokerCommission.toFixed(2);
@@ -150,12 +135,10 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('confirmWacc').value = wacc.toFixed(2);
         document.getElementById('confirmTotalCost').value = totalCost.toFixed(2);
 
-        // Store WACC as purchase price for the current stock
         currentStock.purchasePrice = wacc;
         confirmPopup.style.display = 'flex';
         addStockPopup.style.display = 'none';
     }
-    // Confirm adding the stock: Update existing stock if present
     confirmBtn.addEventListener('click', function () {
         const shareholderName = shareholderSelect.value;
         const portfolio = shareholders[shareholderName] || { stocks: [] };
@@ -163,14 +146,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const existingStock = portfolio.stocks.find(stock => stock.stockName === currentStock.stockName);
 
         if (existingStock) {
-            // Update the existing stock by calculating the average price
             const totalQuantity = existingStock.quantity + currentStock.quantity;
             const weightedAveragePrice = ((existingStock.purchasePrice * existingStock.quantity) + (currentStock.purchasePrice * currentStock.quantity)) / totalQuantity;
 
             existingStock.purchasePrice = weightedAveragePrice;
             existingStock.quantity = totalQuantity;
         } else {
-            // Add the new stock
             const wacc = parseFloat(document.getElementById('confirmWacc').textContent);
             currentStock.purchasePrice = wacc;
             portfolio.stocks.push(currentStock);
@@ -179,9 +160,8 @@ document.addEventListener('DOMContentLoaded', function () {
         shareholders[shareholderName] = portfolio;
         displayPortfolio(shareholderName);
         confirmPopup.style.display = 'none';
-        currentStock = null; // Clear current stock
+        currentStock = null;
     });
-    // Function to display portfolio with updated values
     function displayPortfolio(shareholderName) {
         const portfolio = shareholders[shareholderName];
         portfolioBody.innerHTML = "";
@@ -219,7 +199,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    // Function to calculate broker commission
     function calculateBrokerCommission(totalAmount) {
         if (totalAmount <= 2500) {
             return 10;
@@ -233,26 +212,22 @@ document.addEventListener('DOMContentLoaded', function () {
             return totalAmount * 0.27 / 100;
         }
     }
-    // Handle confirmation click event to submit the form
     document.getElementById('send').addEventListener('click', function () {
-        document.getElementById('addStockForm').submit(); // Submit the form to save data
+        document.getElementById('addStockForm').submit(); 
     });
 
-    // Cancel confirmation
     document.getElementById('cancelConfirmBtn').addEventListener('click', function () {
-        confirmPopup.style.display = 'none'; // Hide confirmation popup
+        confirmPopup.style.display = 'none'; 
     });
 
 
-    // Close the sellStock Popup when clicking the 'x' or cancel button
     document.querySelectorAll('#sellStockPopup .close, #cancelSellStockBtn').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            sellStockPopup.style.display = 'none'; // Hide the popup
+            sellStockPopup.style.display = 'none'; 
         });
     });
 
 
-    // Close any other popup when clicking the 'x' or Cancel buttons for other popups
     document.querySelectorAll('.popup .close, #cancelBtn,#addStockPopup, #cancelShareholderBtn, #cancelConfirmBtn').forEach(function (btn) {
         btn.addEventListener('click', function () {
             btn.closest('.popup').style.display = 'none';
@@ -264,23 +239,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    // Handle closing the popup when "Cancel" is clicked
     document.getElementById('cancelsellStockBtn').addEventListener('click', function () {
         sellStockPopup.style.display = 'none';
-        sellStockForm.reset(); // Clear the form
+        sellStockForm.reset(); 
     });
 
-    // Optional: Close the popup when the close icon (X) is clicked
     document.querySelector('#sellStockPopup .close').addEventListener('click', function () {
         sellStockPopup.style.display = 'none';
         sellStockForm.reset();
     });
 
-    // Handle dropdown toggle for the profile icon
     const profileImage = document.getElementById('profileImage');
     const profileDropdown = document.getElementById('profileDropdown');
 
-    // Toggle the dropdown visibility on hover
     profileImage.addEventListener('mouseenter', () => {
         profileDropdown.style.display = 'block';
     });
@@ -288,10 +259,9 @@ document.addEventListener('DOMContentLoaded', function () {
     profileImage.addEventListener('mouseleave', () => {
         setTimeout(() => {
             profileDropdown.style.display = 'none';
-        }, 200); // Delay to prevent flickering
+        }, 200); 
     });
 
-    // Ensure dropdown remains visible while hovering over it
     profileDropdown.addEventListener('mouseenter', () => {
         profileDropdown.style.display = 'block';
     });

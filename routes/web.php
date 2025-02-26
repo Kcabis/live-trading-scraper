@@ -18,7 +18,6 @@ use App\Http\Controllers\TransactionController;
 
 
 
-// Public routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
@@ -32,7 +31,6 @@ Route::post('/logout', function () {
 
 
 
- //Registration and OTP routes
 Route::get('/register', function () {
     return view('registration');
 });
@@ -41,10 +39,8 @@ Route::post('otp-verification', [RegistrationController::class, 'verifyOtp']);
 Route::get('otp-verification/{email}', [RegistrationController::class, 'showOtpForm']);
 
 
-// Protected routes (only accessible if logged in)
 Route::middleware(['auth'])->group(function () {
 
-    // Dashboard & Portfolio-related routes
     Route::get('/portfolio', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/events', [DashboardController::class, 'events'])->name('events');
     Route::get('/listedsecurities', [DashboardController::class, 'listed'])->name('listedsecurities');
@@ -53,34 +49,28 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/trader-analytics', [DashboardController::class, 'analytics'])->name('trader-analytics');
     Route::get('/settings', [DashboardController::class, 'settings'])->name('settings');
 
-    // Portfolio Management
     Route::post('/update-portfolio', [PortfolioController::class, 'updatePortfolio'])->name('portfolio.update');
     Route::delete('/delete-portfolio/{id}', [PortfolioController::class, 'deletePortfolio'])->name('portfolio.delete');
     Route::get('/history', [PortfolioController::class, 'hist'])->name('history');
     Route::post('/add-portfolio', [PortfolioController::class, 'store'])->name('portfolio.store');
     Route::get('/dash',[PortfolioController::class,'index'])->name('dash.port');
     
-// filepath: /Applications/XAMPP/xamppfiles/htdocs/live-trading-scraper-1/routes/web.php
 Route::post('/settings/update-details', [RegistrationController::class, 'updateDetails'])->name('settings.updateDetails');
 Route::post('/settings/change-password', [RegistrationController::class, 'changePassword'])->name('settings.changePassword');
 Route::post('/settings/upload-profile', [RegistrationController::class, 'uploadProfile'])->name('settings.uploadProfile');
 
-    // Account & Stocks
     Route::get('/account-statement', [PortfolioController::class, 'account'])->name('account-statement');
     Route::post('/add-ph', [PortfolioController::class, 'store'])->name('add-ph');
 
 
-    // Logout route
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 
 
-//Stocks route
 Route::post('/add-stock', [StocksController::class, 'store']);
 Route::delete('stock/delete/{stock}',[StocksController::class,'delete'])->name('stock.delete');
 Route::post('/update-stock', [StocksController::class, 'update'])->name('stock.update');
-//Route::get('/account-statement', [StocksController::class, 'account'])->name('account-statement');
 Route::get('/stocks/{id}/edit', [StocksController::class, 'edit'])->name('stocks.edit');
 Route::put('/stocks/{id}', [StocksController::class, 'update'])->name('stocks.update');
 Route::get('/sell/{id}', [StocksController::class, 'sell'])->name('sell');
@@ -89,14 +79,12 @@ Route::get('/stocks/data', [StocksController::class, 'getStocksData']);
 
 
 
-//Events route
 Route::post('/add-event', [EventController::class, 'store']);
 Route::post('/add-ad', [FolioadminController::class, 'store']);
 Route::delete('event/delete/{event}',[EventController::class,'delete'])->name('event.delete');
 
 
 
-//Admin Routes
 Route::post('/loginad', [FolioadminController::class, 'loginad']);
 Route::post('/add-ad', [FolioadminController::class, 'store']);
 Route::delete('folioadmin/delete/{folioadmin}',[FolioadminController::class,'delete'])->name('folioadmin.delete');
@@ -105,7 +93,6 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 
 
-//TransactionController class routes
 Route::get('/portfolio/{portfolioId}/transactions', [TransactionController::class, 'transactionHistory'])->name('transactions.history');
 Route::get('/transactions/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
 Route::put('/transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');
@@ -116,15 +103,12 @@ Route::get('/ind-history', [TransactionController::class, 'index'])->name('trans
 
 
 
-//listed-securities routes
 Route::post('/upload-csv', [ListedSecurityController::class, 'uploadCsv'])->name('uploadCsv');
 
 
 
 
-//Additional ststic pages
-//Route::view('/trader-analytics', 'trader-analytics')->name('trader-analytics');
-//Route::view('/settings', 'settings')->name('settings');
+
 Route::view('/layout', 'layout')->name('layout');
 Route::view('/home','home')->name('home');
 Route::get('/dash', function () {
@@ -137,7 +121,6 @@ Route::view('/', 'login');
 
 
 
-//ScrapeController
 
 Route::get('/scrape', [ScrapeController::class, 'scrape'])->name('scrape');
 

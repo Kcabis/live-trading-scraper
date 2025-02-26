@@ -7,7 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        /* Global Styles */
         body {
             font-family: 'Poppins', Arial, sans-serif;
             margin: 0;
@@ -17,7 +16,6 @@
             overflow-x: hidden;
         }
 
-        /* Navbar */
         nav {
             position: fixed;
             top: 0;
@@ -85,7 +83,6 @@
             transform: scale(1.1);
         }
 
-        /* Hero Section */
         .hero {
             height: 100vh;
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('/images/home.jpg') no-repeat center center / cover;
@@ -172,7 +169,6 @@
             transform: scale(1.1);
         }
 
-        /* Quote Section */
         .quote {
             position: absolute;
             bottom: 10%;
@@ -203,7 +199,6 @@
             }
         }
 
-        /* Footer */
         footer {
             background-color: #333;
             color: white;
@@ -236,7 +231,6 @@
             margin: 5px 0;
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 48px;
@@ -254,7 +248,6 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="d-flex justify-content-between align-items-center">
         <a href="#" class="navbar-brand">Smart-Folio</a>
         <div class="nav-links">
@@ -267,7 +260,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <div class="hero">
         <div>
             <h1>Smart-Folio</h1>
@@ -280,7 +272,6 @@
         <div class="quote">"The market reward greed but teaches patience"</div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2025 Smart-Folio. All Rights Reserved.</p>
         <p><a href="#about">About</a> | <a href="#contact">Contact</a></p>

@@ -7,7 +7,6 @@
 <div id="listedsecuritiesSection" class="content-section listed-section">
     <h2>Listed Securities</h2>
 
-    <!-- Header Section -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <div class="Live">
             <button type="button" onclick="window.location.href='{{ route('scrape') }}'">Live
@@ -18,7 +17,6 @@
         </div>
     </div>
 
-    <!-- Table Container -->
     <div class="table-container">
         <table id="securitiesTable">
             <thead>
@@ -49,15 +47,13 @@
     </div>
 </div>
 
-<!-- JavaScript for Search and Sort -->
 <script>
-    // Search functionality
     document.getElementById('searchInput').addEventListener('input', function () {
         const searchValue = this.value.toUpperCase();
         const table = document.getElementById('securitiesTable');
         const rows = table.getElementsByTagName('tr');
         for (let i = 1; i < rows.length; i++) {
-            const symbolCell = rows[i].getElementsByTagName('td')[3]; // Corrected index for Symbol column
+            const symbolCell = rows[i].getElementsByTagName('td')[3]; 
             if (symbolCell) {
                 const textValue = symbolCell.textContent || symbolCell.innerText;
                 rows[i].style.display = textValue.toUpperCase().includes(searchValue) ? '' : 'none';
@@ -67,33 +63,30 @@
 
     let originalRows = [];
 
-    // Save the original rows when the page loads
     window.addEventListener('DOMContentLoaded', function () {
         const table = document.getElementById('securitiesTable');
-        const rows = Array.from(table.rows).slice(1); // Skip header
-        originalRows = rows.map(row => row.cloneNode(true)); // Clone the original rows
+        const rows = Array.from(table.rows).slice(1);
+        originalRows = rows.map(row => row.cloneNode(true)); /
     });
 
-    // Sort functionality
     function sortTable() {
         const table = document.getElementById('securitiesTable');
-        const rows = Array.from(table.rows).slice(1); // Skip header row
+        const rows = Array.from(table.rows).slice(1); 
         const sortedRows = rows.sort((a, b) => {
             const symbolA = a.cells[3].textContent.trim().toUpperCase();
             const symbolB = b.cells[3].textContent.trim().toUpperCase();
             return symbolA.localeCompare(symbolB);
         });
         const tbody = table.querySelector('tbody');
-        tbody.innerHTML = ''; // Clear the table
-        sortedRows.forEach(row => tbody.appendChild(row)); // Append sorted rows
+        tbody.innerHTML = ''; 
+        sortedRows.forEach(row => tbody.appendChild(row)); 
     }
 
-    // Reset functionality
     function resetTable() {
         const table = document.getElementById('securitiesTable');
         const tbody = table.querySelector('tbody');
-        tbody.innerHTML = ''; // Clear the table
-        originalRows.forEach(row => tbody.appendChild(row.cloneNode(true))); // Restore original rows
+        tbody.innerHTML = ''; 
+        originalRows.forEach(row => tbody.appendChild(row.cloneNode(true))); 
     }
 
 </script>

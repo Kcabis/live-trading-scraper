@@ -6,36 +6,47 @@
     <title>Registration Form</title>
     <style>
     body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f4f7fc;
+        font-family: 'Poppins',sans-serif;
+        background-color: #616c82;
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
         margin: 0;
     }
-
+    .background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image: url('/images/login.JPG');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    filter: blur(5px);
+}
     .register-container {
-        background-color: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        max-width: 600px;
-        width: 100%;
-        position: relative;
+        background-color: rgba(36, 47, 73, 0.8);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 600px;
+
     }
 
     .register-box h3 {
         text-align: center;
-        color: #4A4A4A;
+        color: #00d084;
         font-size: 28px;
         margin-bottom: 15px;
-        font-weight: 600;
+        font-weight: 600px;
     }
 
     .register-box p {
         text-align: center;
-        color: #7A7A7A;
+        color:rgb(255, 255, 255);
         font-size: 16px;
         margin-bottom: 30px;
     }
@@ -47,27 +58,30 @@
         flex-wrap: wrap;
     }
 
-    .input-group {
-        flex: 1 1 48%;
-        margin-bottom: 15px;
-    }
+    
 
     .input-group label {
-        display: block;
+        display: flex;
         margin-bottom: 5px;
-        color: #4A4A4A;
+        color:rgb(255, 255, 255);
         font-size: 14px;
     }
 
-    .input-group input,
-    .input-group select {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-sizing: border-box;
-        font-size: 14px;
-        transition: border-color 0.3s ease;
+   
+    .input-group select,
+    .input-group input{
+    display: flex;
+    border: none;
+    font-size: 14px;
+    outline: none;
+    color: #fff;
+    background: transparent;
+    align-items: center;
+    margin-bottom: -9px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 10px;
+    width: 270px;
     }
 
     .input-group input:focus,
@@ -81,13 +95,16 @@
         align-items: center;
         margin-bottom: 20px;
     }
-
+    .terms label {
+        color: #fff;
+        font-size: 14px;
+    }
     .terms input {
         margin-right: 10px;
     }
 
     .terms a {
-        color: #673AB7;
+        color: #00d084;
         text-decoration: none;
     }
 
@@ -97,28 +114,29 @@
 
     .btn-primary {
         width: 100%;
-        padding: 14px;
-        background-color: #673AB7;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        margin-bottom: 20px;
-        transition: background-color 0.3s ease;
+    padding: 12px;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3sease;
     }
 
     .btn-primary:hover {
-        background-color: #5E35B1;
-    }
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    transform: scale(1.05);
+}
 
     .register-box p {
         text-align: center;
-        color: #555;
+        color:#ffffff;
     }
 
     .register-box p a {
-        color: #673AB7;
+        color: #00d084;
         text-decoration: none;
     }
 
@@ -126,7 +144,6 @@
         text-decoration: underline;
     }
 
-    /* Back button */
     .back-btn {
         position: absolute;
         top: 20px;
@@ -147,7 +164,6 @@
         background-color: #5E35B1;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
         .input-row {
             flex-direction: column;
@@ -178,8 +194,10 @@
 </style>
 </head>
 <body>
+<div class="background-image"></div>
     <div class="register-container">
         <a href="{{url('home')}}" class="back-btn">Back</a>
+ 
         <div class="register-box">
             <h3>Registration Form</h3>
             <p>Enter your information to register Smart-folio</p>

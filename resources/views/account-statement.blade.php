@@ -8,7 +8,6 @@
 <div class="container">
     <div class="header">
         <h1>Account Statement</h1>
-        <!-- Search box -->
         <input type="text" id="searchStockInput" class="form-control" placeholder="Search Stock by Name" onkeyup="searchStock()">
     </div>
     <div class="table-container">
@@ -30,7 +29,7 @@
                     </tr>
                 @else
                     <?php
-                    $amount = 0; // Initialize amount to 0
+                    $amount = 0;
                     ?>
                     @foreach($transactions as $transaction)
                         <tr class="stock-row">
@@ -38,41 +37,38 @@
                             <td>{{$transaction->stock_name}}</td>
                             <td>{{$transaction->action}}</td>
     
-                            <!-- Display Buy amount and set Sell amount to 0 if action is buy -->
                             <td>
                                 @if($transaction->action == 'buy')
                                     <?php
                                     $buyAmount = $transaction->total_cost;
-                                    $sellAmount = 0; // Set sell amount to 0 when action is buy
-                                    $amount -= $buyAmount; // Subtract buy amount from total amount
+                                    $sellAmount = 0; 
+                                    $amount -= $buyAmount;
                                     ?>
-                                    {{$buyAmount}} <!-- Display Buy amount -->
+                                    {{$buyAmount}} 
                                 @elseif($transaction->action == 'sell')
                                     <?php
-                                    $buyAmount = 0; // Set buy amount to 0 when action is sell
+                                    $buyAmount = 0; 
                                     $sellAmount = $transaction->total_amount;
-                                    $amount += $sellAmount; // Add sell amount to total amount
+                                    $amount += $sellAmount; 
                                     ?>
-                                    {{$buyAmount}} <!-- Display Buy amount as 0 for sell action -->
+                                    {{$buyAmount}}
                                 @else
                                     <?php
                                     $buyAmount = 0;
                                     $sellAmount = 0;
                                     ?>
-                                    0 <!-- Default display when action is neither buy nor sell -->
+                                    0 
                                 @endif
                             </td>
     
-                            <!-- Display Sell amount and set Buy amount to 0 if action is sell -->
                             <td>
                                 @if($transaction->action == 'sell')
-                                    {{$sellAmount}} <!-- Display Sell amount -->
+                                    {{$sellAmount}} 
                                 @else
-                                    0 <!-- Display Sell amount as 0 when action is buy -->
+                                    0
                                 @endif
                             </td>
     
-                            <!-- Display Amount with color coding for negative values -->
                             <td>
                                 <span style="color: {{ $amount < 0 ? 'red' : 'white' }}">
                                     {{ number_format($amount, 2) }}
@@ -90,20 +86,17 @@
 @push('scripts')
 <script>
     function searchStock() {
-    // Get the value of the search input
     let input = document.getElementById("searchStockInput").value.toLowerCase();
 
-    // Get all rows from the table body
     let rows = document.getElementById("stockTableBody").getElementsByClassName("stock-row");
 
-    // Loop through the rows to hide those that don't match the search query
     for (let i = 0; i < rows.length; i++) {
-        let stockName = rows[i].getElementsByTagName("td")[1].textContent.toLowerCase(); // Get the stock name from the second column (index 1)
+        let stockName = rows[i].getElementsByTagName("td")[1].textContent.toLowerCase(); 
 
         if (stockName.indexOf(input) > -1) {
-            rows[i].style.display = ""; // Show row if search term matches
+            rows[i].style.display = ""; 
         } else {
-            rows[i].style.display = "none"; // Hide row if search term doesn't match
+            rows[i].style.display = "none"; 
         }
     }
 }

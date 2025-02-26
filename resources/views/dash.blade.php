@@ -24,15 +24,12 @@
 </div>
 
     
-    <!-- Table Section -->
     <div class="table-container" style="text-align: center; margin: 0 auto; width: 80%; padding: 20px;">
-        <!-- Search and Table Header -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <h3>Portfolios List</h3>
             <input type="text" id="searchInput" class="form-control" style="width: 250px;" placeholder="Search Portfolio..." />
         </div>
 
-        <!-- Portfolio Table -->
         <table class="table table-bordered table-striped" style="margin-top: 10px;">
             <thead class="table-dark">
                 <tr>
@@ -72,7 +69,6 @@
         </table>
     </div>
 
-    <!-- Add Portfolio Popup -->
     <div id="addShareholderPopup" class="popup" style="display: none;">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -87,7 +83,6 @@
         </div>
     </div>
 
-    <!-- Edit Portfolio Modal -->
 <div id="editPortfolioPopup" class="popup">
     <div class="popup-content">
         <input type="hidden" id="editPortfolioId">
@@ -121,12 +116,9 @@
     </div>
 </div>
 <div class="table-container" style="text-align: center; margin: 0 auto; width: 80%; padding: 20px;">
-    <!-- Portfolio Table (as before) -->
     <table class="table table-bordered table-striped" style="margin-top: 10px;">
-        <!-- Table content here -->
     </table>
 
-    <!-- Portfolio Value Bar Chart -->
     <div class="chart-container" style="margin-top: 40px; text-align: center;">
         <h3>Portfolio Value and Stock Count</h3>
         <canvas id="portfolioChart"></canvas>
@@ -140,7 +132,7 @@
 <script src="{{ asset('js/port.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const portfolioData = @json($portfolioData);  // Pass PHP data to JS
+    const portfolioData = @json($portfolioData); 
 
     const labels = portfolioData.map(portfolio => portfolio.name);
     const totalValues = portfolioData.map(portfolio => portfolio.total_value);

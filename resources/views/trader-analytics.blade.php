@@ -9,20 +9,17 @@
         </div>
 
         <div class="charts-section">
-            <!-- Profit of Individual Stocks -->
             <div class="chart-container">
                 <h2>Purchase value of Individual Stocks</h2>
                 <canvas id="profitChart"></canvas>
             </div>
 
-            <!-- Portfolio Weight -->
             <div class="chart-container">
                 <h2>Portfolio Weight of Individual Stocks (Market Value in %)</h2>
                 <canvas id="portfolioWeightChart"></canvas>
             </div>
         </div>
 
-        <!-- Trader Analytics Table -->
         <div class="table-section">
             <h2>Trader Performance Overview</h2>
             <table class="analytics-table">

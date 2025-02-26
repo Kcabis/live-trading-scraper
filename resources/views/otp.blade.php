@@ -127,7 +127,6 @@
             text-decoration: underline;
         }
 
-        /* Back button */
         .back-btn {
             position: absolute;
             top: 20px;
@@ -146,7 +145,6 @@
             background-color: #5E35B1;
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             .input-row {
                 flex-direction: column;

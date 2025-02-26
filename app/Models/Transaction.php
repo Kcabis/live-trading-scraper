@@ -9,10 +9,8 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    // Define the table name (optional if it's the plural form of the model name)
     protected $table = 'transactions';
 
-    // Define the fields that are mass assignable (columns you want to fill using mass-assignment)
     protected $fillable = [
         'portfolio_id', 
         'stock_name',

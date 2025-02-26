@@ -18,19 +18,19 @@ class Dashboardcontroller extends Controller
 {   
     $portfolio_id = $request->query('portfolio_id');
     
-    // Fetch all portfolios
+   
     $portfolios = Portfolio::where('member_id', Auth::id())->get();
-    // Fetch stocks related to the selected portfolio
+  
     $stocks = $this->getStocksWithLTPfromMerolagani($portfolio_id);
     
-    // Get all stock symbols (assuming you have a scraping function)
+  
     $symbols = $this->scrape();
     
-    // Get total portfolio value and stock count for each portfolio
+  
     $portfolioData = [];
     
     foreach ($portfolios as $portfolio) {
-        // Fetch all stocks related to this portfolio
+       
         $portfolioStocks = Stocks::where('portfolio_id', $portfolio->id)->get();
         $portfolioTransaction = Transaction::where('portfolio_id', $portfolio->id)->get();
 
@@ -42,10 +42,10 @@ class Dashboardcontroller extends Controller
         $soldunits=0;
         $total_profit_loss=0;
 
-        // Calculate the total value and number of stocks for this portfolio
+        
         foreach ($portfolioStocks as $stock) {
-            $totalValue += $stock->total_amount; // Assuming total_amount represents the stock value
-            $totalStocks += $stock->quantity;  // Summing the number of stocks
+            $totalValue += $stock->total_amount; 
+            $totalStocks += $stock->quantity; 
            
 
         }
@@ -71,12 +71,12 @@ class Dashboardcontroller extends Controller
         ];
     }
 
-    // Pass all data to the view
+    
     return view('dash', compact('portfolios', 'symbols', 'stocks', 'portfolioData')); 
 }
 
   
-    //sending stocks to history
+  
     public function history(Request $request)
     {
 
@@ -98,17 +98,17 @@ class Dashboardcontroller extends Controller
     return view('events',compact('events'));
 
    }
-   //sending data to port
+
    public function indexx(Request $request){
 
     $portfolio_id = $request->query('portfolio_id');
-    $portfolios= Portfolio::where('member_id',Auth::id())->get(); // Fetch events from EventController logic
-   // $events=Event::all();
+    $portfolios= Portfolio::where('member_id',Auth::id())->get(); 
+   
     $stocks= $this->getStocksWithLTPfromMerolagani($portfolio_id);
     $symbols = $this->scrape();
-    // $securities = ListedSecurity::all()  ;
+   
     $portfoliovalue=30;
-    return view('port', compact('portfolios', 'symbols' , 'stocks','portfoliovalue')); // Pass data to the view
+    return view('port', compact('portfolios', 'symbols' , 'stocks','portfoliovalue')); 
    }
 
     public function scrape()
@@ -125,9 +125,9 @@ class Dashboardcontroller extends Controller
             return response()->json(['error' => 'Failed to fetch the page content'], 500);
         }
 
-        libxml_use_internal_errors(true); // Enable internal error handling
+        libxml_use_internal_errors(true); 
         $dom = new \DOMDocument();
-        $dom->loadHTML($html); // Suppress warnings due to malformed HTML
+        $dom->loadHTML($html); 
 
         $xpath = new \DOMXPath($dom);
         $rows = $xpath->query('//table[contains(@class, "table")][1]/tbody/tr');
@@ -172,9 +172,9 @@ class Dashboardcontroller extends Controller
                     return response()->json(['error' => 'Failed to fetch the page content'], 500);
                 }
             
-                libxml_use_internal_errors(true); // Enable internal error handling
+                libxml_use_internal_errors(true); 
                 $dom = new \DOMDocument();
-                $dom->loadHTML($html); // Suppress warnings due to malformed HTML
+                $dom->loadHTML($html);
                 $xpath = new \DOMXPath($dom);
             
                 $rows = $xpath->query('//table[contains(@class, "table")][1]/tbody/tr');
@@ -186,11 +186,11 @@ class Dashboardcontroller extends Controller
                     if ($columns->length >= 9) {
                         $symbol = trim($columns->item(0)->textContent);
                         $ltp = trim($columns->item(1)->textContent);
-                        $data[$symbol] = $ltp; // Use symbol as key for quick lookup
+                        $data[$symbol] = $ltp; 
                     }
                 }
             
-                // Group and aggregate stocks
+               
 $groupedStocks = $stocks->groupBy('stock_name')->map(function ($group, $stockName) use ($data) {
     $totalQuantity = $group->sum('quantity');
     $totalAmount = $group->sum('total_amount');
@@ -198,9 +198,9 @@ $groupedStocks = $stocks->groupBy('stock_name')->map(function ($group, $stockNam
     $totalBrokerCommission = $group->first()->broker_commission;
     $totalDpFee = $group->sum('dp_fee');
     $totalCost = $group->sum('total_cost');
-    $ltp = $data[$stockName] ?? 0; // Get LTP from scraped data if available
+    $ltp = $data[$stockName] ?? 0; 
 
-    // Calculate weighted average cost if totalQuantity > 0
+   
     $totalWacc = $totalQuantity > 0
         ? $group->sum(function ($stock) use ($totalQuantity) {
             return ($stock->quantity * $stock->wacc) / $totalQuantity;
@@ -221,20 +221,20 @@ $groupedStocks = $stocks->groupBy('stock_name')->map(function ($group, $stockNam
     ];
 });
 
-                return $groupedStocks->values(); // Return grouped stocks as an array
+                return $groupedStocks->values();
             }
 
 
 
             public function analytics()
             {
-                $portfolios = Auth::user()->portfolios; // Get all portfolios for the user
+                $portfolios = Auth::user()->portfolios; 
             
                 if ($portfolios->isEmpty()) {
                     return redirect()->back()->with('error', 'No portfolios found.');
                 }
             
-                $portfolioData = []; // Array to store portfolio analytics
+                $portfolioData = [];
             
                 foreach ($portfolios as $portfolio) {
                     $transactions = Transaction::where('portfolio_id', $portfolio->id)->get();
@@ -257,7 +257,7 @@ $groupedStocks = $stocks->groupBy('stock_name')->map(function ($group, $stockNam
                         $status = "good";
                     } elseif ($roi > 30 && $roi <= 40) {
                         $status = "very good";
-                    } else { // Covers $roi > 40 and other cases
+                    } else {
                         $status = "excellent";
                     }
                     
@@ -265,7 +265,7 @@ $groupedStocks = $stocks->groupBy('stock_name')->map(function ($group, $stockNam
                     $avg_profit = $winning_trades > 0 ? $total_profit / $winning_trades : 0;
                     $avg_loss = $losing_trades > 0 ? $total_loss / $losing_trades : 0;
             
-                    // Store calculated data for each portfolio
+                   
                     $portfolioData[] = [
                         'portfolio_name' => $portfolio->portfolio_name,
                         'winning_trades' => $winning_trades,

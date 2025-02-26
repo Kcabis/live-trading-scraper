@@ -48,7 +48,6 @@
             <input type="number" id="quantity" name="quantity" class="form-control" value="{{ $transaction->quantity }}" required>
         </div>
 
-        <!-- Hidden inputs for calculated fields -->
         <input type="hidden" name="totalAmount" id="confirmTotalAmount" value="{{ $transaction->total_amount }}">
         <input type="hidden" name="capitalGainTax" id="confirmCapitalGainTax" value="{{ $transaction->capital_gain_tax }}">
         <input type="hidden" name="netReceivable" id="confirmNetReceivable" value="{{ $transaction->net_receivable }}">
@@ -61,7 +60,6 @@
     </form>
 </div>
 
-<!-- Enhanced Confirmation Popup -->
 <div id="confirmPopup" class="popup" style="display: none;">
     <div class="popup-content">
         <span class="close" id="closePopup">&times;</span>
@@ -73,7 +71,6 @@
         <p>WACC: Rs. <span id="confirmWaccDisplay"></span></p>
         <p>Net Payable: Rs. <span id="confirmNetPayableDisplay"></span></p>
 
-        <!-- Buttons -->
         <button type="button" id="send" class="btn btn-success">OK</button>
         <button type="button" id="cancelConfirmBtn" class="btn btn-danger">Cancel</button>
     </div>
@@ -149,7 +146,6 @@
                         <input type="number" id="quantity" name="quantity" class="form-control" value="{{ $transaction->quantity }}" required>
                     </div>
             
-                    <!-- Hidden inputs for calculated fields -->
                     <input type="hidden" name="totalAmount" id="confirmTotalAmount" value="{{ $transaction->total_amount }}">
                     <input type="hidden" name="capitalGainTax" id="confirmCapitalGainTax" value="{{ $transaction->capital_gain_tax }}">
                     <input type="hidden" name="netReceivable" id="confirmNetReceivable" value="{{ $transaction->net_receivable }}">
@@ -162,7 +158,6 @@
                 </form>
             </div>
             
-            <!-- Enhanced Confirmation Popup -->
             <div id="confirmPopup" class="popup" style="display: none;">
                 <div class="popup-content">
                     <span class="close" id="closePopup">&times;</span>
@@ -174,7 +169,6 @@
                     <p>WACC: Rs. <span id="confirmWaccDisplay"></span></p>
                     <p>Net Payable: Rs. <span id="confirmNetPayableDisplay"></span></p>
             
-                    <!-- Buttons -->
                     <button type="button" id="send" class="btn btn-success">OK</button>
                     <button type="button" id="cancelConfirmBtn" class="btn btn-danger">Cancel</button>
                 </div>
@@ -215,7 +209,6 @@
             <input type="number" id="quantity" name="quantity" class="form-control" value="{{ $transaction->quantity }}" required>
         </div>
 
-        <!-- Hidden inputs for calculated fields -->
         <input type="hidden" name="totalAmount" id="confirmTotalAmount" value="{{ $transaction->total_amount }}">
         <input type="hidden" name="capitalGainTax" id="confirmCapitalGainTax" value="{{ $transaction->capital_gain_tax }}">
         <input type="hidden" name="netReceivable" id="confirmNetReceivable" value="{{ $transaction->net_receivable }}">
@@ -228,7 +221,6 @@
     </form>
 </div>
 
-<!-- Enhanced Confirmation Popup -->
 <div id="confirmPopup" class="popup" style="display: none;">
     <div class="popup-content">
         <span class="close" id="closePopup">&times;</span>
@@ -240,7 +232,6 @@
         <p>WACC: Rs. <span id="confirmWaccDisplay"></span></p>
         <p>Net Payable: Rs. <span id="confirmNetPayableDisplay"></span></p>
 
-        <!-- Buttons -->
         <button type="button" id="send" class="btn btn-success">OK</button>
         <button type="button" id="cancelConfirmBtn" class="btn btn-danger">Cancel</button>
     </div>

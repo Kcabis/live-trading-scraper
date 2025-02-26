@@ -21,7 +21,6 @@
 
         <div class="main-content">
             <div id="contentArea">
-                <!-- The content for each section will be loaded dynamically here -->
                 <h1>hey there</h1>
             </div>
         </div>
@@ -29,9 +28,7 @@
 @endsection
 @push('scripts')
     {{-- <script>
-        // Function to load content dynamically based on section name
         function loadSection(section) {
-            // Use AJAX to load the content of the section dynamically
             fetch(`/${section}`)
                 .then(response => response.text())
                 .then(data => {
@@ -42,7 +39,6 @@
                 });
         }
 
-        // Optionally, load the default section when the page is first loaded
         window.onload = () => loadSection('dashboard');
     </script> --}}
 @endpush

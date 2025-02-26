@@ -85,7 +85,6 @@
             }
         }
 
-        /* Back button styling */
         .back-button {
             position: absolute;
             top: 20px;
@@ -113,7 +112,6 @@
     </style>
 </head>
 <body>
-    <!-- Back button -->
     <a href="{{ route('dashboard') }}" class="back-button">Back</a>
 
     <h1>Scraped Stock Data</h1>

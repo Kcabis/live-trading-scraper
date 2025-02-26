@@ -44,10 +44,8 @@ class TransactionController extends Controller
      */
     public function edit($id)
     {
-        // Fetch the transaction by ID, return 404 if not found
         $transaction = Transaction::findOrFail($id);
 
-        // Return the edit view with the transaction data
         return view('edit', compact('transaction'));
     }
 
@@ -88,14 +86,10 @@ class TransactionController extends Controller
         $transaction->wacc = $request->wacc;
         $transaction->total_cost = $request->netPayable;
         $transaction->save();
-        //dd($transaction);
 
-        // Update stock details if necessary
         $stock = Stocks::where('stock_name', $request->stockName)->first();
         
         if ($stock) {
-            // Update stock details based on the transaction
-            // Example: Update stock quantity
             if ($request->action == 'buy') {
                 $stock->quantity += $request->quantity;
             } else {
@@ -119,35 +113,28 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
-        // Find the transaction by ID, return 404 if not found
         $transaction = Transaction::findOrFail($id);
         
     
-        // Check if the transaction is a 'buy' action
         if ($transaction->action == 'buy') {
-            // Find the stock using the portfolio_id from the transaction
             $stock = Stocks::where('portfolio_id', $transaction->portfolio_id)
-                ->where('stock_name', $transaction->stock_name) // Assuming stock_name is the unique identifier
+                ->where('stock_name', $transaction->stock_name)
                 ->first();
     
             if ($stock) {
-                // Reduce stock quantity and adjust total cost
                 $stock->quantity -= $transaction->quantity;
                 $stock->total_cost -= ($transaction->price * $transaction->quantity);
     
-                // Reset WACC if no stock left
                 if ($stock->quantity == 0) {
                     $stock->wacc = 0;
                 }
     
-                $stock->save(); // Save the updated stock details
+                $stock->save();
             }
         }
     
-        // Delete the transaction
         $transaction->delete();
     
-        // Redirect with a success message
         return redirect()->route('history')
             ->with('success', 'Transaction deleted successfully.');
     }

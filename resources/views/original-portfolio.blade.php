@@ -43,7 +43,6 @@
                 </div>
             </header>
 
-            <!-- Dashboard Section -->
             <div id="dashboardSection" class="content-section">
                 <div class="shareholder-options">
                    
@@ -125,7 +124,6 @@
                     </div>
                 </div>
                 <div class="portfolio-table">
-                    <!-- Search box above the table -->
                     <div class="table-search-container">
                         <input type="text" id="tableSearchBox" placeholder="Search Stock Name...">
                     </div>
@@ -133,7 +131,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>SN</th> <!-- New SN column header -->
+                                <th>SN</th> 
                                 <th>Stock</th>
                                 <th>Purchase Price</th>
                                 <th>Quantity</th>
@@ -196,7 +194,6 @@
                             @endforeach
 
                             <script>
-                                // calculate all market value sum and append to portfolioVal
                                 var marketValueSum = 0;
                                 var marketValueElements = document.querySelectorAll('#marketValueRaw');
                                 marketValueElements.forEach(function (element) {
@@ -234,13 +231,10 @@
                 </div>
             </div>
 
-            <!-- Financials Section -->
             <div id="eventsSection" class="content-section events-section" style="display: none;">
                 <h2>Events</h2>
                 @foreach($events as $event)
-                    <!-- Container for cards -->
                     <div class="cards-container">
-                        <!-- Card 1 -->
                         <div class="animated-card">
 
                             <h3 class="card-title">{{$event->event_name}}</h3>
@@ -262,7 +256,6 @@
             <div id="listedsecuritiesSection" class="content-section listed-section" style="display: none;">
                 <h2>Listed Securities</h2>
 
-                <!-- Header Section -->
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <div class="Live">
                         <button type="button" onclick="window.location.href='{{ route('scrape') }}'">Live
@@ -273,7 +266,6 @@
                     </div>
                 </div>
 
-                <!-- Table Container -->
                 <div class="table-container">
                     <table id="securitiesTable">
                         <thead>
@@ -304,15 +296,13 @@
                 </div>
             </div>
 
-            <!-- JavaScript for Search and Sort -->
             <script>
-                // Search functionality
                 document.getElementById('searchInput').addEventListener('input', function () {
                     const searchValue = this.value.toUpperCase();
                     const table = document.getElementById('securitiesTable');
                     const rows = table.getElementsByTagName('tr');
                     for (let i = 1; i < rows.length; i++) {
-                        const symbolCell = rows[i].getElementsByTagName('td')[3]; // Corrected index for Symbol column
+                        const symbolCell = rows[i].getElementsByTagName('td')[3];
                         if (symbolCell) {
                             const textValue = symbolCell.textContent || symbolCell.innerText;
                             rows[i].style.display = textValue.toUpperCase().includes(searchValue) ? '' : 'none';
@@ -322,47 +312,41 @@
 
                 let originalRows = [];
 
-                // Save the original rows when the page loads
                 window.addEventListener('DOMContentLoaded', function () {
                     const table = document.getElementById('securitiesTable');
-                    const rows = Array.from(table.rows).slice(1); // Skip header
-                    originalRows = rows.map(row => row.cloneNode(true)); // Clone the original rows
+                    const rows = Array.from(table.rows).slice(1);
+                    originalRows = rows.map(row => row.cloneNode(true)); 
                 });
 
-                // Sort functionality
                 function sortTable() {
                     const table = document.getElementById('securitiesTable');
-                    const rows = Array.from(table.rows).slice(1); // Skip header row
+                    const rows = Array.from(table.rows).slice(1);
                     const sortedRows = rows.sort((a, b) => {
                         const symbolA = a.cells[3].textContent.trim().toUpperCase();
                         const symbolB = b.cells[3].textContent.trim().toUpperCase();
                         return symbolA.localeCompare(symbolB);
                     });
                     const tbody = table.querySelector('tbody');
-                    tbody.innerHTML = ''; // Clear the table
-                    sortedRows.forEach(row => tbody.appendChild(row)); // Append sorted rows
+                    tbody.innerHTML = ''; 
+                    sortedRows.forEach(row => tbody.appendChild(row)); 
                 }
 
-                // Reset functionality
                 function resetTable() {
                     const table = document.getElementById('securitiesTable');
                     const tbody = table.querySelector('tbody');
-                    tbody.innerHTML = ''; // Clear the table
-                    originalRows.forEach(row => tbody.appendChild(row.cloneNode(true))); // Restore original rows
+                    tbody.innerHTML = ''; 
+                    originalRows.forEach(row => tbody.appendChild(row.cloneNode(true))); 
                 }
 
             </script>
 
 
-            <!-- Account Statement Section -->
             <div id="accountStatementSection" class="content-section" style="display: none;">
                 <h2>Account Statement</h2>
-                <!-- Account Statement content goes here -->
+               
             </div>
-            <!-- Buy History Section -->
             <div id="buyHistorySection" class="content-section" style="display: none;">
                 <h2>Buy History</h2>
-                <!-- Buy History content goes here -->
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
                     rel="stylesheet">
                 <style>
@@ -396,9 +380,7 @@
                                     </select> entries
                                 </label>
                             </div>
-                            <!-- <div class="col-md-6 text-end">
-                            <input type="text" id="searchBox" class="form-control form-control-sm" placeholder="Search">
-                        </div> -->
+                            
                         </div>
 
                         <div class="table-container">
@@ -424,14 +406,11 @@
                     </div>
 
             </div>
-            <!-- Trader Analytics Section -->
             <div id="traderAnalyticsSection" class="content-section" style="display: none;">
                 <h2>Trader Analytics</h2>
-                <!-- Trader Analytics content goes here -->
             </div>
 
-            <!-- Settings Section -->
-            <!-- Settings Section -->
+            
             <div id="settingsSection" class="content-section" style="display: none;">
                 <h2>Settings</h2>
                 <div class="profile-container">
@@ -463,7 +442,6 @@
                 </div>
             </div>
 
-            <!-- Popup Modal -->
             <div id="imageUploadModal" class="modal">
                 <div class="modal-content">
                     <span id="closeModal" class="close">&times;</span>
@@ -476,7 +454,6 @@
         </div>
     </div>
 
-    <!-- Add Stock Pop-Up Form -->
     <div id="addStockPopup" class="popup">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -502,7 +479,6 @@
                 <label for="quantity">Quantity:</label>
                 <input type="number" id="quantity" name="quantity" required>
 
-                <!-- Hidden Fields for Confirmation Data -->
                 <input type="hidden" id="confirmTotalAmount" name="totalAmount">
                 <input type="hidden" id="confirmSebonCommission" name="sebonCommission">
                 <input type="hidden" id="confirmBrokerCommission" name="brokerCommission">
@@ -513,14 +489,11 @@
 
 
 
-                <!-- Buttons -->
                 <button type="button" id="addStockBtn">OK</button>
                 <button type="button" id="cancelStockBtn">Cancel</button>
         </div>
     </div>
 
-
-    <!-- Buy Confirmation Popup -->
     <div id="confirmPopup" class="popup">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -532,7 +505,6 @@
             <p>WACC: Rs. <span id="confirmWaccDisplay"></span></p>
             <p>Total Cost: Rs. <span id="confirmTotalCostDisplay"></span></p>
 
-            <!-- Buttons -->
             <button type="submit" id="send">OK</button>
             <button type="button" id="cancelConfirmBtn">Cancel</button>
             </form>
@@ -540,7 +512,6 @@
         </div>
     </div>
 
-    <!-- Sell Stock Pop-Up Form -->
     <div id="sellStockPopup" class="popup">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -568,14 +539,12 @@
     </div>
 
     <script>
-        // Automatically convert stock name to uppercase
         document.getElementById('sName').addEventListener('input', function () {
             this.value = this.value.toUpperCase();
         })
     </script>
 
 
-    <!-- Add shareholder popup -->
     <div id="addShareholderPopup" class="popup" style="display: none;">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -591,8 +560,6 @@
     </div>
 
 
-
-    <!-- Sell  Confirmation Popup -->
     <div id="sellconfirmPopup" class="popup">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -608,7 +575,6 @@
             <button type="button" id="cancelConfirmBtn">Cancel</button>
         </div>
     </div>
-    <!-- Edit Portfolio Modal -->
     <div id="editPortfolioPopup" class="popup">
         <div class="popup-content">
             <input type="hidden" id="editPortfolioId">

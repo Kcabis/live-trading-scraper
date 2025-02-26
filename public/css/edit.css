@@ -1,11 +1,9 @@
-/* General Reset */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
 }
 
-/* Container Styling */
 .container {
     width: 50%;
     margin: 5% auto;
@@ -16,14 +14,12 @@ body {
     position: relative;
 }
 
-/* Center Content */
 h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
 }
 
-/* Form Fields */
 .form-group {
     margin-bottom: 15px;
 }
@@ -54,7 +50,6 @@ h2 {
     color: #444;
 }
 
-/* Buttons */
 button {
     padding: 10px 20px;
     font-size: 16px;
@@ -85,13 +80,11 @@ button {
     border-radius: 5px;
 }
 
-/* Hover Effects */
 button:hover,
 a.btn-back:hover {
     opacity: 0.9;
 }
 
-/* Mobile Responsiveness */
 @media (max-width: 768px) {
     .container {
         width: 90%;

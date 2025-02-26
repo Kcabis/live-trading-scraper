@@ -8,7 +8,6 @@
 
 @section('content')
 
-        <!-- Portfolio Table -->
         <table class="table table-bordered table-striped" style="margin-top: 10px;">
             <thead class="table-dark">
                 <tr>
