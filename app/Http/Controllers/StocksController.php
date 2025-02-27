@@ -191,59 +191,77 @@ private function calculateBrokerCommission($totalAmount)
     }
 
     public function update(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'action' => 'required|string',
-            'stockName' => 'required|string',
-            'type' => 'required|string',
-            'purchasePrice' => 'required|numeric',
-            'quantity' => 'required|integer|min:0',
-            'totalAmount' => 'required|numeric',
-            'sebonCommission' => 'required|numeric',
-            'brokerCommission' => 'required|numeric',
-            'dpFee' => 'required|numeric',
-            'wacc' => 'required|numeric',
-            'totalCost' => 'required|numeric',
-            'netPayable' => 'nullable|numeric',
-            'netReceivable' => 'nullable|numeric',
-        ]);
+{
+    // Validate the request
+    $validated = $request->validate([
+        'action' => 'required|string',
+        'stockName' => 'required|string',
+        'type' => 'required|string',
+        'purchasePrice' => 'required|numeric',
+        'quantity' => 'required|integer|min:0',
+        'totalAmount' => 'required|numeric',
+        'sebonCommission' => 'required|numeric',
+        'brokerCommission' => 'required|numeric',
+        'dpFee' => 'required|numeric',
+        'wacc' => 'required|numeric',
+        'totalCost' => 'required|numeric',
+        'netPayable' => 'nullable|numeric',
+        'netReceivable' => 'nullable|numeric',
+    ]);
 
-        $stock = Stocks::findOrFail($id);
+    // Find the stock by ID
+    $stock = Stocks::findOrFail($id);
 
-        $stock->action = $validated['action'];
-        $stock->stock_name = $validated['stockName'];
-        $stock->type = $validated['type'];
-        $stock->wacc = $validated['wacc'];
-        $stock->quantity = $validated['quantity'];
-        $stock->total_amount = $validated['totalAmount'];
-        $stock->sebon_commission = $validated['sebonCommission'];
-        $stock->broker_commission = $validated['brokerCommission'];
-        $stock->dp_fee = $validated['dpFee'];
-        $stock->total_cost = $validated['totalCost'];
+    // Update Transaction Table first
+    $transaction = Transaction::where('stock_name', $validated['stockName'])->where('portfolio_id', $stock->portfolio_id)->first();
 
-        if ($validated['action'] === 'buy') {
-            $stock->net_payable = $validated['netPayable'] ?? ($validated['totalAmount'] + $validated['sebonCommission'] + $validated['brokerCommission'] + $validated['dpFee']);
-        } elseif ($validated['action'] === 'sell') {
-            $stock->net_receivable = $validated['netReceivable'] ?? ($validated['totalAmount'] - ($validated['totalAmount'] * 0.05)); 
-        }
-
-        $stock->save();
-
-        $transaction = Transactions::where('stock_name', $validated['stockName'])->first();
-        if ($transaction) {
-            $transaction->action = $validated['action'];
-            $transaction->price = $validated['purchasePrice'];
-            $transaction->quantity = $validated['quantity'];
-            $transaction->total_amount = $validated['totalAmount'];
-            $transaction->capital_gain_tax = $validated['action'] === 'sell' ? ($validated['totalAmount'] * 0.05) : 0;
-            $transaction->net_receivable = $stock->net_receivable ?? 0;
-            $transaction->net_payable = $stock->net_payable ?? 0;
-            $transaction->profit_loss = $transaction->net_receivable - ($validated['purchasePrice'] * $validated['quantity']);
-            $transaction->save();
-        }
-
-        return redirect()->route('history')->with('success', 'Stock updated successfully!');
+    if ($transaction) {
+        // Adjust transaction quantity based on action (buy/sell)
+        $transaction->action = $validated['action'];
+        $transaction->price = $validated['purchasePrice'];
+        $transaction->quantity = $validated['quantity'];
+        $transaction->total_amount = $validated['totalAmount'];
+        $transaction->capital_gain_tax = $validated['action'] === 'sell' ? ($validated['totalAmount'] * 0.05) : 0;
+        $transaction->net_receivable = $validated['netReceivable'] ?? 0;
+        $transaction->net_payable = $validated['netPayable'] ?? 0;
+        $transaction->profit_loss = $transaction->net_receivable - ($validated['purchasePrice'] * $validated['quantity']);
+        $transaction->save();
     }
+
+    // Now, after the transaction is updated, recalculate the stock's total quantity
+    $totalBuyQuantity = Transaction::where('portfolio_id', $stock->portfolio_id)
+                                    ->where('stock_name', $validated['stockName'])
+                                    ->where('action', 'buy')
+                                    ->sum('quantity');
+
+    $totalSellQuantity = Transaction::where('portfolio_id', $stock->portfolio_id)
+                                     ->where('stock_name', $validated['stockName'])
+                                     ->where('action', 'sell')
+                                     ->sum('quantity');
+
+    // Calculate the final quantity in stock after updating transactions
+    // The final quantity is calculated by subtracting the total sell quantity from the total buy quantity
+    $finalQuantity = $totalBuyQuantity - $totalSellQuantity;
+
+    // Update the stock's quantity in the Stocks table only after updating the transaction
+    $stock->quantity = $finalQuantity;
+    $stock->action = $validated['action'];
+    $stock->stock_name = $validated['stockName'];
+    $stock->type = $validated['type'];
+    $stock->wacc = $validated['wacc'];
+    $stock->total_amount = $validated['totalAmount'];
+    $stock->sebon_commission = $validated['sebonCommission'];
+    $stock->broker_commission = $validated['brokerCommission'];
+    $stock->dp_fee = $validated['dpFee'];
+    $stock->total_cost = $validated['totalCost'];
+
+    // Save the updated stock
+    $stock->save();
+
+    // Return success response
+    return redirect()->route('history')->with('success', 'Stock updated successfully and quantity updated in both Transaction and Stocks tables!');
+}
+
 
 
 
