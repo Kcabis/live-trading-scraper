@@ -16,7 +16,8 @@
                     <th>Portfolio-Name</th>
                     <th>Total Buys</th>
                     <th>Total sold</th>
-                    <th>Total transactions</th>
+                    <th>Total</th>
+                    
                     <th>Action</th>
                 </tr>
             </thead>
@@ -27,7 +28,8 @@
                     <td>{{ $portfolio->portfolio_name }}</td>
                     <td>{{$totalbuy}}</td>
                     <td>{{$totalsell}}</td>
-                    <td>{{$totaltransactions}}</td>
+                    <td>{{($totalbuy+$totalsell)/100}}</td>
+                    
                     <td>
                         <a class="btn btn-primary btn-sm" href="/ind-history?portfolio_id={{ $portfolio->id }}">View</a>
         

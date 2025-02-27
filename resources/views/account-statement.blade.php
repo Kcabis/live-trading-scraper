@@ -28,7 +28,7 @@
                     <td>{{ $portfolio->portfolio_name }}</td>
                     <td>{{ $totalbuy }}</td>
                     <td>{{ $totalsell }}</td>
-                    <td>{{ $totalquantity }}</td>
+                    <td>{{ ($totalbuy+$totalsell)}}</td>
                     <td>
                         <a class="btn btn-primary btn-sm" href="/ind-acc?portfolio_id={{ $portfolio->id }}">View</a>
 
