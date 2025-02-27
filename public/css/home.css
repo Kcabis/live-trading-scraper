@@ -1,0 +1,127 @@
+/* Global Styles */
+html, body {
+    height: 100%; /* Ensure full page height */
+    margin: 0;
+    padding: 0;
+    background-image: url('images/login.jpg');
+    background-size: cover; /* Ensure the background covers the entire screen */
+    background-position: center center; /* Center the background */
+    background-attachment: fixed; /* Make the background fixed while scrolling */
+    color: #333;
+}
+
+
+body {
+    display: flex;
+    flex-direction: column; /* Stack the content vertically */
+}
+
+/* Navbar Styles */
+nav {
+    background-color: #34495e;
+    padding: 15px 30px;
+    position: fixed; /* Fixed navbar on top */
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+nav .navbar-brand {
+    font-size: 24px;
+    color: #fff;
+    font-weight: bold;
+}
+
+nav .nav-links a {
+    color: #fff;
+    margin: 0 15px;
+    font-size: 18px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+nav .nav-links a:hover {
+    color: #e74c3c;
+}
+
+nav .nav-buttons a {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+nav .nav-buttons a:hover {
+    background-color: #c0392b;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(to right, #2980b9, #6dd5fa);
+    color: #fff;
+    text-align: center;
+    padding: 100px 20px;
+    flex: 1; /* Allow hero section to take up remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero h1 {
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 22px;
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+.cta-buttons a {
+    background-color: #fff;
+    color: #34495e;
+    padding: 15px 40px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin: 10px;
+}
+
+.cta-buttons a:hover {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.quote {
+    font-size: 24px;
+    font-style: italic;
+    margin-top: 40px;
+    font-weight: 300;
+    color: #fff;
+}
+
+/* Footer Section */
+footer {
+    background-color: #34495e;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+footer a {
+    color: #e74c3c;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}

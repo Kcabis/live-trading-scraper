@@ -31,7 +31,7 @@ Route::post('/logout', function () {
 
 
 
-Route::get('/register', function () {
+Route::get('/registration', function () {
     return view('registration');
 });
 Route::post('/register', [RegistrationController::class, 'store']);
@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/port', [DashboardController::class, 'indexx'])->name('port');
     Route::get('/trader-analytics', [DashboardController::class, 'analytics'])->name('trader-analytics');
     Route::get('/settings', [DashboardController::class, 'settings'])->name('settings');
+    Route::get('/ind-acc', [DashboardController::class, 'acc'])->name('ind-acc');
 
     Route::post('/update-portfolio', [PortfolioController::class, 'updatePortfolio'])->name('portfolio.update');
     Route::delete('/delete-portfolio/{id}', [PortfolioController::class, 'deletePortfolio'])->name('portfolio.delete');
@@ -82,6 +83,9 @@ Route::get('/stocks/data', [StocksController::class, 'getStocksData']);
 Route::post('/add-event', [EventController::class, 'store']);
 Route::post('/add-ad', [FolioadminController::class, 'store']);
 Route::delete('event/delete/{event}',[EventController::class,'delete'])->name('event.delete');
+Route::get('event/edit/{event}', [EventController::class, 'edit'])->name('event.edit');
+Route::post('event/update/{event}', [EventController::class, 'update'])->name('event.update');
+
 
 
 
@@ -90,6 +94,10 @@ Route::post('/add-ad', [FolioadminController::class, 'store']);
 Route::delete('folioadmin/delete/{folioadmin}',[FolioadminController::class,'delete'])->name('folioadmin.delete');
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::get('/loginad', function () {
+    return view('loginad'); 
+});
+
 
 
 
@@ -104,6 +112,8 @@ Route::get('/ind-history', [TransactionController::class, 'index'])->name('trans
 
 
 Route::post('/upload-csv', [ListedSecurityController::class, 'uploadCsv'])->name('uploadCsv');
+Route::delete('/securities/{id}', [ListedSecurityController::class, 'destroy'])->name('securities.delete');
+Route::delete('/securities', [ListedSecurityController::class, 'destroyAll'])->name('securities.deleteAll');
 
 
 
@@ -116,7 +126,19 @@ Route::get('/dash', function () {
 })->name('dash');
 Route::view('/', 'login');
 
+use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+// Forgot Password - Show request form
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 
+// Forgot Password - Send reset link
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+// Reset Password - Show reset form
+Route::get('reset-password/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+
+// Reset Password - Handle password update
+Route::post('reset-password', [PasswordResetController::class, 'reset'])->name('password.update');
 
 
 

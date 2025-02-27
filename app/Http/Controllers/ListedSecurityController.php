@@ -30,10 +30,19 @@ class ListedSecurityController extends Controller
 
         return response()->json(['message' => 'Data successfully saved to the database.']);
     }
-
-    public function index()
+    // Delete a single security
+    public function destroy($id)
     {
-        $securities = ListedSecurity::all();
-        return view('admin', compact('securities'));
+        $security = ListedSecurity::findOrFail($id);
+        $security->delete();
+
+        return redirect()->back()->with('success', 'Security deleted successfully.');
+    }
+
+    // Delete all securities
+    public function destroyAll()
+    {
+        ListedSecurity::truncate(); // Deletes all records in the table
+        return redirect()->back()->with('success', 'All securities deleted successfully.');
     }
 }

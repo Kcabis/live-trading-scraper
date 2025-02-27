@@ -4,195 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Form</title>
-    <style>
-    body {
-        font-family: 'Poppins',sans-serif;
-        background-color: #616c82;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
-    .background-image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-image: url('/images/login.JPG');
-    background-size: cover;
-    background-position: center;
-    z-index: -1;
-    filter: blur(5px);
-}
-    .register-container {
-        background-color: rgba(36, 47, 73, 0.8);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    width: 600px;
-
-    }
-
-    .register-box h3 {
-        text-align: center;
-        color: #00d084;
-        font-size: 28px;
-        margin-bottom: 15px;
-        font-weight: 600px;
-    }
-
-    .register-box p {
-        text-align: center;
-        color:rgb(255, 255, 255);
-        font-size: 16px;
-        margin-bottom: 30px;
-    }
-
-    .input-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-    }
-
-    
-
-    .input-group label {
-        display: flex;
-        margin-bottom: 5px;
-        color:rgb(255, 255, 255);
-        font-size: 14px;
-    }
-
-   
-    .input-group select,
-    .input-group input{
-    display: flex;
-    border: none;
-    font-size: 14px;
-    outline: none;
-    color: #fff;
-    background: transparent;
-    align-items: center;
-    margin-bottom: -9px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    padding: 10px;
-    width: 270px;
-    }
-
-    .input-group input:focus,
-    .input-group select:focus {
-        border-color: #673AB7;
-        outline: none;
-    }
-
-    .terms {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    .terms label {
-        color: #fff;
-        font-size: 14px;
-    }
-    .terms input {
-        margin-right: 10px;
-    }
-
-    .terms a {
-        color: #00d084;
-        text-decoration: none;
-    }
-
-    .terms a:hover {
-        text-decoration: underline;
-    }
-
-    .btn-primary {
-        width: 100%;
-    padding: 12px;
-    background: linear-gradient(45deg, #6a11cb, #2575fc);
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3sease;
-    }
-
-    .btn-primary:hover {
-    background: linear-gradient(45deg, #2575fc, #6a11cb);
-    transform: scale(1.05);
-}
-
-    .register-box p {
-        text-align: center;
-        color:#ffffff;
-    }
-
-    .register-box p a {
-        color: #00d084;
-        text-decoration: none;
-    }
-
-    .register-box p a:hover {
-        text-decoration: underline;
-    }
-
-    .back-btn {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        padding: 10px 15px;
-        background-color: #673AB7;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .back-btn:hover {
-        background-color: #5E35B1;
-    }
-
-    @media (max-width: 768px) {
-        .input-row {
-            flex-direction: column;
-        }
-
-        .input-group {
-            flex: 1 1 100%;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .register-container {
-            padding: 20px;
-        }
-
-        .register-box h3 {
-            font-size: 24px;
-        }
-
-        .input-group input {
-            padding: 12px;
-        }
-
-        .btn-primary {
-            font-size: 14px;
-        }
-    }
-</style>
 </head>
+<link rel="stylesheet" href="{{ asset('css/register.css') }}">
 <body>
 <div class="background-image"></div>
     <div class="register-container">
@@ -238,6 +51,13 @@
                         <input type="password" id="confirm-password" name="password_confirmation" placeholder="Confirm Password" required>
                     </div>
                 </div>
+                
+                <!-- Password Visibility Toggle -->
+                <div class="show-password-checkbox">
+                    <input type="checkbox" id="show-password" onclick="togglePassword()"> 
+                    <label for="show-password">Show Passwords</label>
+                </div>
+
                 <div class="terms">
                     <input type="checkbox" id="terms" required>
                     <label for="terms">I agree to the <a href="#">Terms of Service and Privacy Policy</a></label>
@@ -252,5 +72,22 @@
             <p>Already a Member? <a href="{{url('login')}}">Login</a></p>
         </div>
     </div>
+
+    <script>
+        // Toggle password visibility function
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('confirm-password');
+            const showPasswordCheckbox = document.getElementById('show-password');
+
+            if (showPasswordCheckbox.checked) {
+                passwordField.type = "text";
+                confirmPasswordField.type = "text";
+            } else {
+                passwordField.type = "password";
+                confirmPasswordField.type = "password";
+            }
+        }
+    </script>
 </body>
 </html>

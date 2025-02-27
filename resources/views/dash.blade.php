@@ -35,7 +35,6 @@
                 <tr>
                     <th>S.N</th>
                     <th>Portfolio-Name</th>
-                    <th>Market Value</th>
                     <th>Investment</th>
                     <th> Current units</th>
                     <th>Sold units</th>
@@ -48,7 +47,6 @@
                 <tr>
                     <td>{{ $portfolio['id']}}</td>
                     <td>{{ $portfolio['name'] }}</td>
-                    <td>{{$portfolio['market_value']}}</td>
                     <td>{{$portfolio['investment']}}</td>
                     <td>{{$portfolio['total_stocks']}}</td>
                     <td>{{$portfolio['soldunits']}}</td>
@@ -132,6 +130,35 @@
 <script src="{{ asset('js/port.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Get the search input and the portfolio table body
+    const searchInput = document.getElementById('searchInput');
+    const portfolioTable = document.getElementById('portfolioTable');
+
+    // Add an event listener to the search input
+    searchInput.addEventListener('keyup', function () {
+        // Get the value from the search input and convert it to lowercase for case-insensitive comparison
+        const searchValue = searchInput.value.toLowerCase();
+
+        // Get all the rows in the portfolio table
+        const rows = portfolioTable.getElementsByTagName('tr');
+
+        // Loop through all the rows and filter them based on the portfolio name
+        Array.from(rows).forEach(function (row) {
+            const portfolioName = row.cells[1]?.textContent.toLowerCase() || '';
+
+            // Check if the portfolio name starts with the search value
+            if (portfolioName.startsWith(searchValue)) {
+                // If the portfolio name matches the search input, display the row
+                row.style.display = '';
+            } else {
+                // If the portfolio name doesn't match, hide the row
+                row.style.display = 'none';
+            }
+        });
+    });
+});
+
     const portfolioData = @json($portfolioData); 
 
     const labels = portfolioData.map(portfolio => portfolio.name);
@@ -144,7 +171,7 @@
         data: {
             labels: labels,
             datasets: [{
-                label: 'Portfolio Value ($)',
+                label: 'Portfolio Value (Rs)',
                 data: totalValues,
                 backgroundColor: '#4e73df',
                 borderColor: '#4e73df',

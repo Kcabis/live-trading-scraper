@@ -42,13 +42,38 @@ class PortfolioController extends Controller
     return view('dash', compact('portfolios'));
 }
 
+// public function account()
+// {
+//     $portfolios = Portfolio::where('member_id', Auth::id())->pluck('id'); 
+
+//     $transactions = Transaction::whereIn('portfolio_id', $portfolios)->get();
+
+//     return view('account-statement', compact('transactions', 'portfolios'));
+// }
 public function account()
 {
-    $portfolios = Portfolio::where('member_id', Auth::id())->pluck('id'); 
+    $portfolios = Portfolio::where('member_id', Auth::id())->get();
 
-    $transactions = Transaction::whereIn('portfolio_id', $portfolios)->get();
 
-    return view('account-statement', compact('transactions', 'portfolios'));
+    $portfolioIds = $portfolios->pluck('id')->toArray();
+
+  
+    $transactions = Transaction::whereIn('portfolio_id', $portfolioIds)->get();
+
+   
+    $totalbuy = Transaction::whereIn('portfolio_id', $portfolioIds)
+                           ->where('action', 'buy')
+                           ->sum('total_amount');
+
+    $totalsell = Transaction::whereIn('portfolio_id', $portfolioIds)
+                            ->where('action', 'sell')
+                            ->sum('total_amount');
+     $totalquantity = (float) Transaction::whereIn('portfolio_id', $portfolioIds)->sum('quantity');
+    
+
+   $totaltransactions = $totalbuy + $totalsell;
+
+    return view('account-statement', compact("portfolios", "transactions", "totalbuy", "totalsell","totalquantity"));
 }
 
     

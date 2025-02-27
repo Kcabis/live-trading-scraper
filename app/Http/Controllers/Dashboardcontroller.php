@@ -86,6 +86,26 @@ class Dashboardcontroller extends Controller
         return view('ind-history',compact('stocks','portfolios'));
     }
 
+
+    public function acc(Request $request)
+    {
+        $portfolio_id = $request->query('portfolio_id');
+    
+        $stocks = Stocks::where('portfolio_id', $portfolio_id)->get();
+        $portfolios = Portfolio::where('member_id', Auth::id())->get();
+    
+        // Extract portfolio IDs
+        $portfolioIds = $portfolios->pluck('id')->toArray(); // Fix applied
+    
+        $transactions = Transaction::whereIn('portfolio_id', $portfolioIds)
+            ->when($portfolio_id, function ($query) use ($portfolio_id) {
+                return $query->where('portfolio_id', $portfolio_id);
+            })
+            ->get();
+    
+        return view('ind-acc', compact('stocks', 'portfolios', 'transactions'));
+    }
+    
    public function listed( Request $request)
    {
     $securities = ListedSecurity::all();

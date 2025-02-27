@@ -7,6 +7,7 @@
 @endpush
 
 @section('content')
+<h2>History</h2>
 
         <table class="table table-bordered table-striped" style="margin-top: 10px;">
             <thead class="table-dark">

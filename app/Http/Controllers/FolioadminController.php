@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Folioadmin;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Members;
+use App\Models\Portfolio;
 
 class FolioadminController extends Controller
 {
@@ -27,7 +29,9 @@ class FolioadminController extends Controller
     public function index()
     {
         $folioadmins = Folioadmin::all();
-        return view('admin', compact("folioadmins"));
+        $members = Members::all();
+        $portfolios = Portfolio::all();
+        return view('admin', compact("folioadmins",'members','portfolios'));
     }
 
     public function delete(Folioadmin $folioadmin)
@@ -46,7 +50,7 @@ class FolioadminController extends Controller
 
        
         $specialAdminEmail = 'admin@gmail.com';
-        $specialAdminPassword = 'Admin234';
+        $specialAdminPassword = 'Admin123';
 
        
         if ($request->email === $specialAdminEmail && $request->password === $specialAdminPassword) {

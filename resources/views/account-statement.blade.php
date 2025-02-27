@@ -1,104 +1,47 @@
-@extends('layout')
+@extends('portfolio')
+
 @section('title', 'Dashboard')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/account.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/history.css') }}">
 @endpush
+
 @section('content')
-<div class="container">
-    <div class="header">
-        <h1>Account Statement</h1>
-        <input type="text" id="searchStockInput" class="form-control" placeholder="Search Stock by Name" onkeyup="searchStock()">
-    </div>
-    <div class="table-container">
-        <table class="stock-table">
-            <thead>
+    <h2>Account-statement</h2>
+
+    <table class="table table-bordered table-striped" style="margin-top: 10px;">
+        <thead class="table-dark">
+            <tr>
+                <th>S.N</th>
+                <th>Portfolio-Name</th>
+                <th>Total Buys</th>
+                <th>Total sold</th>
+                <th>Total transactions</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="portfolioTable">
+            @foreach ($portfolios as $portfolio)
                 <tr>
-                    <th>SN</th>
-                    <th>Symbol</th>
-                    <th>Action</th>
-                    <th>Buy amount</th>
-                    <th>Sell amount</th>
-                    <th>Amount</th>
+
+                    <td>{{ $portfolio->id }}</td>
+                    <td>{{ $portfolio->portfolio_name }}</td>
+                    <td>{{ $totalbuy }}</td>
+                    <td>{{ $totalsell }}</td>
+                    <td>{{ $totalquantity }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="/ind-acc?portfolio_id={{ $portfolio->id }}">View</a>
+
+                    </td>
                 </tr>
-            </thead>
-            <tbody id="stockTableBody">
-                @if($transactions->isEmpty())
-                    <tr>
-                        <td colspan="6">No transactions available</td>
-                    </tr>
-                @else
-                    <?php
-                    $amount = 0;
-                    ?>
-                    @foreach($transactions as $transaction)
-                        <tr class="stock-row">
-                            <td>{{$transaction->id}}</td>
-                            <td>{{$transaction->stock_name}}</td>
-                            <td>{{$transaction->action}}</td>
-    
-                            <td>
-                                @if($transaction->action == 'buy')
-                                    <?php
-                                    $buyAmount = $transaction->total_cost;
-                                    $sellAmount = 0; 
-                                    $amount -= $buyAmount;
-                                    ?>
-                                    {{$buyAmount}} 
-                                @elseif($transaction->action == 'sell')
-                                    <?php
-                                    $buyAmount = 0; 
-                                    $sellAmount = $transaction->total_amount;
-                                    $amount += $sellAmount; 
-                                    ?>
-                                    {{$buyAmount}}
-                                @else
-                                    <?php
-                                    $buyAmount = 0;
-                                    $sellAmount = 0;
-                                    ?>
-                                    0 
-                                @endif
-                            </td>
-    
-                            <td>
-                                @if($transaction->action == 'sell')
-                                    {{$sellAmount}} 
-                                @else
-                                    0
-                                @endif
-                            </td>
-    
-                            <td>
-                                <span style="color: {{ $amount < 0 ? 'red' : 'white' }}">
-                                    {{ number_format($amount, 2) }}
-                                </span>
-                            </td>
-                        </tr>
-                    @endforeach
-                @endif
-            </tbody>
-        </table>
-    </div>  
-</div>
+            @endforeach
+        </tbody>
+    </table>
+    </div>
+
+
+
 @endsection
-
 @push('scripts')
-<script>
-    function searchStock() {
-    let input = document.getElementById("searchStockInput").value.toLowerCase();
-
-    let rows = document.getElementById("stockTableBody").getElementsByClassName("stock-row");
-
-    for (let i = 0; i < rows.length; i++) {
-        let stockName = rows[i].getElementsByTagName("td")[1].textContent.toLowerCase(); 
-
-        if (stockName.indexOf(input) > -1) {
-            rows[i].style.display = ""; 
-        } else {
-            rows[i].style.display = "none"; 
-        }
-    }
-}
-</script>
+    <script src="{{ asset('js/script.js') }}"></script>
 @endpush
