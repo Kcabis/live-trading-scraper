@@ -97,7 +97,7 @@ public function hist()
                             ->where('action', 'sell')
                             ->sum('total_amount');
 
-    $totaltransactions = $totalbuy + $totalsell;
+    $totaltransactions = Transaction::whereIn('portfolio_id', $portfolioIds)->sum('total_amount');
 
     return view('history', compact("portfolios", "transactions", "totalbuy", "totalsell", "totaltransactions"));
 }

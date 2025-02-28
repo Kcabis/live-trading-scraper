@@ -14,9 +14,6 @@
             <tr>
                 <th>S.N</th>
                 <th>Portfolio-Name</th>
-                <th>Total Buys</th>
-                <th>Total sold</th>
-                <th>Total transactions</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -26,9 +23,6 @@
 
                     <td>{{ $portfolio->id }}</td>
                     <td>{{ $portfolio->portfolio_name }}</td>
-                    <td>{{ $totalbuy }}</td>
-                    <td>{{ $totalsell }}</td>
-                    <td>{{ ($totalbuy+$totalsell)}}</td>
                     <td>
                         <a class="btn btn-primary btn-sm" href="/ind-acc?portfolio_id={{ $portfolio->id }}">View</a>
 
