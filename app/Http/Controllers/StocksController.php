@@ -209,57 +209,72 @@ private function calculateBrokerCommission($totalAmount)
         'netReceivable' => 'nullable|numeric',
     ]);
 
-    // Find the stock by ID
-    $stock = Stocks::findOrFail($id);
+    // Find the transaction being edited
+    $transaction = Transaction::findOrFail($id);
 
-    // Update Transaction Table first
-    $transaction = Transaction::where('stock_name', $validated['stockName'])->where('portfolio_id', $stock->portfolio_id)->first();
+    // Store the original quantity before updating
+    $originalQuantity = $transaction->quantity;
+    $originalAction = $transaction->action;
 
-    if ($transaction) {
-        // Adjust transaction quantity based on action (buy/sell)
-        $transaction->action = $validated['action'];
-        $transaction->price = $validated['purchasePrice'];
-        $transaction->quantity = $validated['quantity'];
-        $transaction->total_amount = $validated['totalAmount'];
-        $transaction->capital_gain_tax = $validated['action'] === 'sell' ? ($validated['totalAmount'] * 0.05) : 0;
-        $transaction->net_receivable = $validated['netReceivable'] ?? 0;
-        $transaction->net_payable = $validated['netPayable'] ?? 0;
-        $transaction->profit_loss = $transaction->net_receivable - ($validated['purchasePrice'] * $validated['quantity']);
-        $transaction->save();
+    // Update the transaction details
+    $transaction->action = $validated['action'];
+    $transaction->price = $validated['purchasePrice'];
+    $transaction->quantity = $validated['quantity'];
+    $transaction->total_amount = $validated['totalAmount'];
+    $transaction->capital_gain_tax = $validated['action'] === 'sell' ? ($validated['totalAmount'] * 0.05) : 0;
+    $transaction->net_receivable = $validated['netReceivable'] ?? 0;
+    $transaction->net_payable = $validated['netPayable'] ?? 0;
+    $transaction->profit_loss = $transaction->net_receivable - ($validated['purchasePrice'] * $validated['quantity']);
+    $transaction->save();
+
+    // Find the stock in the portfolio
+    $stock = Stocks::where('portfolio_id', $transaction->portfolio_id)
+                   ->where('stock_name', $validated['stockName'])
+                   ->first();
+
+    // If stock exists, recalculate its quantity and other values
+    if ($stock) {
+        // Recalculate total quantity by fetching total buy and sell transactions
+        $totalBuyQuantity = Transaction::where('portfolio_id', $transaction->portfolio_id)
+                                       ->where('stock_name', $validated['stockName'])
+                                       ->where('action', 'buy')
+                                       ->sum('quantity');
+
+        $totalSellQuantity = Transaction::where('portfolio_id', $transaction->portfolio_id)
+                                        ->where('stock_name', $validated['stockName'])
+                                        ->where('action', 'sell')
+                                        ->sum('quantity');
+
+        // New final quantity
+        $finalQuantity = $totalBuyQuantity - $totalSellQuantity;
+
+        // Update stock with corrected quantity and totals
+        $stock->quantity = $finalQuantity;
+        $stock->wacc = $validated['wacc'];
+        $stock->total_amount = Transaction::where('portfolio_id', $transaction->portfolio_id)
+                                          ->where('stock_name', $validated['stockName'])
+                                          ->sum('total_amount');
+
+        $stock->total_cost = Transaction::where('portfolio_id', $transaction->portfolio_id)
+                                        ->where('stock_name', $validated['stockName'])
+                                        ->sum('total_cost');
+
+        $stock->sebon_commission = Transaction::where('portfolio_id', $transaction->portfolio_id)
+                                              ->where('stock_name', $validated['stockName'])
+                                              ->sum('sebon_commission');
+
+        $stock->broker_commission = Transaction::where('portfolio_id', $transaction->portfolio_id)
+                                               ->where('stock_name', $validated['stockName'])
+                                               ->sum('broker_commission');
+
+        $stock->dp_fee = Transaction::where('portfolio_id', $transaction->portfolio_id)
+                                    ->where('stock_name', $validated['stockName'])
+                                    ->sum('dp_fee');
+
+        $stock->save();
     }
 
-    // Now, after the transaction is updated, recalculate the stock's total quantity
-    $totalBuyQuantity = Transaction::where('portfolio_id', $stock->portfolio_id)
-                                    ->where('stock_name', $validated['stockName'])
-                                    ->where('action', 'buy')
-                                    ->sum('quantity');
-
-    $totalSellQuantity = Transaction::where('portfolio_id', $stock->portfolio_id)
-                                     ->where('stock_name', $validated['stockName'])
-                                     ->where('action', 'sell')
-                                     ->sum('quantity');
-
-    // Calculate the final quantity in stock after updating transactions
-    // The final quantity is calculated by subtracting the total sell quantity from the total buy quantity
-    $finalQuantity = $totalBuyQuantity - $totalSellQuantity;
-
-    // Update the stock's quantity in the Stocks table only after updating the transaction
-    $stock->quantity = $finalQuantity;
-    $stock->action = $validated['action'];
-    $stock->stock_name = $validated['stockName'];
-    $stock->type = $validated['type'];
-    $stock->wacc = $validated['wacc'];
-    $stock->total_amount = $validated['totalAmount'];
-    $stock->sebon_commission = $validated['sebonCommission'];
-    $stock->broker_commission = $validated['brokerCommission'];
-    $stock->dp_fee = $validated['dpFee'];
-    $stock->total_cost = $validated['totalCost'];
-
-    // Save the updated stock
-    $stock->save();
-
-    // Return success response
-    return redirect()->route('history')->with('success', 'Stock updated successfully and quantity updated in both Transaction and Stocks tables!');
+    return redirect()->route('history')->with('success', 'Transaction updated successfully and stock quantity updated.');
 }
 
 

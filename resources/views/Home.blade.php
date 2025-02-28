@@ -255,8 +255,7 @@
             <a href="#contact">Contact</a>
         </div>
         <div class="nav-buttons">
-            <a href="{{url('login')}}" class="login-btn">Login</a>
-            <a href="{{url('register')}}" class="signup-btn">Sign Up</a>
+            <a href="{{url('loginad')}}" class="login-btn">Login</a>
         </div>
     </nav>
 
