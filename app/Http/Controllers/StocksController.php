@@ -253,7 +253,6 @@ private function calculateBrokerCommission($totalAmount)
 
     return response()->json($stocks);
 }
-   
-    
-    
+
+
 }
